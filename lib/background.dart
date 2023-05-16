@@ -13,7 +13,7 @@ class AnimatedBubbles extends StatelessWidget {
           child: SizedBox(
             width: size.width,
             height: size.height,
-            child: const Stack(
+            child: Stack(
               children: [
                 Positioned(
                   left: -20,
@@ -122,12 +122,12 @@ class _BubbleState extends State<Bubble> with SingleTickerProviderStateMixin {
                 height: 30,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white,
+                  color: Colors.grey.shade300,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.white.withOpacity(0.5),
                       blurRadius: 2,
-                      spreadRadius: 0,
+                      spreadRadius: 4,
                     ),
                   ],
                 ),
@@ -146,7 +146,7 @@ class _BubbleState extends State<Bubble> with SingleTickerProviderStateMixin {
                     BoxShadow(
                       color: Colors.white.withOpacity(0.5),
                       blurRadius: 2,
-                      spreadRadius: 0,
+                      spreadRadius: 3,
                     ),
                   ],
                 ),

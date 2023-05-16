@@ -3,6 +3,7 @@ import 'package:play_real/background.dart';
 import 'package:play_real/dice.dart';
 
 import 'message_card.dart';
+import 'models/player.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -15,16 +16,22 @@ class _HomeState extends State<Home> {
   final int _boardSize = 7;
   final double _boardPadding = 16;
   final List<int> _boardNumbers = List.generate(50, (index) => 50 - index);
-  int _playerPosition = 1; // Initial player position at "H"
+
+  final List<Player> _players = [
+    Player(name: 'Player 1', position: 1, color: Colors.red),
+    Player(name: 'Player 2', position: 1, color: Colors.orange),
+  ];
+  int _currentPlayerIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final currentPlayer = _players[_currentPlayerIndex];
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: const Text(
-          'Roll the Dice',
+        title: Text(
+          '${currentPlayer.name}\'s Turn',
           style: TextStyle(
             color: Colors.white,
           ),
@@ -50,12 +57,20 @@ class _HomeState extends State<Home> {
                     final int boardNumber = _boardNumbers[index];
                     String displayText;
                     if (boardNumber == 1) {
-                      displayText = '🤡';
+                      displayText = '💨';
                     } else if (boardNumber == 50) {
                       displayText = 'WIN';
                     } else {
                       displayText = boardNumber.toString();
                     }
+                    final player = _players.firstWhere(
+                      (player) => player.position == boardNumber,
+                      orElse: () => Player(
+                        name: '',
+                        position: -1,
+                        color: Colors.transparent,
+                      ),
+                    );
                     return Container(
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.black, width: 2),
@@ -65,27 +80,46 @@ class _HomeState extends State<Home> {
                       ),
                       child: Stack(
                         children: [
-                          if (boardNumber !=
-                              _playerPosition) // Hide grid number if not player's position
+                          if (player.name.isEmpty)
                             Center(
                               child: Text(
                                 displayText,
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
                                 ),
                               ),
                             ),
-                          if (boardNumber ==
-                              _playerPosition) // Check if player position matches the current cell
-                            AnimatedAlign(
-                              duration: Duration(milliseconds: 500),
-                              alignment: Alignment.center,
-                              child: Icon(
-                                size: 28,
-                                Icons.pin_drop_outlined,
-                                color: Colors.red,
+                          if (player.position == currentPlayer.position)
+                            Center(
+                              child: CircleAvatar(
+                                radius: 16,
+                                backgroundColor: Colors.white,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Icon(
+                                    size: 24,
+                                    Icons.pin_drop_outlined,
+                                    color: currentPlayer.color,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          if (player.position != currentPlayer.position &&
+                              player.name.isNotEmpty)
+                            Center(
+                              child: CircleAvatar(
+                                radius: 16,
+                                backgroundColor: Colors.white,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Icon(
+                                    size: 24,
+                                    Icons.pin_drop_outlined,
+                                    color: player.color,
+                                  ),
+                                ),
                               ),
                             ),
                         ],
@@ -129,11 +163,19 @@ class _HomeState extends State<Home> {
   }
 
   void _movePlayer(int diceNumber) {
+    final currentPlayer = _players[_currentPlayerIndex];
     setState(() {
-      _playerPosition += diceNumber;
-      if (_playerPosition > _boardNumbers.length) {
-        _playerPosition = _boardNumbers.length;
+      currentPlayer.position += diceNumber;
+      if (currentPlayer.position > _boardNumbers.length) {
+        currentPlayer.position = _boardNumbers.length;
       }
+    });
+    _changePlayer();
+  }
+
+  void _changePlayer() {
+    setState(() {
+      _currentPlayerIndex = (_currentPlayerIndex + 1) % _players.length;
     });
   }
 }
