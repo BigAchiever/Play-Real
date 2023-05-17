@@ -1,11 +1,11 @@
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
-import 'package:play_real/background.dart';
 
 class LoadingScreen extends StatelessWidget {
-  // final String text;
+  final String text;
   const LoadingScreen({
     Key? key,
+    required this.text,
   }) : super(key: key);
 
   static const routeName = '/loading';
@@ -19,9 +19,9 @@ class LoadingScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            width: size.width / 1.4,
+            width: size.width / 1.5,
             child: Text(
-              "Please wait while we load your game...",
+              text,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20,
@@ -29,12 +29,12 @@ class LoadingScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
-          Center(
-            child: SpinKitPouringHourGlassRefined(
-              color: Colors.orangeAccent,
+          const Center(
+            child: SpinKitFadingGrid(
+              color: Colors.orange,
               duration: Duration(seconds: 2),
               size: 100.0,
             ),

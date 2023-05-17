@@ -66,12 +66,19 @@ class _GameScreenState extends State<GameScreen> {
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text(
-          '${currentPlayer.name}\'s Turn',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
+        title: _isAnimationComplete
+            ? Text(
+                '${currentPlayer.name}\'s Turn',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              )
+            : Text(
+                'Play Real',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
         centerTitle: true,
       ),
       body: Stack(children: [
@@ -196,7 +203,9 @@ class _GameScreenState extends State<GameScreen> {
                   ),
                 ],
               )
-            : LoadingScreen(),
+            : const LoadingScreen(
+                text: "Good Luck! Your game will be started shortly",
+              ),
       ]),
     );
   }
