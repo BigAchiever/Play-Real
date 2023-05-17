@@ -1,181 +1,136 @@
 import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
-import 'package:play_real/dice.dart';
 
-import 'message_card.dart';
-import 'models/player.dart';
+import 'game_screen.dart';
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class StartingScreen extends StatefulWidget {
+  const StartingScreen({super.key});
 
   @override
-  _HomeState createState() => _HomeState();
+  State<StartingScreen> createState() => StartingScreenState();
 }
 
-class _HomeState extends State<Home> {
-  final int _boardSize = 7;
-  final double _boardPadding = 16;
-  final List<int> _boardNumbers = List.generate(50, (index) => 50 - index);
-
-  final List<Player> _players = [
-    Player(name: 'Player 1', position: 1, color: Colors.red),
-    Player(name: 'Player 2', position: 1, color: Colors.orange),
-  ];
-  int _currentPlayerIndex = 0;
+class StartingScreenState extends State<StartingScreen> {
+  Shader createGameTextureShader(Rect rect) {
+    final gradient = LinearGradient(
+      colors: [Colors.yellow, Colors.red],
+    );
+    return gradient.createShader(rect);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final currentPlayer = _players[_currentPlayerIndex];
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: Text(
-          '${currentPlayer.name}\'s Turn',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-      ),
       body: Stack(children: [
         AnimatedBubbles(),
-        Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(_boardPadding),
-                child: GridView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: _boardSize,
-                    crossAxisSpacing: 4,
-                    mainAxisSpacing: 4,
-                  ),
-                  itemCount: _boardNumbers.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final int boardNumber = _boardNumbers[index];
-                    String displayText;
-                    if (boardNumber == 1) {
-                      displayText = '💨';
-                    } else if (boardNumber == 50) {
-                      displayText = 'WIN';
-                    } else {
-                      displayText = boardNumber.toString();
-                    }
-                    final player = _players.firstWhere(
-                      (player) => player.position == boardNumber,
-                      orElse: () => Player(
-                        name: '',
-                        position: -1,
-                        color: Colors.transparent,
-                      ),
-                    );
-                    return Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 2),
-                        color:
-                            index % 2 == 0 ? Colors.grey[500] : Colors.white70,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Stack(
-                        children: [
-                          if (player.name.isEmpty)
-                            Center(
-                              child: Text(
-                                displayText,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          if (player.position == currentPlayer.position)
-                            Center(
-                              child: CircleAvatar(
-                                radius: 16,
-                                backgroundColor: Colors.white,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Icon(
-                                    size: 24,
-                                    Icons.pin_drop_outlined,
-                                    color: currentPlayer.color,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          if (player.position != currentPlayer.position &&
-                              player.name.isNotEmpty)
-                            Center(
-                              child: CircleAvatar(
-                                radius: 16,
-                                backgroundColor: Colors.white,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Icon(
-                                    size: 24,
-                                    Icons.pin_drop_outlined,
-                                    color: player.color,
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: size.height / 9,
+              ),
+              ShaderMask(
+                  shaderCallback: (Rect bounds) {
+                    return createGameTextureShader(bounds);
+                  },
+                  child: const Text(
+                    "PLAY REAL",
+                    style: TextStyle(
+                      fontSize: 70,
+                      fontFamily: "GameFont",
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  )),
+              SizedBox(height: size.height / 3),
+              SizedBox(
+                height: 50,
+                width: 200,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GameScreen(),
                       ),
                     );
                   },
-                ),
-              ),
-            ),
-            const ElevatedContainer(
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text(
-                    'Tap the dice to roll it. The number on the dice will be the number of tiles you move.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.greenAccent,
-                    ),
+                  child: const Text(
+                    'Start Game',
+                    style: TextStyle(fontFamily: "GameFont", fontSize: 24),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Dice(
-              onDiceRolled: (int diceNumber) {
-                _movePlayer(diceNumber);
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-          ],
+              SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                height: 50,
+                width: 200,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GameScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'How to Play?',
+                    style: TextStyle(fontFamily: "GameFont", fontSize: 24),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                height: 50,
+                width: 250,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GameScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Online Multiplayer',
+                    style: TextStyle(fontFamily: "GameFont", fontSize: 24),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                height: 50,
+                width: 200,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GameScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Settings',
+                    style: TextStyle(fontFamily: "GameFont", fontSize: 24),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ]),
     );
-  }
-
-  void _movePlayer(int diceNumber) {
-    final currentPlayer = _players[_currentPlayerIndex];
-    setState(() {
-      currentPlayer.position += diceNumber;
-      if (currentPlayer.position > _boardNumbers.length) {
-        currentPlayer.position = _boardNumbers.length;
-      }
-    });
-    _changePlayer();
-  }
-
-  void _changePlayer() {
-    setState(() {
-      _currentPlayerIndex = (_currentPlayerIndex + 1) % _players.length;
-    });
   }
 }
