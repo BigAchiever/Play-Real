@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 enum DifficultyLevel {
-  normal,
+  // ignore: constant_identifier_names
+  Default,
   kids,
   medium,
   sarcastic,
@@ -31,8 +32,9 @@ class DifficultyButton extends StatelessWidget {
       child: Text(
         level.toString().split('.').last,
         style: const TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.bold,
+          fontSize: 14,
+          fontFamily: "GameFont",
+          fontWeight: FontWeight.w500,
           color: Colors.white,
         ),
       ),

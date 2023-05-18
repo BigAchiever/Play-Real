@@ -4,7 +4,7 @@ import 'dart:math';
 class Dice extends StatefulWidget {
   final void Function(int diceNumber) onDiceRolled;
 
-  const Dice({Key? key, required this.onDiceRolled}) : super(key: key);
+  const Dice({Key? key, required this.onDiceRolled, required bool isEnabled}) : super(key: key);
 
   @override
   _DiceState createState() => _DiceState();

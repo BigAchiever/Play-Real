@@ -13,7 +13,7 @@ class GameDialog extends StatefulWidget {
 
 class _GameDialogState extends State<GameDialog> {
   int _numberOfPlayers = 2;
-  DifficultyLevel _selectedDifficulty = DifficultyLevel.normal;
+  DifficultyLevel _selectedDifficulty = DifficultyLevel.Default;
 
   void _onPlayerCountChanged(int count) {
     setState(() {
@@ -57,7 +57,8 @@ class _GameDialogState extends State<GameDialog> {
                 'New Game',
                 style: TextStyle(
                   fontSize: 24,
-                  fontWeight: FontWeight.bold,
+                  fontFamily: "GameFont",
+                  fontWeight: FontWeight.w600,
                   color: Colors.white,
                 ),
               ),
@@ -67,7 +68,8 @@ class _GameDialogState extends State<GameDialog> {
               'Number of Players:',
               style: TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontFamily: "GameFont",
+                fontWeight: FontWeight.w500,
                 color: Colors.white,
               ),
             ),
@@ -117,7 +119,8 @@ class _GameDialogState extends State<GameDialog> {
               'Difficulty Level:',
               style: TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontFamily: "GameFont",
+                fontWeight: FontWeight.w500,
                 color: Colors.white,
               ),
             ),
@@ -136,22 +139,26 @@ class _GameDialogState extends State<GameDialog> {
             ),
             const SizedBox(height: 24),
             Center(
-              child: ElevatedButton(
-                onPressed: _startGame,
-                child: const Text(
-                  'Start Game',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+              child: SizedBox(
+                width: 130,
+                child: ElevatedButton(
+                  onPressed: _startGame,
+                  child: const Text(
+                    'Start Game',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: "GameFont",
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.green,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                   ),
                 ),
               ),

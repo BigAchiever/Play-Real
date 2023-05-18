@@ -27,7 +27,8 @@ class PlayerCountButton extends StatelessWidget {
           count.toString().split('.').last,
           style: const TextStyle(
             fontSize: 18,
-            fontWeight: FontWeight.bold,
+            fontFamily: "GameFont",
+            fontWeight: FontWeight.w500,
             color: Colors.white,
           ),
         ),

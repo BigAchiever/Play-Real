@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/dice.dart';
 import 'package:play_real/loader.dart';
+import 'board_sentences.dart';
 import 'colors/color.dart';
 import 'message_card.dart';
 import 'models/player.dart';
+import 'utils/gameover_dialogue.dart';
+import 'utils/turnover_dialogue.dart';
 
 class GameScreen extends StatefulWidget {
   final int numberOfPlayers;
@@ -24,6 +27,10 @@ class _GameScreenState extends State<GameScreen> {
 
   int _currentPlayerIndex = 0;
   bool _isAnimationComplete = false;
+
+  bool _isPlayerTurnComplete = false;
+  bool _isDiceEnabled = true;
+  bool _isDiceRolled = false;
 
   @override
   void initState() {
@@ -45,7 +52,7 @@ class _GameScreenState extends State<GameScreen> {
 
   void _startAnimation() async {
     await Future.delayed(
-        const Duration(seconds: 5)); // adding delay for animation
+        const Duration(seconds: 8)); // adding delay for animation
     setState(() {
       _isAnimationComplete =
           true; // setting boolean value to true after animation is complete
@@ -53,20 +60,39 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void _movePlayer(int diceNumber) {
+    // Check if dice is enabled
+    if (!_isDiceEnabled) {
+      _showTurnOverDialog();
+      return;
+    }
+    _isDiceRolled = true;
     final currentPlayer = _players[_currentPlayerIndex];
     setState(() {
       currentPlayer.position += diceNumber;
       if (currentPlayer.position > _boardNumbers.length) {
         currentPlayer.position = _boardNumbers.length;
       }
+      _isDiceEnabled = false; // Disable the dice after rolling
     });
     _changePlayer();
   }
 
-  void _changePlayer() {
-    setState(() {
-      _currentPlayerIndex = (_currentPlayerIndex + 1) % _players.length;
+  //turnover_dialogue.dart
+  void _showTurnOverDialog() {
+    DialogUtils.showTurnOverDialog(context, () {
+      setState(() {
+        _isDiceEnabled = true; // Enabling  dice again
+      });
     });
+  }
+
+  void _changePlayer() {
+    if (_isPlayerTurnComplete) {
+      setState(() {
+        _currentPlayerIndex = (_currentPlayerIndex + 1) % _players.length;
+        _isPlayerTurnComplete = false; // Resetting the turn completion flag
+      });
+    }
   }
 
   @override
@@ -75,6 +101,21 @@ class _GameScreenState extends State<GameScreen> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 12.0),
+          child: IconButton(
+            onPressed: () {
+              QuitDialog.showGameOverDialog(
+                context,
+              );
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+              size: 18,
+            ),
+          ),
+        ),
         backgroundColor: Colors.transparent,
         title: _isAnimationComplete
             ? Text(
@@ -184,29 +225,123 @@ class _GameScreenState extends State<GameScreen> {
                       ),
                     ),
                   ),
-                  const ElevatedContainer(
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Text(
-                          'Tap the dice to roll it. The number on the dice will be the number of tiles you move.',
+                  SizedBox(
+                    height: 150,
+                    child: ElevatedContainer(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                            child: Text(
+                          boardSentences[currentPlayer.position - 1],
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.greenAccent,
                           ),
-                        ),
+                        )),
                       ),
                     ),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  Dice(
-                    onDiceRolled: (int diceNumber) {
-                      _movePlayer(diceNumber);
-                    },
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: 90,
+                        height: 50,
+                        child: FloatingActionButton(
+                          onPressed: () {
+                            if (_isDiceRolled) {
+                              setState(() {
+                                final currentPlayer =
+                                    _players[_currentPlayerIndex];
+                                currentPlayer.position -= 5; // 5 steps backward
+                                if (currentPlayer.position < 1) {
+                                  currentPlayer.position = 1;
+                                }
+
+                                _isPlayerTurnComplete = true;
+                                _changePlayer();
+                                _isDiceEnabled = true;
+                                _isDiceRolled =
+                                    false; // Reseting the dice rolled for the next player
+                              });
+                            } else {}
+                          },
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white,
+                          focusColor: Colors.grey,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Failed 💀',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    '(-5 Steps)',
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.grey[100]),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Dice(
+                        onDiceRolled: (int diceNumber) {
+                          _movePlayer(diceNumber);
+                        },
+                        isEnabled: _isDiceEnabled,
+                      ),
+                      SizedBox(
+                        width: 90,
+                        height: 50,
+                        child: FloatingActionButton(
+                          onPressed: () {
+                            if (_isDiceRolled) {
+                              setState(() {
+                                _isPlayerTurnComplete = true;
+                                _changePlayer();
+                                _isDiceEnabled = true;
+                                _isDiceRolled =
+                                    false; // the dice rolled flag will be reset for the next player
+                              });
+                            } else {}
+                          },
+                          backgroundColor: _isPlayerTurnComplete
+                              ? Colors.grey
+                              : Colors.green,
+                          foregroundColor: Colors.white,
+                          focusColor: Colors.grey,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Done 🥳',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 20,
@@ -214,7 +349,8 @@ class _GameScreenState extends State<GameScreen> {
                 ],
               )
             : const LoadingScreen(
-                text: "Good Luck! Your game will be started shortly",
+                text:
+                    "Discuss your turn number till the time we set up the game for you!",
               ),
       ]),
     );
