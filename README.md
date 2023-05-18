@@ -1,4 +1,4 @@
-# Play Real - Assignment
+# Play Real
 
 A new Flutter project.
 
