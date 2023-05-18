@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:play_real/home.dart';
 
-import 'package:play_real/loader.dart';
-
 void main() {
   runApp(const MyApp());
 }

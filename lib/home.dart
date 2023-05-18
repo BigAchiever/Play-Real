@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
-import 'package:play_real/loader.dart';
-
-import 'game_screen.dart';
+import 'package:play_real/dialogue.dart';
 
 class StartingScreen extends StatefulWidget {
   const StartingScreen({super.key});
@@ -30,6 +28,7 @@ class StartingScreenState extends State<StartingScreen>
   bool voice = false;
   bool lightmodedarkmode = false;
 
+  @override
   void dispose() {
     _controller.dispose();
     super.dispose();
@@ -157,9 +156,9 @@ class StartingScreenState extends State<StartingScreen>
               width: 200,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => GameScreen()),
+                  showDialog(
+                    context: context,
+                    builder: (context) => GameDialog(),
                   );
                 },
                 child: const Text(
