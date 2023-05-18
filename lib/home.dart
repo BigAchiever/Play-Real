@@ -82,7 +82,7 @@ class StartingScreenState extends State<StartingScreen>
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
@@ -153,18 +153,14 @@ class StartingScreenState extends State<StartingScreen>
             SizedBox(height: size.height / 9),
             SizedBox(
               height: 60,
-              width: 200,
+              width: 230,
               child: ElevatedButton(
                 onPressed: () {
                   showDialog(
                     context: context,
-                    builder: (context) => GameDialog(),
+                    builder: (context) => const GameDialog(),
                   );
                 },
-                child: const Text(
-                  'Start Game',
-                  style: TextStyle(fontFamily: "GameFont", fontSize: 28),
-                ),
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -175,6 +171,10 @@ class StartingScreenState extends State<StartingScreen>
                   ),
                   elevation: 0,
                   visualDensity: VisualDensity.standard,
+                ),
+                child: const Text(
+                  'Start Game 🎭',
+                  style: TextStyle(fontFamily: "GameFont", fontSize: 30),
                 ),
               ),
             ),

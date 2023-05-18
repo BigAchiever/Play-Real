@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:play_real/players_count.dart';
 
 import 'difficulty_level.dart';
+import 'game_screen.dart';
 
 class GameDialog extends StatefulWidget {
   const GameDialog({Key? key}) : super(key: key);
@@ -29,9 +30,14 @@ class _GameDialogState extends State<GameDialog> {
   void _startGame() {
     // Handle starting the game with selected options
     // Here, you can navigate to the game screen or perform any other desired action
-    print(
-        'Start game with $_numberOfPlayers players, $_selectedDifficulty difficulty');
-    Navigator.pop(context); // Close the dialog
+    debugPrint(
+        'Starting game with $_numberOfPlayers players and $_selectedDifficulty difficulty');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GameScreen(numberOfPlayers: _numberOfPlayers),
+      ),
+    );
   }
 
   @override

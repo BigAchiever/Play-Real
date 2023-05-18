@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/dice.dart';
 import 'package:play_real/loader.dart';
-
+import 'colors/color.dart';
 import 'message_card.dart';
 import 'models/player.dart';
 
 class GameScreen extends StatefulWidget {
-  const GameScreen({Key? key}) : super(key: key);
+  final int numberOfPlayers;
+
+  const GameScreen({Key? key, required this.numberOfPlayers}) : super(key: key);
 
   @override
   _GameScreenState createState() => _GameScreenState();
@@ -18,19 +20,27 @@ class _GameScreenState extends State<GameScreen> {
   final double _boardPadding = 16;
   final List<int> _boardNumbers = List.generate(50, (index) => 50 - index);
 
-  final List<Player> _players = [
-    Player(name: 'Player 1', position: 1, color: Colors.red),
-    Player(name: 'Player 2', position: 1, color: Colors.orange),
-  ];
-  int _currentPlayerIndex = 0;
+  late List<Player> _players;
 
-  bool _isAnimationComplete =
-      false; // added boolean value to check animation completion
+  int _currentPlayerIndex = 0;
+  bool _isAnimationComplete = false;
 
   @override
   void initState() {
     super.initState();
-    _startAnimation(); // starting the animation
+    _startAnimation();
+    _initializePlayers(); // initializing players list
+  }
+
+  void _initializePlayers() {
+    _players = List.generate(
+      widget.numberOfPlayers,
+      (index) => Player(
+        name: 'Player ${index + 1}',
+        position: 1,
+        color: getPlayerColor(index),
+      ),
+    );
   }
 
   void _startAnimation() async {
@@ -69,11 +79,11 @@ class _GameScreenState extends State<GameScreen> {
         title: _isAnimationComplete
             ? Text(
                 '${currentPlayer.name}\'s Turn',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               )
-            : Text(
+            : const Text(
                 'Play Real',
                 style: TextStyle(
                   color: Colors.white,
@@ -129,7 +139,7 @@ class _GameScreenState extends State<GameScreen> {
                                   Center(
                                     child: Text(
                                       displayText,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
@@ -139,12 +149,12 @@ class _GameScreenState extends State<GameScreen> {
                                 if (player.position == currentPlayer.position)
                                   Center(
                                     child: CircleAvatar(
-                                      radius: 16,
-                                      backgroundColor: Colors.white,
+                                      radius: 20,
+                                      backgroundColor: Colors.black,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Icon(
-                                          size: 24,
+                                          size: 28,
                                           Icons.pin_drop_outlined,
                                           color: currentPlayer.color,
                                         ),
@@ -155,12 +165,12 @@ class _GameScreenState extends State<GameScreen> {
                                     player.name.isNotEmpty)
                                   Center(
                                     child: CircleAvatar(
-                                      radius: 16,
+                                      radius: 20,
                                       backgroundColor: Colors.white,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Icon(
-                                          size: 24,
+                                          size: 28,
                                           Icons.pin_drop_outlined,
                                           color: player.color,
                                         ),
