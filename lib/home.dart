@@ -27,6 +27,7 @@ class StartingScreenState extends State<StartingScreen>
   bool musicbutton = false;
   bool voice = false;
   bool lightmodedarkmode = false;
+  bool face = false;
 
   @override
   void dispose() {
@@ -37,6 +38,7 @@ class StartingScreenState extends State<StartingScreen>
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    double textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -64,9 +66,9 @@ class StartingScreenState extends State<StartingScreen>
                     child: child,
                   );
                 },
-                child: const Text(
+                child: Text(
                   "PLAY REAL",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 80,
                     fontFamily: "GameFont",
                     fontWeight: FontWeight.w500,
@@ -145,15 +147,32 @@ class StartingScreenState extends State<StartingScreen>
                           ),
                         ),
                       ),
+                      SizedBox(
+                        width: size.width / 8,
+                        child: FloatingActionButton(
+                          heroTag: "btn4",
+                          shape: const CircleBorder(
+                              side: BorderSide(color: Colors.black, width: 3)),
+                          onPressed: () {
+                            setState(() {
+                              face = !face;
+                            });
+                          },
+                          child: Icon(
+                            face ? Icons.face : Icons.face_2,
+                            color: Colors.grey[800],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
-            SizedBox(height: size.height / 9),
+            SizedBox(height: size.height / 20),
             SizedBox(
-              height: 60,
-              width: 230,
+              height: 65,
+              width: size.width / 1.5,
               child: ElevatedButton(
                 onPressed: () {
                   showDialog(
@@ -183,13 +202,34 @@ class StartingScreenState extends State<StartingScreen>
             ),
             SizedBox(
               height: 60,
-              width: 200,
+              width: size.width / 1.8,
               child: ElevatedButton(
                 onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    side: const BorderSide(
+                      color: Colors.black,
+                      width: 3,
+                    ),
+                  ),
+                  elevation: 0,
+                  visualDensity: VisualDensity.standard,
+                ),
                 child: const Text(
                   'How to Play?',
                   style: TextStyle(fontFamily: "GameFont", fontSize: 28),
                 ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: 60,
+              width: size.width / 1.4,
+              child: ElevatedButton(
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -201,20 +241,20 @@ class StartingScreenState extends State<StartingScreen>
                   elevation: 0,
                   visualDensity: VisualDensity.standard,
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 60,
-              width: 260,
-              child: ElevatedButton(
-                onPressed: () {},
                 child: const Text(
                   'Online Multiplayer',
                   style: TextStyle(fontFamily: "GameFont", fontSize: 28),
                 ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: 60,
+              width: size.width / 2.3,
+              child: ElevatedButton(
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -226,16 +266,6 @@ class StartingScreenState extends State<StartingScreen>
                   elevation: 0,
                   visualDensity: VisualDensity.standard,
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 60,
-              width: 150,
-              child: ElevatedButton(
-                onPressed: () {},
                 child: const Text(
                   'Settings',
                   style: TextStyle(
@@ -243,17 +273,6 @@ class StartingScreenState extends State<StartingScreen>
                     fontSize: 28,
                     letterSpacing: 1,
                   ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    side: const BorderSide(
-                      color: Colors.black,
-                      width: 3,
-                    ),
-                  ),
-                  elevation: 0,
-                  visualDensity: VisualDensity.standard,
                 ),
               ),
             ),

@@ -43,10 +43,10 @@ class _GameDialogState extends State<GameDialog> {
       ),
     );
   }
-  
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 8,
@@ -131,6 +131,7 @@ class _GameDialogState extends State<GameDialog> {
             ),
             const SizedBox(height: 8),
             Wrap(
+              runSpacing: 8,
               children: DifficultyLevel.values.map((level) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 8),
@@ -145,13 +146,14 @@ class _GameDialogState extends State<GameDialog> {
             const SizedBox(height: 24),
             Center(
               child: SizedBox(
-                width: 130,
+                width: size.width / 2,
+                height: size.height / 15,
                 child: ElevatedButton(
                   onPressed: _startGame,
                   child: const Text(
                     'Start Game',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 22,
                       fontFamily: "GameFont",
                       fontWeight: FontWeight.w500,
                       color: Colors.white,
@@ -160,7 +162,7 @@ class _GameDialogState extends State<GameDialog> {
                   style: ElevatedButton.styleFrom(
                     primary: Colors.green,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 16),
+                        horizontal: 12, vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
