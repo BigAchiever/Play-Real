@@ -4,7 +4,8 @@ import 'dart:math';
 class Dice extends StatefulWidget {
   final void Function(int diceNumber) onDiceRolled;
 
-  const Dice({Key? key, required this.onDiceRolled, required bool isEnabled}) : super(key: key);
+  const Dice({Key? key, required this.onDiceRolled, required bool isEnabled})
+      : super(key: key);
 
   @override
   _DiceState createState() => _DiceState();
@@ -96,9 +97,9 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
           alignment: Alignment.center,
           children: [
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
@@ -115,9 +116,9 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
               child: Container(
                 width: 70,
                 height: 70,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  gradient: const LinearGradient(
+                  gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
@@ -131,10 +132,11 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
                 child: Center(
                   child: Text(
                     _diceNumber.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 48,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                       color: Colors.white,
+                      fontFamily: "GameFont",
                     ),
                   ),
                 ),

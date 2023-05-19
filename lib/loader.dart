@@ -14,22 +14,19 @@ class LoadingScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           SizedBox(
             width: size.width / 1.5,
             child: Text(
               text,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 24,
-                  fontFamily: "GameFont",
+                  fontFamily: "DragonHunters",
                   fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),
-          ),
-          const SizedBox(
-            height: 40,
           ),
           const Center(
             child: SpinKitFoldingCube(

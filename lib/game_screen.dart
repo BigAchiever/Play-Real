@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/dice.dart';
 import 'package:play_real/loader.dart';
@@ -119,7 +120,7 @@ class _GameScreenState extends State<GameScreen> {
             icon: const Icon(
               Icons.arrow_back_ios,
               color: Colors.white,
-              size: 18,
+              size: 16,
             ),
           ),
         ),
@@ -127,13 +128,13 @@ class _GameScreenState extends State<GameScreen> {
         title: _isAnimationComplete
             ? Text(
                 '${currentPlayer.name}\'s Turn',
-                style: const TextStyle(
+                style: GoogleFonts.actor(
                   color: Colors.white,
                 ),
               )
-            : const Text(
+            : Text(
                 'Play Real',
-                style: TextStyle(
+                style: GoogleFonts.actor(
                   color: Colors.white,
                 ),
               ),
@@ -195,35 +196,38 @@ class _GameScreenState extends State<GameScreen> {
                                     ],
                                   ),
                                   child: Stack(
+                                    alignment: Alignment.center,
                                     children: [
-                                      if (player.name.isEmpty)
-                                        Center(
-                                          child: Text(
-                                            displayText,
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
                                       if (player.position ==
                                           currentPlayer.position)
                                         Center(
                                           child: CircleAvatar(
                                             radius: 20,
-                                            backgroundColor: Colors.black87,
+                                            backgroundColor: Colors.green[700],
                                             child: Align(
                                               alignment: Alignment.center,
                                               child: Text(
                                                 // Displaying the player token number
-                                                'P${player.number.toString()}',
+                                                'P${currentPlayer.number.toString()}',
                                                 style: const TextStyle(
                                                   fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "GameFont",
+                                                  fontWeight: FontWeight.w600,
                                                   color: Colors.white,
                                                 ),
                                               ),
+                                            ),
+                                          ),
+                                        ),
+                                      if (player.name.isEmpty)
+                                        Center(
+                                          child: Text(
+                                            displayText,
+                                            style: GoogleFonts.actor(
+                                              fontSize: 18,
+                                              letterSpacing: 1.2,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black,
                                             ),
                                           ),
                                         ),
@@ -233,7 +237,8 @@ class _GameScreenState extends State<GameScreen> {
                                         Center(
                                           child: CircleAvatar(
                                             radius: 20,
-                                            backgroundColor: Colors.white,
+                                            backgroundColor:
+                                                Colors.lightBlue[200],
                                             child: Align(
                                               alignment: Alignment.center,
                                               child: Text(
@@ -241,8 +246,9 @@ class _GameScreenState extends State<GameScreen> {
                                                 'P${player.number.toString()}',
                                                 style: const TextStyle(
                                                   fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.pink,
+                                                  fontFamily: "GameFont",
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.red,
                                                 ),
                                               ),
                                             ),
@@ -267,7 +273,7 @@ class _GameScreenState extends State<GameScreen> {
                             child: Text(
                           boardSentences[currentPlayer.position - 1],
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: GoogleFonts.actor(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.greenAccent,
@@ -318,12 +324,18 @@ class _GameScreenState extends State<GameScreen> {
                                 children: [
                                   const Text(
                                     'Failed 💀',
-                                    style: TextStyle(fontSize: 16),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: "GameFont",
+                                      color: Colors.white,
+                                    ),
                                   ),
                                   Text(
                                     '(-5 Steps)',
                                     style: TextStyle(
-                                        fontSize: 12, color: Colors.grey[100]),
+                                        fontSize: 12,
+                                        color: Colors.grey[100],
+                                        fontFamily: "GameFont"),
                                   ),
                                 ],
                               ),
@@ -367,6 +379,7 @@ class _GameScreenState extends State<GameScreen> {
                                 'Done 🥳',
                                 style: TextStyle(
                                   fontSize: 16,
+                                  fontFamily: "GameFont",
                                   color: Colors.white,
                                 ),
                               ),
