@@ -8,8 +8,6 @@ class LoadingScreen extends StatelessWidget {
     required this.text,
   }) : super(key: key);
 
-  static const routeName = '/loading';
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -23,9 +21,10 @@ class LoadingScreen extends StatelessWidget {
             child: Text(
               text,
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-              ),
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontFamily: "GameFont",
+                  fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),
           ),
@@ -33,10 +32,9 @@ class LoadingScreen extends StatelessWidget {
             height: 40,
           ),
           const Center(
-            child: SpinKitFadingGrid(
-              color: Colors.orange,
-              duration: Duration(seconds: 2),
-              size: 100.0,
+            child: SpinKitFoldingCube(
+              color: Colors.green,
+              size: 50.0,
             ),
           ),
         ],

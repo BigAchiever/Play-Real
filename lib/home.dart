@@ -56,7 +56,7 @@ class StartingScreenState extends State<StartingScreen>
               child: AnimatedBuilder(
                 animation: _controller,
                 builder: (context, child) {
-                  final ropeHeight = 20.0; // Height of the rope
+                  const ropeHeight = 20.0;
                   final translateY =
                       (_controller.value * ropeHeight) - ropeHeight;
                   return Transform.translate(
@@ -139,8 +139,8 @@ class StartingScreenState extends State<StartingScreen>
                           },
                           child: Icon(
                             lightmodedarkmode
-                                ? Icons.dark_mode
-                                : Icons.light_mode,
+                                ? Icons.light_mode
+                                : Icons.dark_mode,
                             color: Colors.grey[800],
                           ),
                         ),

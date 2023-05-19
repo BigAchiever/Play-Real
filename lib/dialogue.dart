@@ -13,6 +13,7 @@ class GameDialog extends StatefulWidget {
 
 class _GameDialogState extends State<GameDialog> {
   int _numberOfPlayers = 2;
+  int count = 1;
   DifficultyLevel _selectedDifficulty = DifficultyLevel.Default;
 
   void _onPlayerCountChanged(int count) {
@@ -35,10 +36,14 @@ class _GameDialogState extends State<GameDialog> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => GameScreen(numberOfPlayers: _numberOfPlayers),
+        builder: (context) => GameScreen(
+          numberOfPlayers: _numberOfPlayers,
+          count: count,
+        ),
       ),
     );
   }
+  
 
   @override
   Widget build(BuildContext context) {

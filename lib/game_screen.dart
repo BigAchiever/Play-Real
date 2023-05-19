@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/dice.dart';
@@ -11,8 +13,11 @@ import 'utils/turnover_dialogue.dart';
 
 class GameScreen extends StatefulWidget {
   final int numberOfPlayers;
+  final int count;
 
-  const GameScreen({Key? key, required this.numberOfPlayers}) : super(key: key);
+  const GameScreen(
+      {Key? key, required this.numberOfPlayers, required this.count})
+      : super(key: key);
 
   @override
   _GameScreenState createState() => _GameScreenState();
@@ -46,6 +51,7 @@ class _GameScreenState extends State<GameScreen> {
         name: 'Player ${index + 1}',
         position: 1,
         color: getPlayerColor(index),
+        number: index + 1, // Assign player number
       ),
     );
   }
@@ -97,6 +103,7 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     final currentPlayer = _players[_currentPlayerIndex];
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -140,93 +147,119 @@ class _GameScreenState extends State<GameScreen> {
                   Expanded(
                     child: Padding(
                       padding: EdgeInsets.all(_boardPadding),
-                      child: GridView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: _boardSize,
-                          crossAxisSpacing: 4,
-                          mainAxisSpacing: 4,
-                        ),
-                        itemCount: _boardNumbers.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final int boardNumber = _boardNumbers[index];
-                          String displayText;
-                          if (boardNumber == 1) {
-                            displayText = '💨';
-                          } else if (boardNumber == 50) {
-                            displayText = 'WIN';
-                          } else {
-                            displayText = boardNumber.toString();
-                          }
-                          final player = _players.firstWhere(
-                            (player) => player.position == boardNumber,
-                            orElse: () => Player(
-                              name: '',
-                              position: -1,
-                              color: Colors.transparent,
-                            ),
-                          );
-                          return Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black, width: 2),
-                              color: index % 2 == 0
-                                  ? Colors.grey[500]
-                                  : Colors.white70,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Stack(
-                              children: [
-                                if (player.name.isEmpty)
-                                  Center(
-                                    child: Text(
-                                      displayText,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
+                      child: Stack(
+                        children: [
+                          // Grid View
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: GridView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: _boardSize,
+                                crossAxisSpacing: 4,
+                                mainAxisSpacing: 4,
+                              ),
+                              itemCount: _boardNumbers.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final int boardNumber = _boardNumbers[index];
+                                String displayText;
+                                if (boardNumber == 1) {
+                                  displayText = '💨';
+                                } else if (boardNumber == 50) {
+                                  displayText = 'WIN';
+                                } else {
+                                  displayText = boardNumber.toString();
+                                }
+                                final player = _players.firstWhere(
+                                  (player) => player.position == boardNumber,
+                                  orElse: () => Player(
+                                    name: '',
+                                    position: -1,
+                                    color: Colors.transparent,
+                                    number: index + 1,
                                   ),
-                                if (player.position == currentPlayer.position)
-                                  Center(
-                                    child: CircleAvatar(
-                                      radius: 20,
-                                      backgroundColor: Colors.black,
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Icon(
-                                          size: 28,
-                                          Icons.pin_drop_outlined,
-                                          color: currentPlayer.color,
+                                );
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: index % 2 == 0
+                                        ? Colors.grey[300]
+                                        : Colors.grey[200],
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.2),
+                                        offset: Offset(0, 2),
+                                        blurRadius: 4,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      if (player.name.isEmpty)
+                                        Center(
+                                          child: Text(
+                                            displayText,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                if (player.position != currentPlayer.position &&
-                                    player.name.isNotEmpty)
-                                  Center(
-                                    child: CircleAvatar(
-                                      radius: 20,
-                                      backgroundColor: Colors.white,
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Icon(
-                                          size: 28,
-                                          Icons.pin_drop_outlined,
-                                          color: player.color,
+                                      if (player.position ==
+                                          currentPlayer.position)
+                                        Center(
+                                          child: CircleAvatar(
+                                            radius: 20,
+                                            backgroundColor: Colors.black87,
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                // Displaying the player token number
+                                                'P${player.number.toString()}',
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
+                                      if (player.position !=
+                                              currentPlayer.position &&
+                                          player.name.isNotEmpty)
+                                        Center(
+                                          child: CircleAvatar(
+                                            radius: 20,
+                                            backgroundColor: Colors.white,
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                // Displaying the player token number like P1, P2, P3, P4
+                                                'P${player.number.toString()}',
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.pink,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
                                   ),
-                              ],
+                                );
+                              },
                             ),
-                          );
-                        },
+                          ),
+                        ],
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 150,
+                    height: size.height / 5,
                     child: ElevatedContainer(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
