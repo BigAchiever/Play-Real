@@ -8,45 +8,43 @@ class AnimatedBubbles extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Container(
-        child: Center(
-          child: SizedBox(
-            width: size.width,
-            height: size.height,
-            child: Stack(
-              children: [
-                Positioned(
-                  left: -20,
-                  top: 20,
-                  child: Bubble(
-                    delay: 0,
-                  ),
+      body: Center(
+        child: SizedBox(
+          width: size.width,
+          height: size.height,
+          child: const Stack(
+            children: [
+              Positioned(
+                left: -20,
+                top: 20,
+                child: Bubble(
+                  delay: 0,
                 ),
-                Positioned(
-                  right: -110,
-                  top: 60,
-                  child: Bubble(
-                    delay: 0,
-                  ),
+              ),
+              Positioned(
+                right: -110,
+                top: 60,
+                child: Bubble(
+                  delay: 0,
                 ),
-                Positioned(
-                  left: 30,
-                  bottom: -50,
-                  child: Bubble(
-                    size: 0.35,
-                    delay: 0,
-                  ),
+              ),
+              Positioned(
+                left: 30,
+                bottom: -50,
+                child: Bubble(
+                  size: 0.35,
+                  delay: 0,
                 ),
-                Positioned(
-                  top: 350,
-                  right: 80,
-                  child: Bubble(
-                    size: 0.8,
-                    delay: 0,
-                  ),
+              ),
+              Positioned(
+                top: 350,
+                right: 80,
+                child: Bubble(
+                  size: 0.8,
+                  delay: 0,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

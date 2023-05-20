@@ -23,7 +23,7 @@ class LoadingScreen extends StatelessWidget {
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 24,
-                  fontFamily: "DragonHunters",
+                  fontFamily: "GameFont",
                   fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),

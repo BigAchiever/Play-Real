@@ -1,9 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/dice.dart';
+import 'package:play_real/difficulty_level.dart';
 import 'package:play_real/loader.dart';
 import 'board_sentences.dart';
 import 'colors/color.dart';
@@ -15,10 +14,16 @@ import 'utils/turnover_dialogue.dart';
 class GameScreen extends StatefulWidget {
   final int numberOfPlayers;
   final int count;
+  final int gridSize;
+  final DifficultyLevel difficulty;
 
-  const GameScreen(
-      {Key? key, required this.numberOfPlayers, required this.count})
-      : super(key: key);
+  const GameScreen({
+    Key? key,
+    required this.numberOfPlayers,
+    required this.count,
+    required this.gridSize,
+    required this.difficulty,
+  }) : super(key: key);
 
   @override
   _GameScreenState createState() => _GameScreenState();
@@ -26,8 +31,9 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   final int _boardSize = 7;
-  final double _boardPadding = 16;
-  final List<int> _boardNumbers = List.generate(50, (index) => 50 - index);
+
+  final double _boardPadding = 12;
+  late List<int> _boardNumbers;
 
   late List<Player> _players;
 
@@ -43,6 +49,7 @@ class _GameScreenState extends State<GameScreen> {
     super.initState();
     _startAnimation();
     _initializePlayers(); // initializing players list
+    _generateBoardNumbers();
   }
 
   void _initializePlayers() {
@@ -55,6 +62,13 @@ class _GameScreenState extends State<GameScreen> {
         number: index + 1, // Assign player number
       ),
     );
+  }
+
+  void _generateBoardNumbers() {
+    _boardNumbers = List.generate(widget.gridSize * widget.gridSize, (index) {
+      int boardNumber = widget.gridSize * widget.gridSize - index;
+      return boardNumber;
+    });
   }
 
   void _startAnimation() async {
@@ -74,11 +88,19 @@ class _GameScreenState extends State<GameScreen> {
     }
     _isDiceRolled = true;
     final currentPlayer = _players[_currentPlayerIndex];
+    final remainingSteps = _boardNumbers.length - currentPlayer.position;
     setState(() {
-      currentPlayer.position += diceNumber;
+      if (remainingSteps < diceNumber) {
+        // currentPlayer.position += remainingSteps;
+        print(
+            "noooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+      } else {
+        currentPlayer.position += diceNumber;
+      }
       if (currentPlayer.position > _boardNumbers.length) {
         currentPlayer.position = _boardNumbers.length;
       }
+
       _isDiceEnabled = false; // Disable the dice after rolling
     });
     _changePlayer();
@@ -96,8 +118,26 @@ class _GameScreenState extends State<GameScreen> {
   void _changePlayer() {
     if (_isPlayerTurnComplete) {
       setState(() {
-        _currentPlayerIndex = (_currentPlayerIndex + 1) % _players.length;
-        _isPlayerTurnComplete = false; // Resetting the turn completion flag
+        final currentPlayer = _players[_currentPlayerIndex];
+        if (currentPlayer.position == _boardNumbers.length) {
+          // Player has reached the last position and won the game
+          _players.removeAt(_currentPlayerIndex);
+          if (_players.length == 1) {
+            // reset the game
+            _initializePlayers();
+            // show quit dialogue
+            QuitDialog.showGameOverDialog(
+              context,
+            );
+          }
+          if (_currentPlayerIndex >= _players.length) {
+            _currentPlayerIndex = 0; // Reset to the first player if necessary
+          }
+        } else {
+          _currentPlayerIndex = (_currentPlayerIndex + 1) % _players.length;
+        }
+        _isPlayerTurnComplete = false;
+        _isDiceRolled = false; // Reset the flag when the player changes
       });
     }
   }
@@ -133,22 +173,38 @@ class _GameScreenState extends State<GameScreen> {
           ),
           backgroundColor: Colors.transparent,
           title: _isAnimationComplete
-              ? Text(
-                  '${currentPlayer.name}\'s Turn',
-                  style: GoogleFonts.actor(
-                    color: Colors.white,
-                  ),
-                )
-              : Text(
+              ? _isDiceRolled
+                  ? const Text(
+                      'Complete your task!',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "GameFont",
+                          fontSize: 28),
+                    )
+                  : Text(
+                      '${currentPlayer.name}\'s Turn',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontFamily: "GameFont",
+                        fontSize: 28,
+                      ),
+                    )
+              : const Text(
                   'Play Real',
-                  style: GoogleFonts.actor(
-                    color: Colors.white,
-                  ),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: "GameFont",
+                      fontSize: 28),
                 ),
           centerTitle: true,
         ),
         body: Stack(children: [
           AnimatedBubbles(),
+          Container(
+            height: size.height,
+            width: size.width,
+            color: Colors.black.withOpacity(0.8),
+          ),
           _isAnimationComplete
               ? Column(
                   children: [
@@ -164,7 +220,7 @@ class _GameScreenState extends State<GameScreen> {
                                 physics: const BouncingScrollPhysics(),
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: _boardSize,
+                                  crossAxisCount: widget.gridSize,
                                   crossAxisSpacing: 4,
                                   mainAxisSpacing: 4,
                                 ),
@@ -174,8 +230,12 @@ class _GameScreenState extends State<GameScreen> {
                                   String displayText;
                                   if (boardNumber == 1) {
                                     displayText = '💨';
-                                  } else if (boardNumber == 50) {
-                                    displayText = 'WIN';
+                                  } else if (widget.gridSize == 10 &&
+                                      boardNumber == 100) {
+                                    displayText = '🌟';
+                                  } else if (widget.gridSize == 7 &&
+                                      boardNumber == 49) {
+                                    displayText = "WIN";
                                   } else {
                                     displayText = boardNumber.toString();
                                   }
@@ -192,12 +252,12 @@ class _GameScreenState extends State<GameScreen> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8),
                                       color: index % 2 == 0
-                                          ? Colors.grey[300]
+                                          ? Colors.grey[400]
                                           : Colors.grey[200],
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.black.withOpacity(0.2),
-                                          offset: Offset(0, 2),
+                                          offset: const Offset(0, 2),
                                           blurRadius: 4,
                                         ),
                                       ],
@@ -273,20 +333,42 @@ class _GameScreenState extends State<GameScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: size.height / 5,
+                      height: size.height / 4.8,
                       child: ElevatedContainer(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
-                              child: Text(
-                            boardSentences[currentPlayer.position - 1],
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.actor(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.greenAccent,
-                            ),
-                          )),
+                            child: _isDiceRolled
+                                ? currentPlayer.position >= _boardNumbers.length
+                                    ? Text(
+                                        'Congratulations! Player ${currentPlayer.number} wins!',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.actor(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.greenAccent,
+                                        ),
+                                      )
+                                    : Text(
+                                        boardSentences[
+                                            currentPlayer.position - 1],
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.actor(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.greenAccent,
+                                        ),
+                                      )
+                                : Text(
+                                    'It\'s Player ${currentPlayer.number}\'s turn. Roll the dice!',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.actor(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.greenAccent,
+                                    ),
+                                  ),
+                          ),
                         ),
                       ),
                     ),
@@ -381,10 +463,10 @@ class _GameScreenState extends State<GameScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0),
                             ),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text(
+                                Text(
                                   'Done 🥳',
                                   style: TextStyle(
                                     fontSize: 16,
@@ -407,6 +489,9 @@ class _GameScreenState extends State<GameScreen> {
                   text:
                       "Discuss your turn number till the time we set up the game for you!",
                 ),
+          // Container(
+          //   color: Colors.black.withOpacity(0.8),
+          // ),
         ]),
       ),
     );

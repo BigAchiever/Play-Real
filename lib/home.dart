@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/dialogue.dart';
 
+import 'how_to_play.dart';
+
 class StartingScreen extends StatefulWidget {
   const StartingScreen({super.key});
 
@@ -38,7 +40,6 @@ class StartingScreenState extends State<StartingScreen>
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    double textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -204,7 +205,14 @@ class StartingScreenState extends State<StartingScreen>
               height: 60,
               width: size.width / 1.8,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HowToPlay(),
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),

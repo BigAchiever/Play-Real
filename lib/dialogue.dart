@@ -3,6 +3,7 @@ import 'package:play_real/players_count.dart';
 
 import 'difficulty_level.dart';
 import 'game_screen.dart';
+import 'grid_button.dart';
 
 class GameDialog extends StatefulWidget {
   const GameDialog({Key? key}) : super(key: key);
@@ -28,17 +29,27 @@ class _GameDialogState extends State<GameDialog> {
     });
   }
 
+  int _selectedGridSize = 7;
+
+  void _selectGridSize(int gridSize) {
+    setState(() {
+      _selectedGridSize = gridSize;
+    });
+  }
+
   void _startGame() {
     // Handle starting the game with selected options
     // Here, you can navigate to the game screen or perform any other desired action
     debugPrint(
-        'Starting game with $_numberOfPlayers players and $_selectedDifficulty difficulty');
+        'Starting game with $_numberOfPlayers players and $_selectedDifficulty difficulty level and $_selectedGridSize grid size');
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => GameScreen(
           numberOfPlayers: _numberOfPlayers,
           count: count,
+          difficulty: _selectedDifficulty,
+          gridSize: _selectedGridSize,
         ),
       ),
     );
@@ -53,6 +64,13 @@ class _GameDialogState extends State<GameDialog> {
       backgroundColor: Colors.black87,
       child: Container(
         padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: Colors.orange,
+            width: 1,
+          ),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,6 +161,33 @@ class _GameDialogState extends State<GameDialog> {
                 );
               }).toList(),
             ),
+            const SizedBox(height: 16),
+            const Text(
+              'Gird Size:',
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: "GameFont",
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                GridSizeButton(
+                  size: 7,
+                  isSelected: _selectedGridSize == 7,
+                  onChanged: _selectGridSize,
+                ),
+                const SizedBox(width: 8),
+                GridSizeButton(
+                  size: 10,
+                  isSelected: _selectedGridSize == 10,
+                  onChanged: _selectGridSize,
+                ),
+              ],
+            ),
             const SizedBox(height: 24),
             Center(
               child: SizedBox(
@@ -150,6 +195,14 @@ class _GameDialogState extends State<GameDialog> {
                 height: size.height / 15,
                 child: ElevatedButton(
                   onPressed: _startGame,
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
                   child: const Text(
                     'Start Game',
                     style: TextStyle(
@@ -159,17 +212,10 @@ class _GameDialogState extends State<GameDialog> {
                       color: Colors.white,
                     ),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.green,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
                 ),
               ),
             ),
+            const SizedBox(height: 16)
           ],
         ),
       ),
