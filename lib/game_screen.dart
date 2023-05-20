@@ -30,8 +30,6 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  final int _boardSize = 7;
-
   final double _boardPadding = 12;
   late List<int> _boardNumbers;
 
@@ -167,11 +165,11 @@ class _GameScreenState extends State<GameScreen> {
               icon: const Icon(
                 Icons.arrow_back_ios,
                 color: Colors.white,
-                size: 16,
+                size: 18,
               ),
             ),
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.blue.shade900.withOpacity(0.8),
           title: _isAnimationComplete
               ? _isDiceRolled
                   ? const Text(
@@ -203,7 +201,16 @@ class _GameScreenState extends State<GameScreen> {
           Container(
             height: size.height,
             width: size.width,
-            color: Colors.black.withOpacity(0.8),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.blue.shade900.withOpacity(0.8),
+                  Colors.red.withOpacity(0.8),
+                ],
+              ),
+            ),
           ),
           _isAnimationComplete
               ? Column(

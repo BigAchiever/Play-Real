@@ -34,7 +34,7 @@ class _HowToPlayState extends State<HowToPlay> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.blue.shade900.withOpacity(0.8),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
@@ -61,7 +61,18 @@ class _HowToPlayState extends State<HowToPlay> {
           Container(
             height: size.height,
             width: size.width,
-            color: Colors.black.withOpacity(0.8),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.blue.shade900.withOpacity(0.8),
+                  Colors.red.withOpacity(0.8),
+                  Colors.blue.shade900.withOpacity(0.8),
+                  Colors.red.withOpacity(0.8),
+                ],
+              ),
+            ),
           ),
           _isAnimationComplete
               ? Padding(
@@ -76,7 +87,7 @@ class _HowToPlayState extends State<HowToPlay> {
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
                             fontWeight: FontWeight.w500,
-                            color: Colors.cyanAccent,
+                            color: Colors.white,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -92,7 +103,7 @@ class _HowToPlayState extends State<HowToPlay> {
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
                             fontWeight: FontWeight.w500,
-                            color: Colors.cyanAccent,
+                            color: Colors.white,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -108,7 +119,7 @@ class _HowToPlayState extends State<HowToPlay> {
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
                             fontWeight: FontWeight.w500,
-                            color: Colors.cyanAccent,
+                            color: Colors.white,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -124,7 +135,7 @@ class _HowToPlayState extends State<HowToPlay> {
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
                             fontWeight: FontWeight.w500,
-                            color: Colors.cyanAccent,
+                            color: Colors.white,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -140,7 +151,7 @@ class _HowToPlayState extends State<HowToPlay> {
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
                             fontWeight: FontWeight.w500,
-                            color: Colors.cyanAccent,
+                            color: Colors.white,
                           ),
                         ),
                         Image.asset(
@@ -155,7 +166,7 @@ class _HowToPlayState extends State<HowToPlay> {
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
                             fontWeight: FontWeight.w500,
-                            color: Colors.cyanAccent,
+                            color: Colors.white,
                           ),
                         ),
                         Image.asset(
@@ -170,7 +181,7 @@ class _HowToPlayState extends State<HowToPlay> {
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
                             fontWeight: FontWeight.w500,
-                            color: Colors.cyanAccent,
+                            color: Colors.white,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -186,7 +197,7 @@ class _HowToPlayState extends State<HowToPlay> {
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
                             fontWeight: FontWeight.w500,
-                            color: Colors.cyanAccent,
+                            color: Colors.white,
                           ),
                         ),
                       ],

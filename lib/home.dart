@@ -27,7 +27,7 @@ class StartingScreenState extends State<StartingScreen>
   )..repeat(reverse: true);
 
   bool musicbutton = false;
-  bool voice = false;
+
   bool lightmodedarkmode = false;
   bool face = false;
 
@@ -44,6 +44,20 @@ class StartingScreenState extends State<StartingScreen>
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(children: [
+        Container(
+          height: size.height,
+          width: size.width,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.blue.shade900.withOpacity(0.8),
+                Colors.red.withOpacity(0.8),
+              ],
+            ),
+          ),
+        ),
         AnimatedBubbles(),
         Center(
             child: Column(
@@ -98,6 +112,7 @@ class StartingScreenState extends State<StartingScreen>
                       SizedBox(
                         width: size.width / 8,
                         child: FloatingActionButton(
+                          backgroundColor: Colors.yellowAccent[700],
                           heroTag: "btn1",
                           shape: const CircleBorder(
                               side: BorderSide(color: Colors.black, width: 3)),
@@ -115,16 +130,13 @@ class StartingScreenState extends State<StartingScreen>
                       SizedBox(
                         width: size.width / 8,
                         child: FloatingActionButton(
+                          backgroundColor: Colors.yellowAccent[700],
                           heroTag: "btn2",
                           shape: const CircleBorder(
                               side: BorderSide(color: Colors.black, width: 3)),
-                          onPressed: () {
-                            setState(() {
-                              voice = !voice;
-                            });
-                          },
+                          onPressed: () {},
                           child: Icon(
-                            voice ? Icons.volume_off : Icons.volume_up,
+                            Icons.leaderboard,
                             color: Colors.grey[800],
                           ),
                         ),
@@ -132,6 +144,7 @@ class StartingScreenState extends State<StartingScreen>
                       SizedBox(
                         width: size.width / 8,
                         child: FloatingActionButton(
+                          backgroundColor: Colors.yellowAccent[700],
                           heroTag: "btn3",
                           shape: const CircleBorder(
                               side: BorderSide(color: Colors.black, width: 3)),
@@ -151,6 +164,7 @@ class StartingScreenState extends State<StartingScreen>
                       SizedBox(
                         width: size.width / 8,
                         child: FloatingActionButton(
+                          backgroundColor: Colors.yellowAccent[700],
                           heroTag: "btn4",
                           shape: const CircleBorder(
                               side: BorderSide(color: Colors.black, width: 3)),
@@ -182,6 +196,8 @@ class StartingScreenState extends State<StartingScreen>
                   );
                 },
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green.shade600,
+                  foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                     side: const BorderSide(
@@ -214,6 +230,8 @@ class StartingScreenState extends State<StartingScreen>
                   );
                 },
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green.shade600,
+                  foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                     side: const BorderSide(
@@ -239,6 +257,8 @@ class StartingScreenState extends State<StartingScreen>
               child: ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green.shade600,
+                  foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                     side: const BorderSide(
@@ -264,6 +284,8 @@ class StartingScreenState extends State<StartingScreen>
               child: ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green.shade600,
+                  foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                     side: const BorderSide(

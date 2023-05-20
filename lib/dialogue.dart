@@ -188,7 +188,7 @@ class _GameDialogState extends State<GameDialog> {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 30),
             Center(
               child: SizedBox(
                 width: size.width / 2,
@@ -196,7 +196,7 @@ class _GameDialogState extends State<GameDialog> {
                 child: ElevatedButton(
                   onPressed: _startGame,
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.green,
+                    primary: Colors.green.shade600,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 12),
                     shape: RoundedRectangleBorder(
@@ -204,7 +204,7 @@ class _GameDialogState extends State<GameDialog> {
                     ),
                   ),
                   child: const Text(
-                    'Start Game',
+                    'Lets Go!',
                     style: TextStyle(
                       fontSize: 22,
                       fontFamily: "GameFont",
