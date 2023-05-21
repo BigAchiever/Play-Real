@@ -5,6 +5,7 @@ class AudioPlayerHelper {
 
   Future<void> preloadAudio() async {
     await audioCache.load('media/button.wav');
+    await audioCache.load('media/dice.mp3');
   }
 
   //button sound
@@ -16,6 +17,6 @@ class AudioPlayerHelper {
   // dice sound
   void playAudioDice() async {
     AudioPlayer audioPlayer = AudioPlayer();
-    await audioPlayer.play(AssetSource('media/dice.mp3'));
+    await audioPlayer.play(AssetSource('media/dice.mp3'), );
   }
 }

@@ -48,7 +48,7 @@ class _GameDialogState extends State<GameDialog> {
     // Handle starting the game with selected options
     // Here, you can navigate to the game screen or perform any other desired action
     // play audio
-    if (StartingScreenState.musicbutton) {
+    if (StartingScreenState.musicbutton == true) {
       playAudio();
     }
     debugPrint(
@@ -69,7 +69,6 @@ class _GameDialogState extends State<GameDialog> {
   @override
   void initState() {
     super.initState();
-    playAudio();
   }
 
   @override

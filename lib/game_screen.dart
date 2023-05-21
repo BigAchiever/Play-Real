@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:play_real/audio_player.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/dice.dart';
 import 'package:play_real/difficulty_level.dart';
 import 'package:play_real/loader.dart';
 import 'board_sentences.dart';
 import 'colors/color.dart';
+import 'home.dart';
 import 'message_card.dart';
 import 'models/player.dart';
 import 'utils/quitgame_dialogue.dart';
@@ -41,6 +43,7 @@ class _GameScreenState extends State<GameScreen> {
   bool _isPlayerTurnComplete = false;
   bool _isDiceEnabled = true;
   bool _isDiceRolled = false;
+  final AudioPlayerHelper audioPlayerHelper = AudioPlayerHelper();
 
   @override
   void initState() {
@@ -48,6 +51,11 @@ class _GameScreenState extends State<GameScreen> {
     _startAnimation();
     _initializePlayers(); // initializing players list
     _generateBoardNumbers();
+    audioPlayerHelper.preloadAudio();
+  }
+
+  void PlayAudioDice() {
+    audioPlayerHelper.playAudioDice();
   }
 
   void _initializePlayers() {
@@ -72,10 +80,12 @@ class _GameScreenState extends State<GameScreen> {
   void _startAnimation() async {
     await Future.delayed(
         const Duration(seconds: 8)); // adding delay for animation
-    setState(() {
-      _isAnimationComplete =
-          true; // setting boolean value to true after animation is complete
-    });
+
+    if (mounted) {
+      setState(() {
+        _isAnimationComplete = true;
+      });
+    }
   }
 
   void _movePlayer(int diceNumber) {
@@ -443,6 +453,9 @@ class _GameScreenState extends State<GameScreen> {
                         ),
                         Dice(
                           onDiceRolled: (int diceNumber) {
+                            if (StartingScreenState.musicbutton) {
+                              PlayAudioDice();
+                            }
                             _movePlayer(diceNumber);
                           },
                           isEnabled: _isDiceEnabled,

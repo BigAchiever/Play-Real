@@ -219,19 +219,20 @@ class StartingScreenState extends State<StartingScreen>
                   if (musicbutton) {
                     playAudio();
                   }
-                  Future delayed = Future.delayed(const Duration(seconds: 1));
+
                   showDialog(
                     context: context,
                     builder: (context) {
                       return FutureBuilder(
-                        future: delayed,
+                        future:
+                            Future.delayed(const Duration(milliseconds: 200)),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.done) {
                             return const GameDialog();
                           } else {
                             return const LoadingScreen(
-                              text: "Loading...",
+                              text: 'Loading...',
                             );
                           }
                         },
@@ -254,7 +255,7 @@ class StartingScreenState extends State<StartingScreen>
                 ),
                 child: const Text(
                   'Start Game 🎭',
-                  style: TextStyle(fontFamily: "GameFont", fontSize: 30),
+                  style: TextStyle(fontFamily: 'GameFont', fontSize: 30),
                 ),
               ),
             ),
