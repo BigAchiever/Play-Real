@@ -45,8 +45,7 @@ class _GameDialogState extends State<GameDialog> {
   }
 
   Future<void> _startGame() async {
-    // Handle starting the game with selected options
-    // Here, you can navigate to the game screen or perform any other desired action
+   
     // play audio
     if (StartingScreenState.musicbutton == true) {
       playAudio();
