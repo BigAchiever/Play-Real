@@ -34,7 +34,7 @@ class _HowToPlayState extends State<HowToPlay> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: Colors.blue.shade900.withOpacity(0.8),
+        backgroundColor: Colors.transparent.withOpacity(0.8),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
@@ -66,10 +66,10 @@ class _HowToPlayState extends State<HowToPlay> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.blue.shade900.withOpacity(0.8),
+                  Colors.black.withOpacity(0.8),
                   Colors.red.withOpacity(0.8),
-                  Colors.blue.shade900.withOpacity(0.8),
-                  Colors.red.withOpacity(0.8),
+                  // Colors.black.withOpacity(0.8),
+                  // Colors.red.withOpacity(0.8),
                 ],
               ),
             ),

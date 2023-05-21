@@ -30,7 +30,7 @@ class LoadingScreen extends StatelessWidget {
           ),
           const Center(
             child: SpinKitFoldingCube(
-              color: Colors.green,
+              color: Colors.orange,
               size: 50.0,
             ),
           ),

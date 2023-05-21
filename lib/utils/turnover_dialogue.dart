@@ -6,39 +6,49 @@ class DialogUtils {
     showDialog(
       context: context,
       builder: (context) => Dialog(
+        backgroundColor: Colors.black87,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
+          side: const BorderSide(
+            color: Colors.orange,
+            width: 2,
+          ),
         ),
         child: Container(
           width: 180,
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              const Text(
                 'Turn Over',
                 style: TextStyle(
                   fontSize: 20,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 'Your turn is over! Complete your task for the game to continue.',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
                   setStateCallback();
                 },
-                child: Text("Fine, I wasn't cheating anyway 🙂"),
+                child: const Text("Fine, I wasn't cheating anyway 🙂"),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.orange,
+                  primary: const Color.fromARGB(255, 81, 99, 60),
                   onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),

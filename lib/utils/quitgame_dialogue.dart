@@ -7,8 +7,13 @@ class QuitDialog {
     showDialog(
       context: context,
       builder: (context) => Dialog(
+        backgroundColor: Colors.black87,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
+          side: BorderSide(
+            color: Colors.orange,
+            width: 2,
+          ),
         ),
         child: Container(
           width: 180,
@@ -20,13 +25,14 @@ class QuitDialog {
                 'Game Over',
                 style: TextStyle(
                   fontSize: 20,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 16),
               const Text(
                 'Are you sure you want to quit the game? 🥺',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 18, color: Colors.white),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
@@ -35,13 +41,15 @@ class QuitDialog {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                      Navigator.pop(context);
+                      Future.delayed(const Duration(milliseconds: 500), () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      });
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.orange,
-                      onPrimary: Colors.white,
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color.fromARGB(255, 81, 99, 60),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
@@ -55,8 +63,8 @@ class QuitDialog {
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.orange,
-                      onPrimary: Colors.white,
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.grey,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(

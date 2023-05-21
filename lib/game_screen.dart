@@ -8,7 +8,7 @@ import 'board_sentences.dart';
 import 'colors/color.dart';
 import 'message_card.dart';
 import 'models/player.dart';
-import 'utils/gameover_dialogue.dart';
+import 'utils/quitgame_dialogue.dart';
 import 'utils/turnover_dialogue.dart';
 
 class GameScreen extends StatefulWidget {
@@ -169,7 +169,7 @@ class _GameScreenState extends State<GameScreen> {
               ),
             ),
           ),
-          backgroundColor: Colors.blue.shade900.withOpacity(0.8),
+          backgroundColor: Colors.transparent.withOpacity(0.8),
           title: _isAnimationComplete
               ? _isDiceRolled
                   ? const Text(
@@ -206,8 +206,8 @@ class _GameScreenState extends State<GameScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.blue.shade900.withOpacity(0.8),
-                  Colors.red.withOpacity(0.8),
+                  Colors.black.withOpacity(0.8),
+                  Colors.red.shade600.withOpacity(0.8),
                 ],
               ),
             ),
@@ -408,7 +408,7 @@ class _GameScreenState extends State<GameScreen> {
                                 });
                               } else {}
                             },
-                            backgroundColor: Colors.red,
+                            backgroundColor: Color.fromARGB(255, 105, 33, 28),
                             foregroundColor: Colors.white,
                             focusColor: Colors.grey,
                             shape: RoundedRectangleBorder(
@@ -464,7 +464,7 @@ class _GameScreenState extends State<GameScreen> {
                             },
                             backgroundColor: _isPlayerTurnComplete
                                 ? Colors.grey
-                                : Colors.green,
+                                : const Color.fromARGB(255, 42, 181, 46),
                             foregroundColor: Colors.white,
                             focusColor: Colors.grey,
                             shape: RoundedRectangleBorder(

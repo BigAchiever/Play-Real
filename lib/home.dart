@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/dialogue.dart';
 
+import 'audio_player.dart';
 import 'how_to_play.dart';
+import 'loader.dart';
 
 class StartingScreen extends StatefulWidget {
   const StartingScreen({super.key});
@@ -26,10 +29,21 @@ class StartingScreenState extends State<StartingScreen>
     vsync: this,
   )..repeat(reverse: true);
 
-  bool musicbutton = false;
-
+  static bool musicbutton = false;
   bool lightmodedarkmode = false;
   bool face = false;
+  bool showComingSoon = false;
+  final AudioPlayerHelper audioPlayerHelper = AudioPlayerHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    audioPlayerHelper.preloadAudio();
+  }
+
+  void playAudio() {
+    audioPlayerHelper.playAudio();
+  }
 
   @override
   void dispose() {
@@ -52,7 +66,7 @@ class StartingScreenState extends State<StartingScreen>
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.blue.shade900.withOpacity(0.8),
+                Colors.black.withOpacity(0.8),
                 Colors.red.withOpacity(0.8),
               ],
             ),
@@ -64,7 +78,7 @@ class StartingScreenState extends State<StartingScreen>
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              height: size.height / 9,
+              height: size.height / 14,
             ),
             ShaderMask(
               shaderCallback: (Rect bounds) {
@@ -81,9 +95,9 @@ class StartingScreenState extends State<StartingScreen>
                     child: child,
                   );
                 },
-                child: Text(
+                child: const Text(
                   "PLAY REAL",
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 80,
                     fontFamily: "GameFont",
                     fontWeight: FontWeight.w500,
@@ -99,13 +113,13 @@ class StartingScreenState extends State<StartingScreen>
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: size.height / 24,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Column(
                     children: [
@@ -120,9 +134,13 @@ class StartingScreenState extends State<StartingScreen>
                             setState(() {
                               musicbutton = !musicbutton;
                             });
+
+                            if (musicbutton) {
+                              playAudio();
+                            }
                           },
                           child: Icon(
-                            musicbutton ? Icons.music_off : Icons.music_note,
+                            musicbutton ? Icons.music_note : Icons.music_off,
                             color: Colors.grey[800],
                           ),
                         ),
@@ -134,7 +152,11 @@ class StartingScreenState extends State<StartingScreen>
                           heroTag: "btn2",
                           shape: const CircleBorder(
                               side: BorderSide(color: Colors.black, width: 3)),
-                          onPressed: () {},
+                          onPressed: () {
+                            if (musicbutton) {
+                              playAudio();
+                            }
+                          },
                           child: Icon(
                             Icons.leaderboard,
                             color: Colors.grey[800],
@@ -149,6 +171,9 @@ class StartingScreenState extends State<StartingScreen>
                           shape: const CircleBorder(
                               side: BorderSide(color: Colors.black, width: 3)),
                           onPressed: () {
+                            if (musicbutton) {
+                              playAudio();
+                            }
                             setState(() {
                               lightmodedarkmode = !lightmodedarkmode;
                             });
@@ -169,13 +194,14 @@ class StartingScreenState extends State<StartingScreen>
                           shape: const CircleBorder(
                               side: BorderSide(color: Colors.black, width: 3)),
                           onPressed: () {
-                            setState(() {
-                              face = !face;
-                            });
+                            if (musicbutton) {
+                              playAudio();
+                            }
                           },
-                          child: Icon(
-                            face ? Icons.face : Icons.face_2,
+                          child: Image.asset(
+                            "assets/images/facebook.png",
                             color: Colors.grey[800],
+                            height: 24,
                           ),
                         ),
                       ),
@@ -184,15 +210,33 @@ class StartingScreenState extends State<StartingScreen>
                 ],
               ),
             ),
-            SizedBox(height: size.height / 20),
+            SizedBox(height: size.height / 14),
             SizedBox(
               height: 65,
               width: size.width / 1.5,
               child: ElevatedButton(
                 onPressed: () {
+                  if (musicbutton) {
+                    playAudio();
+                  }
+                  Future delayed = Future.delayed(const Duration(seconds: 1));
                   showDialog(
                     context: context,
-                    builder: (context) => const GameDialog(),
+                    builder: (context) {
+                      return FutureBuilder(
+                        future: delayed,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return const GameDialog();
+                          } else {
+                            return const LoadingScreen(
+                              text: "Loading...",
+                            );
+                          }
+                        },
+                      );
+                    },
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -222,6 +266,9 @@ class StartingScreenState extends State<StartingScreen>
               width: size.width / 1.8,
               child: ElevatedButton(
                 onPressed: () {
+                  if (musicbutton) {
+                    playAudio();
+                  }
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -253,9 +300,21 @@ class StartingScreenState extends State<StartingScreen>
             ),
             SizedBox(
               height: 60,
-              width: size.width / 1.4,
+              width: MediaQuery.of(context).size.width / 1.4,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (musicbutton) {
+                    playAudio();
+                  }
+                  setState(() {
+                    showComingSoon = true;
+                    Future.delayed(const Duration(seconds: 3), () {
+                      setState(() {
+                        showComingSoon = false;
+                      });
+                    });
+                  });
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green.shade600,
                   foregroundColor: Colors.white,
@@ -269,9 +328,26 @@ class StartingScreenState extends State<StartingScreen>
                   elevation: 0,
                   visualDensity: VisualDensity.standard,
                 ),
-                child: const Text(
-                  'Online Multiplayer',
-                  style: TextStyle(fontFamily: "GameFont", fontSize: 28),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    AnimatedOpacity(
+                      opacity: showComingSoon ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 500),
+                      child: const Text(
+                        'Coming Soon!',
+                        style: TextStyle(fontFamily: "GameFont", fontSize: 28),
+                      ),
+                    ),
+                    AnimatedOpacity(
+                      opacity: showComingSoon ? 0.0 : 1.0,
+                      duration: const Duration(milliseconds: 500),
+                      child: const Text(
+                        'Online Multiplayer',
+                        style: TextStyle(fontFamily: "GameFont", fontSize: 28),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -282,7 +358,11 @@ class StartingScreenState extends State<StartingScreen>
               height: 60,
               width: size.width / 2.3,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (musicbutton) {
+                    playAudio();
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green.shade600,
                   foregroundColor: Colors.white,

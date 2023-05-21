@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:play_real/home.dart';
 import 'package:play_real/players_count.dart';
 
+import 'audio_player.dart';
 import 'difficulty_level.dart';
 import 'game_screen.dart';
 import 'grid_button.dart';
@@ -16,6 +18,11 @@ class _GameDialogState extends State<GameDialog> {
   int _numberOfPlayers = 2;
   int count = 1;
   DifficultyLevel _selectedDifficulty = DifficultyLevel.Default;
+  final AudioPlayerHelper audioPlayerHelper = AudioPlayerHelper();
+
+  void playAudio() {
+    audioPlayerHelper.playAudio();
+  }
 
   void _onPlayerCountChanged(int count) {
     setState(() {
@@ -31,15 +38,19 @@ class _GameDialogState extends State<GameDialog> {
 
   int _selectedGridSize = 7;
 
-  void _selectGridSize(int gridSize) {
+  Future _selectGridSize(int gridSize) async {
     setState(() {
       _selectedGridSize = gridSize;
     });
   }
 
-  void _startGame() {
+  Future<void> _startGame() async {
     // Handle starting the game with selected options
     // Here, you can navigate to the game screen or perform any other desired action
+    // play audio
+    if (StartingScreenState.musicbutton) {
+      playAudio();
+    }
     debugPrint(
         'Starting game with $_numberOfPlayers players and $_selectedDifficulty difficulty level and $_selectedGridSize grid size');
     Navigator.push(
@@ -53,6 +64,12 @@ class _GameDialogState extends State<GameDialog> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    playAudio();
   }
 
   @override
