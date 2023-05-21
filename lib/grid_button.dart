@@ -20,8 +20,7 @@ class GridSizeButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () => onChanged(size),
         style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.all(8),
-          primary: isSelected ? Colors.blue : Colors.grey,
+          padding: const EdgeInsets.all(8), backgroundColor: isSelected ? Colors.blue : Colors.grey,
           shape: const StadiumBorder(),
         ),
         child: Text(

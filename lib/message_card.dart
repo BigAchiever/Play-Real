@@ -22,7 +22,7 @@ class ElevatedContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(18),
+      padding: const EdgeInsets.all(18),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius),

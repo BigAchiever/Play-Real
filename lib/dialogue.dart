@@ -212,7 +212,7 @@ class _GameDialogState extends State<GameDialog> {
                 child: ElevatedButton(
                   onPressed: _startGame,
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.green.shade600,
+                    backgroundColor: Colors.green.shade600,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 12),
                     shape: RoundedRectangleBorder(

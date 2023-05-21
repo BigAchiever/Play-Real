@@ -43,16 +43,15 @@ class DialogUtils {
                   Navigator.pop(context);
                   setStateCallback();
                 },
-                child: const Text("Fine, I wasn't cheating anyway 🙂"),
                 style: ElevatedButton.styleFrom(
-                  primary: const Color.fromARGB(255, 81, 99, 60),
-                  onPrimary: Colors.white,
+                  foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(255, 81, 99, 60),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
+                child: const Text("Fine, I wasn't cheating anyway 🙂"),
               ),
             ],
           ),

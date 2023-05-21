@@ -20,7 +20,7 @@ class PlayerCountButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () => onChanged(count),
         style: ElevatedButton.styleFrom(
-          primary: isSelected ? Colors.blue : Colors.grey,
+          backgroundColor: isSelected ? Colors.blue : Colors.grey,
           shape: const CircleBorder(),
         ),
         child: Text(

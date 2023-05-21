@@ -10,7 +10,7 @@ class QuitDialog {
         backgroundColor: Colors.black87,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: BorderSide(
+          side: const BorderSide(
             color: Colors.orange,
             width: 2,
           ),

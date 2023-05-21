@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class AnimatedBubbles extends StatelessWidget {
+  const AnimatedBubbles({super.key});
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;

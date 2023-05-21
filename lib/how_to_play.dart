@@ -57,7 +57,7 @@ class _HowToPlayState extends State<HowToPlay> {
       ),
       body: Stack(
         children: [
-          AnimatedBubbles(),
+          const AnimatedBubbles(),
           Container(
             height: size.height,
             width: size.width,

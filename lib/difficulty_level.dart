@@ -25,7 +25,7 @@ class DifficultyButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () => onChanged(level),
       style: ElevatedButton.styleFrom(
-        primary: isSelected ? Colors.blue : Colors.grey,
+        backgroundColor: isSelected ? Colors.blue : Colors.grey,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),

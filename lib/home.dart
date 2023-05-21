@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/dialogue.dart';
+import 'package:play_real/settings.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'audio_player.dart';
 import 'how_to_play.dart';
@@ -29,12 +31,13 @@ class StartingScreenState extends State<StartingScreen>
     vsync: this,
   )..repeat(reverse: true);
 
-  static bool musicbutton = false;
+  static bool musicbutton = true;
   bool lightmodedarkmode = false;
-  bool face = false;
+  bool isFacebookLoggedIn = false;
   bool showComingSoon = false;
-  final AudioPlayerHelper audioPlayerHelper = AudioPlayerHelper();
 
+  final AudioPlayerHelper audioPlayerHelper = AudioPlayerHelper();
+  final supabase = Supabase.instance.client;
   @override
   void initState() {
     super.initState();
@@ -49,6 +52,24 @@ class StartingScreenState extends State<StartingScreen>
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  // Facebbok login using supabase here
+  Future<void> _facebookLogin() async {
+    if (isFacebookLoggedIn) {
+      await supabase.auth.signOut();
+      setState(() {
+        isFacebookLoggedIn = false;
+      });
+    } else {
+      supabase.auth.signInWithOAuth(
+        Provider.facebook,
+        redirectTo: 'https://amjxawskarnqmksbgmme.supabase.co/auth/v1/callback',
+      );
+      setState(() {
+        isFacebookLoggedIn = true;
+      });
+    }
   }
 
   @override
@@ -72,7 +93,7 @@ class StartingScreenState extends State<StartingScreen>
             ),
           ),
         ),
-        AnimatedBubbles(),
+        const AnimatedBubbles(),
         Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -134,7 +155,6 @@ class StartingScreenState extends State<StartingScreen>
                             setState(() {
                               musicbutton = !musicbutton;
                             });
-
                             if (musicbutton) {
                               playAudio();
                             }
@@ -197,11 +217,14 @@ class StartingScreenState extends State<StartingScreen>
                             if (musicbutton) {
                               playAudio();
                             }
+                            _facebookLogin();
                           },
                           child: Image.asset(
-                            "assets/images/facebook.png",
+                            isFacebookLoggedIn
+                                ? "assets/images/facebook.png"
+                                : "assets/images/not_facebook.png",
                             color: Colors.grey[800],
-                            height: 24,
+                            height: isFacebookLoggedIn ? 24 : 48,
                           ),
                         ),
                       ),
@@ -363,6 +386,30 @@ class StartingScreenState extends State<StartingScreen>
                   if (musicbutton) {
                     playAudio();
                   }
+
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return FutureBuilder(
+                        future:
+                            Future.delayed(const Duration(milliseconds: 200)),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return const SettingsScreen(
+                              avatarImageUrl: '',
+                              gameDetails: 'Beginner',
+                              playerName: 'Player 1',
+                            );
+                          } else {
+                            return const LoadingScreen(
+                              text: 'Loading...',
+                            );
+                          }
+                        },
+                      );
+                    },
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green.shade600,
