@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:play_real/home.dart';
+import 'package:play_real/screens/home.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {

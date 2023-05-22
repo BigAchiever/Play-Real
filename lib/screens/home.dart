@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
-import 'package:play_real/dialogue.dart';
-import 'package:play_real/settings.dart';
+import 'package:play_real/dialog/game_detail_dialogue.dart';
+import 'package:play_real/dialog/settings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'audio_player.dart';
+import '../widgets/audio_player.dart';
 import 'how_to_play.dart';
-import 'loader.dart';
+import '../widgets/loader.dart';
 
 class StartingScreen extends StatefulWidget {
   const StartingScreen({super.key});

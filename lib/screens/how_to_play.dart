@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:play_real/loader.dart';
+import 'package:play_real/widgets/loader.dart';
 
-import 'background.dart';
+import '../background.dart';
 
 class HowToPlay extends StatefulWidget {
   const HowToPlay({super.key});
