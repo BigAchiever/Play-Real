@@ -135,7 +135,7 @@ class StartingScreenState extends State<StartingScreen>
               ),
             ),
             SizedBox(
-              height: size.height / 24,
+              height: size.height / 16,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
