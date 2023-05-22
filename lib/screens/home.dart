@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/dialog/game_detail_dialogue.dart';
 import 'package:play_real/dialog/settings.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+// import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../widgets/audio_player.dart';
 import 'how_to_play.dart';
@@ -37,7 +37,7 @@ class StartingScreenState extends State<StartingScreen>
   bool showComingSoon = false;
 
   final AudioPlayerHelper audioPlayerHelper = AudioPlayerHelper();
-  final supabase = Supabase.instance.client;
+  // final supabase = Supabase.instance.client;
   @override
   void initState() {
     super.initState();
@@ -54,23 +54,23 @@ class StartingScreenState extends State<StartingScreen>
     super.dispose();
   }
 
-  // Facebbok login using supabase here
-  Future<void> _facebookLogin() async {
-    if (isFacebookLoggedIn) {
-      await supabase.auth.signOut();
-      setState(() {
-        isFacebookLoggedIn = false;
-      });
-    } else {
-      supabase.auth.signInWithOAuth(
-        Provider.facebook,
-        redirectTo: 'https://amjxawskarnqmksbgmme.supabase.co/auth/v1/callback',
-      );
-      setState(() {
-        isFacebookLoggedIn = true;
-      });
-    }
-  }
+  // // Facebbok login using supabase here
+  // Future<void> _facebookLogin() async {
+  //   if (isFacebookLoggedIn) {
+  //     await supabase.auth.signOut();
+  //     setState(() {
+  //       isFacebookLoggedIn = false;
+  //     });
+  //   } else {
+  //     supabase.auth.signInWithOAuth(
+  //       Provider.facebook,
+  //       redirectTo: 'https://amjxawskarnqmksbgmme.supabase.co/auth/v1/callback',
+  //     );
+  //     setState(() {
+  //       isFacebookLoggedIn = true;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +99,7 @@ class StartingScreenState extends State<StartingScreen>
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              height: size.height / 14,
+              height: size.height / 12,
             ),
             ShaderMask(
               shaderCallback: (Rect bounds) {
@@ -108,7 +108,7 @@ class StartingScreenState extends State<StartingScreen>
               child: AnimatedBuilder(
                 animation: _controller,
                 builder: (context, child) {
-                  const ropeHeight = 20.0;
+                  const ropeHeight = 10.0;
                   final translateY =
                       (_controller.value * ropeHeight) - ropeHeight;
                   return Transform.translate(
@@ -217,7 +217,7 @@ class StartingScreenState extends State<StartingScreen>
                             if (musicbutton) {
                               playAudio();
                             }
-                            _facebookLogin();
+                            // _facebookLogin();
                           },
                           child: Image.asset(
                             isFacebookLoggedIn
@@ -233,7 +233,7 @@ class StartingScreenState extends State<StartingScreen>
                 ],
               ),
             ),
-            SizedBox(height: size.height / 14),
+            SizedBox(height: size.height / 12),
             SizedBox(
               height: 65,
               width: size.width / 1.5,

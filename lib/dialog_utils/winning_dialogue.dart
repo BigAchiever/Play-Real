@@ -18,7 +18,7 @@ class GameWonDialog {
         ),
         child: Container(
           width: 140,
-          height: 220,
+          height: 300,
           padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
