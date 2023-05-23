@@ -8,8 +8,8 @@ import 'package:play_real/widgets/dice.dart';
 import 'package:play_real/dialog/utils/difficulty_level.dart';
 import 'package:play_real/widgets/loader.dart';
 import 'package:play_real/dialog_utils/winning_dialogue.dart';
+import '../colors/player_colors.dart';
 import '../tasks/board_sentences.dart';
-import '../colors/color.dart';
 import 'home.dart';
 import '../widgets/message_card.dart';
 import '../models/player.dart';
@@ -529,7 +529,7 @@ class _GameScreenState extends State<GameScreen> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
-                              child: const Row(
+                              child:  Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(

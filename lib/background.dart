@@ -14,7 +14,7 @@ class AnimatedBubbles extends StatelessWidget {
         child: SizedBox(
           width: size.width,
           height: size.height,
-          child: const Stack(
+          child: Stack(
             children: [
               Positioned(
                 left: -20,
