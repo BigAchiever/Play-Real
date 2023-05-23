@@ -43,6 +43,8 @@ dependencies:
   audioplayers: ^4.0.1
   confetti: ^0.7.0
   supabase_flutter: 
+  shared_preferences: 
+
 
 
 
