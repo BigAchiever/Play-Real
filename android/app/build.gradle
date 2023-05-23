@@ -49,11 +49,7 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 21
-<<<<<<< HEAD
         targetSdkVersion 33
-=======
-        targetSdkVersion targetSdkVersion
->>>>>>> 7137c87995ef0f586d9d5bbb3b803b6211b94d55
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
