@@ -57,36 +57,27 @@ class StartingScreenState extends State<StartingScreen>
   }
 
   // Facebbok login using supabase here
-
   Future<void> _facebookLogin() async {
     final prefs = await SharedPreferences.getInstance();
     final isPreviouslyLoggedIn = prefs.getBool('isFacebookLoggedIn') ?? false;
 
-    if (isPreviouslyLoggedIn) {
-      // User is already authenticated, no need to sign in again
-      setState(() {
-        isFacebookLoggedIn = true;
-      });
-      return;
-    }
-
-    if (isFacebookLoggedIn) {
+    if (isFacebookLoggedIn || isPreviouslyLoggedIn) {
+      // User is already authenticated, sign out
       await supabase.auth.signOut();
       setState(() {
         isFacebookLoggedIn = false;
       });
+      await prefs.setBool('isFacebookLoggedIn', false);
     } else {
       supabase.auth.signInWithOAuth(
         Provider.facebook,
-        // redirectTo: 'https://amjxawskarnqmksbgmme.supabase.co/auth/v1/callback',
+        redirectTo: 'https://amjxawskarnqmksbgmme.supabase.co/auth/v1/callback',
       );
       setState(() {
         isFacebookLoggedIn = true;
       });
+      await prefs.setBool('isFacebookLoggedIn', true);
     }
-
-    // Storing status
-    await prefs.setBool('isFacebookLoggedIn', isFacebookLoggedIn);
   }
 
   @override
