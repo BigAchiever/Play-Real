@@ -21,30 +21,33 @@ class DialogUtils {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                'Turn Over',
+                'Turn Over!',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 24,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'Your turn is over! Complete your task for the game to continue.',
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white),
-                textAlign: TextAlign.center,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: const Text(
+                  'Your turn is over!\nComplete your task for the game to continue.',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white),
+                  textAlign: TextAlign.center,
+                ),
               ),
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  setStateCallback();
                 },
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(255, 81, 99, 60),
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.red,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   shape: RoundedRectangleBorder(

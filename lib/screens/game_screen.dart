@@ -115,7 +115,7 @@ class _GameScreenState extends State<GameScreen> {
         // currentPlayer.position += remainingSteps;
         if (kDebugMode) {
           print(
-            "noooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+              "noooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
         }
       } else {
         currentPlayer.position += diceNumber;
@@ -404,7 +404,7 @@ class _GameScreenState extends State<GameScreen> {
                                   ? currentPlayer.position >=
                                           _boardNumbers.length
                                       ? Text(
-                                          'Congratulations! Player ${currentPlayer.number} wins!',
+                                          'Congratulations! Player ${currentPlayer.number} wins! Press Done to continue.',
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.actor(
                                             fontSize: 18,
@@ -464,7 +464,8 @@ class _GameScreenState extends State<GameScreen> {
                                   });
                                 } else {}
                               },
-                              backgroundColor: const Color.fromARGB(255, 105, 33, 28),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 105, 33, 28),
                               foregroundColor: Colors.white,
                               focusColor: Colors.grey,
                               shape: RoundedRectangleBorder(
@@ -479,10 +480,10 @@ class _GameScreenState extends State<GameScreen> {
                                       const Text(
                                         'Failed 💀',
                                         style: TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: "GameFont",
-                                          color: Colors.white,
-                                        ),
+                                            fontSize: 16,
+                                            fontFamily: "GameFont",
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500),
                                       ),
                                       Text(
                                         '(-5 Steps)',
@@ -523,17 +524,17 @@ class _GameScreenState extends State<GameScreen> {
                               },
                               backgroundColor: _isPlayerTurnComplete
                                   ? Colors.grey
-                                  : const Color.fromARGB(255, 42, 181, 46),
+                                  : Color.fromARGB(255, 30, 135, 33),
                               foregroundColor: Colors.white,
                               focusColor: Colors.grey,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
-                              child:  Row(
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Done 🥳',
+                                    'Done 😎',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontFamily: "GameFont",

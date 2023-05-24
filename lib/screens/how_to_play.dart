@@ -67,9 +67,7 @@ class _HowToPlayState extends State<HowToPlay> {
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.black.withOpacity(0.8),
-                  Colors.red.withOpacity(0.8),
-                  // Colors.black.withOpacity(0.8),
-                  // Colors.red.withOpacity(0.8),
+                  Colors.red.shade600.withOpacity(0.8),
                 ],
               ),
             ),

@@ -45,7 +45,6 @@ class _GameDialogState extends State<GameDialog> {
   }
 
   Future<void> _startGame() async {
-   
     // play audio
     if (StartingScreenState.musicbutton == true) {
       playAudio();
@@ -94,22 +93,22 @@ class _GameDialogState extends State<GameDialog> {
               child: Text(
                 'New Game',
                 style: TextStyle(
-                  fontSize: 24,
-                  fontFamily: "GameFont",
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
+                    fontSize: 28,
+                    fontFamily: "GameFont",
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    letterSpacing: 1.2),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 28),
             const Text(
               'Number of Players:',
               style: TextStyle(
-                fontSize: 16,
-                fontFamily: "GameFont",
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-              ),
+                  fontSize: 18,
+                  fontFamily: "GameFont",
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  letterSpacing: 1.1),
             ),
             const SizedBox(height: 8),
             Wrap(
@@ -203,7 +202,7 @@ class _GameDialogState extends State<GameDialog> {
                 ),
               ],
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 50),
             Center(
               child: SizedBox(
                 width: size.width / 2,

@@ -20,7 +20,8 @@ class GridSizeButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () => onChanged(size),
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.all(8), backgroundColor: isSelected ? Colors.blue : Colors.grey,
+          padding: const EdgeInsets.all(8),
+          backgroundColor: isSelected ? Colors.red : Colors.white30,
           shape: const StadiumBorder(),
         ),
         child: Text(
@@ -30,6 +31,7 @@ class GridSizeButton extends StatelessWidget {
             fontFamily: "GameFont",
             fontWeight: FontWeight.w500,
             color: Colors.white,
+            letterSpacing: 1.1,
           ),
         ),
       ),

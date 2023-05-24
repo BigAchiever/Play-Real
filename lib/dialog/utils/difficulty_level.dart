@@ -25,18 +25,18 @@ class DifficultyButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () => onChanged(level),
       style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected ? Colors.blue : Colors.grey,
+        backgroundColor: isSelected ? Colors.red : Colors.white30,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),
       child: Text(
         level.toString().split('.').last,
         style: const TextStyle(
-          fontSize: 14,
-          fontFamily: "GameFont",
-          fontWeight: FontWeight.w500,
-          color: Colors.white,
-        ),
+            fontSize: 14,
+            fontFamily: "GameFont",
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+            letterSpacing: 1.1,),
       ),
     );
   }

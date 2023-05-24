@@ -31,7 +31,7 @@ class QuitDialog {
               ),
               const SizedBox(height: 16),
               const Text(
-                'Are you sure you want to quit the game? 🥺',
+                'Are you sure you want to quit the game?',
                 style: TextStyle(fontSize: 18, color: Colors.white),
                 textAlign: TextAlign.center,
               ),
@@ -49,14 +49,14 @@ class QuitDialog {
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: const Color.fromARGB(255, 81, 99, 60),
+                      backgroundColor: Colors.red,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text("Yes 😔"),
+                    child: const Text("Yes"),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -64,14 +64,14 @@ class QuitDialog {
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Colors.grey,
+                      backgroundColor: Colors.white30,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text("No 🙄"),
+                    child: const Text("No"),
                   ),
                 ],
               ),

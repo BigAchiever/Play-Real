@@ -60,7 +60,6 @@ class StartingScreenState extends State<StartingScreen>
   Future<void> _facebookLogin() async {
     final prefs = await SharedPreferences.getInstance();
     final isPreviouslyLoggedIn = prefs.getBool('isFacebookLoggedIn') ?? false;
-
     if (isFacebookLoggedIn || isPreviouslyLoggedIn) {
       // User is already authenticated, sign out
       await supabase.auth.signOut();
@@ -96,7 +95,7 @@ class StartingScreenState extends State<StartingScreen>
               end: Alignment.bottomCenter,
               colors: [
                 Colors.black.withOpacity(0.8),
-                Colors.red.withOpacity(0.8),
+                Colors.red.shade600.withOpacity(0.8),
               ],
             ),
           ),
@@ -155,7 +154,8 @@ class StartingScreenState extends State<StartingScreen>
                       SizedBox(
                         width: size.width / 8,
                         child: FloatingActionButton(
-                          backgroundColor: Colors.yellowAccent[700],
+                          backgroundColor:
+                              const Color.fromARGB(255, 185, 64, 61),
                           heroTag: "btn1",
                           shape: const CircleBorder(
                               side: BorderSide(color: Colors.black, width: 3)),
@@ -169,14 +169,14 @@ class StartingScreenState extends State<StartingScreen>
                           },
                           child: Icon(
                             musicbutton ? Icons.music_note : Icons.music_off,
-                            color: Colors.grey[800],
+                            color: Colors.white,
                           ),
                         ),
                       ),
                       SizedBox(
                         width: size.width / 8,
                         child: FloatingActionButton(
-                          backgroundColor: Colors.yellowAccent[700],
+                          backgroundColor: Color.fromARGB(255, 185, 64, 61),
                           heroTag: "btn2",
                           shape: const CircleBorder(
                               side: BorderSide(color: Colors.black, width: 3)),
@@ -187,14 +187,14 @@ class StartingScreenState extends State<StartingScreen>
                           },
                           child: Icon(
                             Icons.leaderboard,
-                            color: Colors.grey[800],
+                            color: Colors.white,
                           ),
                         ),
                       ),
                       SizedBox(
                         width: size.width / 8,
                         child: FloatingActionButton(
-                          backgroundColor: Colors.yellowAccent[700],
+                          backgroundColor: Color.fromARGB(255, 185, 64, 61),
                           heroTag: "btn3",
                           shape: const CircleBorder(
                               side: BorderSide(color: Colors.black, width: 3)),
@@ -210,14 +210,14 @@ class StartingScreenState extends State<StartingScreen>
                             lightmodedarkmode
                                 ? Icons.light_mode
                                 : Icons.dark_mode,
-                            color: Colors.grey[800],
+                            color: Colors.white,
                           ),
                         ),
                       ),
                       SizedBox(
                         width: size.width / 8,
                         child: FloatingActionButton(
-                          backgroundColor: Colors.yellowAccent[700],
+                          backgroundColor: Color.fromARGB(255, 185, 64, 61),
                           heroTag: "btn4",
                           shape: const CircleBorder(
                               side: BorderSide(color: Colors.black, width: 3)),
@@ -231,7 +231,7 @@ class StartingScreenState extends State<StartingScreen>
                             isFacebookLoggedIn
                                 ? "assets/images/facebook.png"
                                 : "assets/images/not_facebook.png",
-                            color: Colors.grey[800],
+                            color: Colors.white,
                             height: isFacebookLoggedIn ? 24 : 48,
                           ),
                         ),
@@ -272,7 +272,7 @@ class StartingScreenState extends State<StartingScreen>
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green.shade600,
+                  backgroundColor: Colors.red.shade600,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -286,7 +286,8 @@ class StartingScreenState extends State<StartingScreen>
                 ),
                 child: const Text(
                   'Start Game 🎭',
-                  style: TextStyle(fontFamily: 'GameFont', fontSize: 30),
+                  style: TextStyle(
+                      fontFamily: 'GameFont', fontSize: 30, letterSpacing: 1.1),
                 ),
               ),
             ),
@@ -309,7 +310,7 @@ class StartingScreenState extends State<StartingScreen>
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green.shade600,
+                  backgroundColor: Colors.red.shade600,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -323,7 +324,8 @@ class StartingScreenState extends State<StartingScreen>
                 ),
                 child: const Text(
                   'How to Play?',
-                  style: TextStyle(fontFamily: "GameFont", fontSize: 28),
+                  style: TextStyle(
+                      fontFamily: "GameFont", fontSize: 28, letterSpacing: 1.1),
                 ),
               ),
             ),
@@ -348,7 +350,7 @@ class StartingScreenState extends State<StartingScreen>
                   });
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green.shade600,
+                  backgroundColor: Colors.red.shade600,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -368,7 +370,10 @@ class StartingScreenState extends State<StartingScreen>
                       duration: const Duration(milliseconds: 500),
                       child: const Text(
                         'Coming Soon!',
-                        style: TextStyle(fontFamily: "GameFont", fontSize: 28),
+                        style: TextStyle(
+                            fontFamily: "GameFont",
+                            fontSize: 28,
+                            letterSpacing: 1.1),
                       ),
                     ),
                     AnimatedOpacity(
@@ -376,7 +381,10 @@ class StartingScreenState extends State<StartingScreen>
                       duration: const Duration(milliseconds: 500),
                       child: const Text(
                         'Online Multiplayer',
-                        style: TextStyle(fontFamily: "GameFont", fontSize: 28),
+                        style: TextStyle(
+                            fontFamily: "GameFont",
+                            fontSize: 28,
+                            letterSpacing: 1.1),
                       ),
                     ),
                   ],
@@ -420,7 +428,7 @@ class StartingScreenState extends State<StartingScreen>
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green.shade600,
+                  backgroundColor: Colors.red.shade600,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -437,7 +445,7 @@ class StartingScreenState extends State<StartingScreen>
                   style: TextStyle(
                     fontFamily: "GameFont",
                     fontSize: 28,
-                    letterSpacing: 1,
+                    letterSpacing: 1.1,
                   ),
                 ),
               ),
