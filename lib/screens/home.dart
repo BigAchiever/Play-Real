@@ -67,6 +67,14 @@ class StartingScreenState extends State<StartingScreen>
         isFacebookLoggedIn = false;
       });
       await prefs.setBool('isFacebookLoggedIn', false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Signed out successful',
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
     } else {
       supabase.auth.signInWithOAuth(
         Provider.facebook,
