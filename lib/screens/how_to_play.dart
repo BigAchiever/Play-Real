@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:play_real/colors/theme/themedata.dart';
+import 'package:play_real/screens/home.dart';
 import 'package:play_real/widgets/loader.dart';
 
 import '../background.dart';
@@ -35,7 +36,9 @@ class _HowToPlayState extends State<HowToPlay> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: Colors.transparent.withOpacity(0.8),
+        backgroundColor: StartingScreenState.lightmodedarkmode
+            ? lightGradientColor1
+            : gradientColor1,
         elevation: 0,
         leading: IconButton(
           icon: Icon(
@@ -48,10 +51,12 @@ class _HowToPlayState extends State<HowToPlay> {
         title: Text(
           "How to Play",
           style: TextStyle(
-            fontSize: 28,
+            fontSize: 30,
             fontFamily: "GameFont",
             fontWeight: FontWeight.w500,
-            color: textColor,
+            color: StartingScreenState.lightmodedarkmode
+                ? Colors.tealAccent
+                : textColor,
           ),
         ),
         centerTitle: true,
@@ -67,8 +72,21 @@ class _HowToPlayState extends State<HowToPlay> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  gradientColor1,
-                  gradientColor2,
+                  StartingScreenState.lightmodedarkmode
+                      ? lightGradientColor1
+                      : gradientColor1,
+
+                  // the whole screen will be of same gradient
+                  if (StartingScreenState.lightmodedarkmode == true)
+                    StartingScreenState.lightmodedarkmode
+                        ? lightGradientColor1
+                        : gradientColor1,
+
+                  // else the whole screen will have two gradient colors
+                  if (StartingScreenState.lightmodedarkmode == false)
+                    StartingScreenState.lightmodedarkmode
+                        ? lightGradientColor2
+                        : gradientColor2,
                 ],
               ),
             ),
@@ -85,8 +103,10 @@ class _HowToPlayState extends State<HowToPlay> {
                           style: GoogleFonts.actor(
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
-                            fontWeight: FontWeight.w500,
-                            color: textColor,
+                            fontWeight: FontWeight.w600,
+                            color: StartingScreenState.lightmodedarkmode
+                                ? Colors.tealAccent
+                                : textColor,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -101,8 +121,10 @@ class _HowToPlayState extends State<HowToPlay> {
                           style: GoogleFonts.actor(
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
-                            fontWeight: FontWeight.w500,
-                            color: textColor,
+                            fontWeight: FontWeight.w600,
+                            color: StartingScreenState.lightmodedarkmode
+                                ? lightbuttonForegroundColor
+                                : textColor,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -117,8 +139,10 @@ class _HowToPlayState extends State<HowToPlay> {
                           style: GoogleFonts.actor(
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
-                            fontWeight: FontWeight.w500,
-                            color: textColor,
+                            fontWeight: FontWeight.w600,
+                            color: StartingScreenState.lightmodedarkmode
+                                ? lightbuttonForegroundColor
+                                : textColor,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -133,8 +157,10 @@ class _HowToPlayState extends State<HowToPlay> {
                           style: GoogleFonts.actor(
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
-                            fontWeight: FontWeight.w500,
-                            color: textColor,
+                            fontWeight: FontWeight.w600,
+                            color: StartingScreenState.lightmodedarkmode
+                                ? lightbuttonForegroundColor
+                                : textColor,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -149,8 +175,10 @@ class _HowToPlayState extends State<HowToPlay> {
                           style: GoogleFonts.actor(
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
-                            fontWeight: FontWeight.w500,
-                            color: textColor,
+                            fontWeight: FontWeight.w600,
+                            color: StartingScreenState.lightmodedarkmode
+                                ? lightbuttonForegroundColor
+                                : textColor,
                           ),
                         ),
                         Image.asset(
@@ -164,8 +192,10 @@ class _HowToPlayState extends State<HowToPlay> {
                           style: GoogleFonts.actor(
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
-                            fontWeight: FontWeight.w500,
-                            color: textColor,
+                            fontWeight: FontWeight.w600,
+                            color: StartingScreenState.lightmodedarkmode
+                                ? lightbuttonForegroundColor
+                                : textColor,
                           ),
                         ),
                         Image.asset(
@@ -179,8 +209,10 @@ class _HowToPlayState extends State<HowToPlay> {
                           style: GoogleFonts.actor(
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
-                            fontWeight: FontWeight.w500,
-                            color: textColor,
+                            fontWeight: FontWeight.w600,
+                            color: StartingScreenState.lightmodedarkmode
+                                ? lightbuttonForegroundColor
+                                : textColor,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -195,8 +227,10 @@ class _HowToPlayState extends State<HowToPlay> {
                           style: GoogleFonts.actor(
                             fontSize: 18,
                             // fontFamily: "DragonHunters",
-                            fontWeight: FontWeight.w500,
-                            color: textColor,
+                            fontWeight: FontWeight.w600,
+                            color: StartingScreenState.lightmodedarkmode
+                                ? lightbuttonForegroundColor
+                                : textColor,
                           ),
                         ),
                       ],

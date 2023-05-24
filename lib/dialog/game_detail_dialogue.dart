@@ -76,7 +76,9 @@ class _GameDialogState extends State<GameDialog> {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 8,
-      backgroundColor: Colors.black87,
+      backgroundColor: StartingScreenState.lightmodedarkmode
+          ? lightStartGameDialogColor
+          : startGameDialogColor,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -211,7 +213,9 @@ class _GameDialogState extends State<GameDialog> {
                 child: ElevatedButton(
                   onPressed: _startGame,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: CommonButton2,
+                    backgroundColor: StartingScreenState.lightmodedarkmode
+                        ? lightCommonButton1
+                        : CommonButton,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 12),
                     shape: RoundedRectangleBorder(
@@ -221,11 +225,12 @@ class _GameDialogState extends State<GameDialog> {
                   child: Text(
                     'Lets Go!',
                     style: TextStyle(
-                      fontSize: 22,
-                      fontFamily: "GameFont",
-                      fontWeight: FontWeight.w500,
-                      color: textColor,
-                    ),
+                        fontSize: 22,
+                        fontFamily: "GameFont",
+                        fontWeight: FontWeight.w500,
+                        color: StartingScreenState.lightmodedarkmode
+                            ? lightbuttonForegroundColor
+                            : buttonForegroundColor),
                   ),
                 ),
               ),

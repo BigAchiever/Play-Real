@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:play_real/screens/home.dart';
+
 class Dice extends StatefulWidget {
   final void Function(int diceNumber) onDiceRolled;
 
@@ -81,7 +83,8 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: _isPressed ? const Color(0xFFA51008) : const Color(0xFFF34D49),
+          color:
+              _isPressed ? const Color(0xFFA51008) : Colors.deepOrange.shade400,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.25),
@@ -99,16 +102,6 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
             Container(
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFF1F1B24),
-                    Color(0xFF352E3D),
-                    Color(0xFF352E3D),
-                    Color(0xFF1F1B24),
-                  ],
-                ),
               ),
             ),
             RotationTransition(
@@ -116,18 +109,29 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
               child: Container(
                 width: 70,
                 height: 70,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF2D2939),
-                      Color(0xFF423D4F),
-                      Color(0xFF423D4F),
-                      Color(0xFF2D2939),
-                    ],
-                  ),
+                  gradient: StartingScreenState.lightmodedarkmode
+                      ? LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color.fromARGB(255, 44, 40, 56),
+                            Color.fromARGB(255, 114, 97, 157),
+                            Color.fromARGB(255, 53, 35, 95),
+                            Color.fromARGB(255, 65, 61, 79),
+                          ],
+                        )
+                      : LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(0xFF1F1B24),
+                            Color(0xFF352E3D),
+                            Color(0xFF352E3D),
+                            Color(0xFF1F1B24),
+                          ],
+                        ),
                 ),
                 child: Center(
                   child: Text(

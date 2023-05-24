@@ -1,6 +1,7 @@
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:play_real/colors/theme/themedata.dart';
+import 'package:play_real/screens/home.dart';
 
 class LoadingScreen extends StatelessWidget {
   final String text;
@@ -22,7 +23,9 @@ class LoadingScreen extends StatelessWidget {
             child: Text(
               text,
               style: TextStyle(
-                  color: textColor,
+                  color: StartingScreenState.lightmodedarkmode
+                      ? lightbuttonForegroundColor
+                      : textColor,
                   fontSize: 24,
                   fontFamily: "GameFont",
                   fontWeight: FontWeight.w500),
@@ -31,7 +34,9 @@ class LoadingScreen extends StatelessWidget {
           ),
           Center(
             child: SpinKitFoldingCube(
-              color: borderColor,
+              color: StartingScreenState.lightmodedarkmode
+                  ? Colors.lightBlue.shade500
+                  : borderColor,
               size: 50.0,
             ),
           ),

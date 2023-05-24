@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:play_real/colors/theme/themedata.dart';
+import 'package:play_real/screens/home.dart';
 
 class ElevatedContainer extends StatelessWidget {
   final Widget child;
@@ -26,11 +27,15 @@ class ElevatedContainer extends StatelessWidget {
           color: messageBoxColor.withOpacity(0.4),
           boxShadow: [
             BoxShadow(
-              color: messageBoxColor.withOpacity(0.8),
+              color: StartingScreenState.lightmodedarkmode
+                  ? lightMessageBoxColor.withOpacity(0.8)
+                  : messageBoxColor.withOpacity(0.8),
             ),
           ],
           border: Border.all(
-            color: borderColor,
+            color: StartingScreenState.lightmodedarkmode
+                ? lightButtonBorderColor
+                : borderColor,
             width: borderWidth,
           ),
         ),

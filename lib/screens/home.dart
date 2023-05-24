@@ -22,7 +22,7 @@ class StartingScreen extends StatefulWidget {
 class StartingScreenState extends State<StartingScreen>
     with SingleTickerProviderStateMixin {
   Shader createGameTextureShader(Rect rect) {
-    const gradient = LinearGradient(
+    final gradient = LinearGradient(
       colors: [Colors.yellow, Colors.green, Colors.white],
     );
     return gradient.createShader(rect);
@@ -35,7 +35,7 @@ class StartingScreenState extends State<StartingScreen>
   )..repeat(reverse: true);
 
   static bool musicbutton = true;
-  bool lightmodedarkmode = false;
+  static bool lightmodedarkmode = false;
   bool isFacebookLoggedIn = false;
   bool showComingSoon = false;
 
@@ -103,363 +103,421 @@ class StartingScreenState extends State<StartingScreen>
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.black.withOpacity(0.8),
-                Colors.red.shade600.withOpacity(0.8),
+                lightmodedarkmode ? lightGradientColor1 : gradientColor1,
+                lightmodedarkmode ? lightGradientColor2 : gradientColor2,
               ],
             ),
           ),
         ),
         const AnimatedBubbles(),
         Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: size.height / 12,
-            ),
-            ShaderMask(
-              shaderCallback: (Rect bounds) {
-                return createGameTextureShader(bounds);
-              },
-              child: AnimatedBuilder(
-                animation: _controller,
-                builder: (context, child) {
-                  const ropeHeight = 10.0;
-                  final translateY =
-                      (_controller.value * ropeHeight) - ropeHeight;
-                  return Transform.translate(
-                    offset: Offset(0, translateY),
-                    child: child,
-                  );
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                height: size.height / 24,
+              ),
+              ShaderMask(
+                shaderCallback: (Rect bounds) {
+                  return createGameTextureShader(bounds);
                 },
-                child: Text(
-                  "PLAY REAL",
-                  style: TextStyle(
-                    fontSize: 80,
-                    fontFamily: "GameFont",
-                    fontWeight: FontWeight.w500,
-                    color: buttonForegroundColor,
-                    shadows: [
-                      Shadow(
-                        color: Colors.black,
-                        blurRadius: 0,
-                        offset: Offset(0, -6),
-                      ),
-                    ],
+                child: AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, child) {
+                    const ropeHeight = 10.0;
+                    final translateY =
+                        ropeHeight * _controller.value - ropeHeight / 2;
+                    return Transform.translate(
+                      offset: Offset(0, translateY),
+                      child: child,
+                    );
+                  },
+                  child: Text(
+                    "PLAY REAL",
+                    style: TextStyle(
+                      fontSize: size.width / 5,
+                      fontFamily: "GameFont",
+                      fontWeight: FontWeight.w500,
+                      color: lightmodedarkmode
+                          ? lightbuttonForegroundColor
+                          : buttonForegroundColor,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black,
+                          blurRadius: 0,
+                          offset: Offset(0, 4),
+                        ),
+                        Shadow(
+                          color: Colors.blue,
+                          blurRadius: 0,
+                          offset: Offset(0, -4),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: size.height / 16,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Column(
-                    children: [
-                      SizedBox(
-                        width: size.width / 8,
-                        child: FloatingActionButton(
-                          backgroundColor: CommonButton2,
-                          heroTag: "btn1",
-                          shape: const CircleBorder(
-                              side: BorderSide(color: Colors.black, width: 3)),
-                          onPressed: () {
-                            setState(() {
-                              musicbutton = !musicbutton;
-                            });
-                            if (musicbutton) {
-                              playAudio();
-                            }
-                          },
-                          child: Icon(
-                            musicbutton ? Icons.music_note : Icons.music_off,
-                            color: buttonForegroundColor,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: size.width / 8,
-                        child: FloatingActionButton(
-                          backgroundColor: CommonButton2,
-                          heroTag: "btn2",
-                          shape: const CircleBorder(
-                              side: BorderSide(color: Colors.black, width: 3)),
-                          onPressed: () {
-                            if (musicbutton) {
-                              playAudio();
-                            }
-                          },
-                          child: Icon(
-                            Icons.leaderboard,
-                            color: buttonForegroundColor,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: size.width / 8,
-                        child: FloatingActionButton(
-                          backgroundColor: CommonButton2,
-                          heroTag: "btn3",
-                          shape: const CircleBorder(
-                              side: BorderSide(color: Colors.black, width: 3)),
-                          onPressed: () {
-                            if (musicbutton) {
-                              playAudio();
-                            }
-                            setState(() {
-                              lightmodedarkmode = !lightmodedarkmode;
-                            });
-                          },
-                          child: Icon(
-                            lightmodedarkmode
-                                ? Icons.light_mode
-                                : Icons.dark_mode,
-                            color: buttonForegroundColor,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: size.width / 8,
-                        child: FloatingActionButton(
-                          backgroundColor: CommonButton2,
-                          heroTag: "btn4",
-                          shape: const CircleBorder(
-                              side: BorderSide(color: Colors.black, width: 3)),
-                          onPressed: () {
-                            if (musicbutton) {
-                              playAudio();
-                            }
-                            _facebookLogin();
-                          },
-                          child: Image.asset(
-                            isFacebookLoggedIn
-                                ? "assets/images/facebook.png"
-                                : "assets/images/not_facebook.png",
-                            color: buttonForegroundColor,
-                            height: isFacebookLoggedIn ? 24 : 48,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+              SizedBox(
+                height: size.height / 24,
               ),
-            ),
-            SizedBox(height: size.height / 12),
-            SizedBox(
-              height: 65,
-              width: size.width / 1.5,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (musicbutton) {
-                    playAudio();
-                  }
-
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return FutureBuilder(
-                        future:
-                            Future.delayed(const Duration(milliseconds: 200)),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            return const GameDialog();
-                          } else {
-                            return const LoadingScreen(
-                              text: 'Loading...',
-                            );
-                          }
-                        },
-                      );
-                    },
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: CommonButton,
-                  foregroundColor: buttonForegroundColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    side: const BorderSide(
-                      color: Colors.black,
-                      width: 3,
-                    ),
-                  ),
-                  elevation: 0,
-                  visualDensity: VisualDensity.standard,
-                ),
-                child: const Text(
-                  'Start Game 🎭',
-                  style: TextStyle(
-                      fontFamily: 'GameFont', fontSize: 30, letterSpacing: 1.1),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 60,
-              width: size.width / 1.8,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (musicbutton) {
-                    playAudio();
-                  }
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HowToPlay(),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: CommonButton,
-                  foregroundColor: buttonForegroundColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    side: const BorderSide(
-                      color: Colors.black,
-                      width: 3,
-                    ),
-                  ),
-                  elevation: 0,
-                  visualDensity: VisualDensity.standard,
-                ),
-                child: const Text(
-                  'How to Play?',
-                  style: TextStyle(
-                      fontFamily: "GameFont", fontSize: 28, letterSpacing: 1.1),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 60,
-              width: MediaQuery.of(context).size.width / 1.4,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (musicbutton) {
-                    playAudio();
-                  }
-                  setState(() {
-                    showComingSoon = true;
-                    Future.delayed(const Duration(seconds: 3), () {
-                      setState(() {
-                        showComingSoon = false;
-                      });
-                    });
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: CommonButton,
-                  foregroundColor: buttonForegroundColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    side: const BorderSide(
-                      color: Colors.black,
-                      width: 3,
-                    ),
-                  ),
-                  elevation: 0,
-                  visualDensity: VisualDensity.standard,
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    AnimatedOpacity(
-                      opacity: showComingSoon ? 1.0 : 0.0,
-                      duration: const Duration(milliseconds: 500),
-                      child: const Text(
-                        'Coming Soon!',
-                        style: TextStyle(
-                            fontFamily: "GameFont",
-                            fontSize: 28,
-                            letterSpacing: 1.1),
-                      ),
-                    ),
-                    AnimatedOpacity(
-                      opacity: showComingSoon ? 0.0 : 1.0,
-                      duration: const Duration(milliseconds: 500),
-                      child: const Text(
-                        'Online Multiplayer',
-                        style: TextStyle(
-                            fontFamily: "GameFont",
-                            fontSize: 28,
-                            letterSpacing: 1.1),
-                      ),
+                    Column(
+                      children: [
+                        SizedBox(
+                          width: size.width / 8,
+                          child: FloatingActionButton(
+                            backgroundColor: lightmodedarkmode
+                                ? lightCommonButton2
+                                : CommonButton2,
+                            heroTag: "btn1",
+                            shape: CircleBorder(
+                                side: BorderSide(
+                                    color: lightmodedarkmode
+                                        ? lightButtonBorderColor
+                                        : buttonBorderColor,
+                                    width: 3)),
+                            onPressed: () {
+                              setState(() {
+                                musicbutton = !musicbutton;
+                              });
+                              if (musicbutton) {
+                                playAudio();
+                              }
+                            },
+                            child: Icon(
+                              musicbutton ? Icons.music_note : Icons.music_off,
+                              color: lightmodedarkmode
+                                  ? lightbuttonForegroundColor
+                                  : buttonForegroundColor,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: size.width / 8,
+                          child: FloatingActionButton(
+                            backgroundColor: lightmodedarkmode
+                                ? lightCommonButton2
+                                : CommonButton2,
+                            heroTag: "btn2",
+                            shape: CircleBorder(
+                                side: BorderSide(
+                                    color: lightmodedarkmode
+                                        ? lightButtonBorderColor
+                                        : buttonBorderColor,
+                                    width: 3)),
+                            onPressed: () {
+                              if (musicbutton) {
+                                playAudio();
+                              }
+                            },
+                            child: Icon(
+                              Icons.leaderboard,
+                              color: lightmodedarkmode
+                                  ? lightbuttonForegroundColor
+                                  : buttonForegroundColor,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: size.width / 8,
+                          child: FloatingActionButton(
+                            backgroundColor: lightmodedarkmode
+                                ? lightCommonButton2
+                                : CommonButton2,
+                            heroTag: "btn3",
+                            shape: CircleBorder(
+                                side: BorderSide(
+                                    color: lightmodedarkmode
+                                        ? lightButtonBorderColor
+                                        : buttonBorderColor,
+                                    width: 3)),
+                            onPressed: () {
+                              if (musicbutton) {
+                                playAudio();
+                              }
+                              setState(() {
+                                lightmodedarkmode = !lightmodedarkmode;
+                              });
+                            },
+                            child: Icon(
+                              lightmodedarkmode
+                                  ? Icons.light_mode
+                                  : Icons.dark_mode,
+                              color: lightmodedarkmode
+                                  ? lightbuttonForegroundColor
+                                  : buttonForegroundColor,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: size.width / 8,
+                          child: FloatingActionButton(
+                            backgroundColor: lightmodedarkmode
+                                ? lightCommonButton2
+                                : CommonButton2,
+                            heroTag: "btn4",
+                            shape: CircleBorder(
+                                side: BorderSide(
+                                    color: lightmodedarkmode
+                                        ? lightButtonBorderColor
+                                        : buttonBorderColor,
+                                    width: 3)),
+                            onPressed: () {
+                              if (musicbutton) {
+                                playAudio();
+                              }
+                              _facebookLogin();
+                            },
+                            child: Image.asset(
+                              isFacebookLoggedIn
+                                  ? "assets/images/facebook.png"
+                                  : "assets/images/not_facebook.png",
+                              color: lightmodedarkmode
+                                  ? lightbuttonForegroundColor
+                                  : buttonForegroundColor,
+                              height: isFacebookLoggedIn ? 24 : 48,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 60,
-              width: size.width / 2.3,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (musicbutton) {
-                    playAudio();
-                  }
+              SizedBox(height: size.height / 18),
+              SizedBox(
+                height: 65,
+                width: size.width / 1.5,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (musicbutton) {
+                      playAudio();
+                    }
 
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return FutureBuilder(
-                        future:
-                            Future.delayed(const Duration(milliseconds: 200)),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            return const SettingsScreen(
-                              avatarImageUrl: '',
-                              gameDetails: 'Beginner',
-                              playerName: 'Player 1',
-                            );
-                          } else {
-                            return const LoadingScreen(
-                              text: 'Loading...',
-                            );
-                          }
-                        },
-                      );
-                    },
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: CommonButton,
-                  foregroundColor: buttonForegroundColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    side: const BorderSide(
-                      color: Colors.black,
-                      width: 3,
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return FutureBuilder(
+                          future:
+                              Future.delayed(const Duration(milliseconds: 200)),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return const GameDialog();
+                            } else {
+                              return const LoadingScreen(
+                                text: 'Loading...',
+                              );
+                            }
+                          },
+                        );
+                      },
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        lightmodedarkmode ? lightCommonButton1 : CommonButton,
+                    foregroundColor: lightmodedarkmode
+                        ? lightbuttonForegroundColor
+                        : buttonForegroundColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      side: BorderSide(
+                        color: lightmodedarkmode
+                            ? lightButtonBorderColor
+                            : buttonBorderColor,
+                        width: 3,
+                      ),
                     ),
+                    elevation: 0,
+                    visualDensity: VisualDensity.standard,
                   ),
-                  elevation: 0,
-                  visualDensity: VisualDensity.standard,
-                ),
-                child: const Text(
-                  'Settings',
-                  style: TextStyle(
-                    fontFamily: "GameFont",
-                    fontSize: 28,
-                    letterSpacing: 1.1,
+                  child: const Text(
+                    'Start Game 🎭',
+                    style: TextStyle(
+                        fontFamily: 'GameFont',
+                        fontSize: 30,
+                        letterSpacing: 1.1),
                   ),
                 ),
               ),
-            ),
-          ],
-        )),
+              SizedBox(
+                height: 60,
+                width: size.width / 1.8,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (musicbutton) {
+                      playAudio();
+                    }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HowToPlay(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        lightmodedarkmode ? lightCommonButton1 : CommonButton,
+                    foregroundColor: lightmodedarkmode
+                        ? lightbuttonForegroundColor
+                        : buttonForegroundColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      side: BorderSide(
+                        color: lightmodedarkmode
+                            ? lightButtonBorderColor
+                            : buttonBorderColor,
+                        width: 3,
+                      ),
+                    ),
+                    elevation: 0,
+                    visualDensity: VisualDensity.standard,
+                  ),
+                  child: const Text(
+                    'How to Play?',
+                    style: TextStyle(
+                        fontFamily: "GameFont",
+                        fontSize: 28,
+                        letterSpacing: 1.1),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 60,
+                width: MediaQuery.of(context).size.width / 1.4,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (musicbutton) {
+                      playAudio();
+                    }
+                    setState(() {
+                      showComingSoon = true;
+                      Future.delayed(const Duration(seconds: 3), () {
+                        setState(() {
+                          showComingSoon = false;
+                        });
+                      });
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        lightmodedarkmode ? lightCommonButton1 : CommonButton,
+                    foregroundColor: lightmodedarkmode
+                        ? lightbuttonForegroundColor
+                        : buttonForegroundColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      side: BorderSide(
+                        color: lightmodedarkmode
+                            ? lightButtonBorderColor
+                            : buttonBorderColor,
+                        width: 3,
+                      ),
+                    ),
+                    elevation: 0,
+                    visualDensity: VisualDensity.standard,
+                  ),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      AnimatedOpacity(
+                        opacity: showComingSoon ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 500),
+                        child: const Text(
+                          'Coming Soon!',
+                          style: TextStyle(
+                              fontFamily: "GameFont",
+                              fontSize: 28,
+                              letterSpacing: 1.1),
+                        ),
+                      ),
+                      AnimatedOpacity(
+                        opacity: showComingSoon ? 0.0 : 1.0,
+                        duration: const Duration(milliseconds: 500),
+                        child: const Text(
+                          'Online Multiplayer',
+                          style: TextStyle(
+                              fontFamily: "GameFont",
+                              fontSize: 28,
+                              letterSpacing: 1.1),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 60,
+                width: size.width / 2.3,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (musicbutton) {
+                      playAudio();
+                    }
+
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return FutureBuilder(
+                          future:
+                              Future.delayed(const Duration(milliseconds: 200)),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return const SettingsScreen(
+                                avatarImageUrl: '',
+                                gameDetails: 'Beginner',
+                                playerName: 'Player 1',
+                              );
+                            } else {
+                              return const LoadingScreen(
+                                text: 'Loading...',
+                              );
+                            }
+                          },
+                        );
+                      },
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        lightmodedarkmode ? lightCommonButton1 : CommonButton,
+                    foregroundColor: lightmodedarkmode
+                        ? lightbuttonForegroundColor
+                        : buttonForegroundColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      side: BorderSide(
+                        color: lightmodedarkmode
+                            ? lightButtonBorderColor
+                            : buttonBorderColor,
+                        width: 3,
+                      ),
+                    ),
+                    elevation: 0,
+                    visualDensity: VisualDensity.standard,
+                  ),
+                  child: const Text(
+                    'Settings',
+                    style: TextStyle(
+                      fontFamily: "GameFont",
+                      fontSize: 28,
+                      letterSpacing: 1.1,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              )
+            ],
+          ),
+        ),
       ]),
     );
   }

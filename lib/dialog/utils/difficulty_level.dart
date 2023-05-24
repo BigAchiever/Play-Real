@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:play_real/colors/theme/themedata.dart';
 
+import '../../screens/home.dart';
+
 enum DifficultyLevel {
   // ignore: constant_identifier_names
   Default,
@@ -26,7 +28,13 @@ class DifficultyButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () => onChanged(level),
       style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected ? selectedColor : unselectedButtonColor,
+        backgroundColor: isSelected
+            ? StartingScreenState.lightmodedarkmode
+                ? lightSelectedColor
+                : selectedColor
+            : StartingScreenState.lightmodedarkmode
+                ? lightUnselectedButtonColor
+                : unselectedButtonColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),
@@ -36,7 +44,9 @@ class DifficultyButton extends StatelessWidget {
           fontSize: 14,
           fontFamily: "GameFont",
           fontWeight: FontWeight.w500,
-          color: textColor,
+          color: StartingScreenState.lightmodedarkmode
+              ? lightbuttonForegroundColor
+              : textColor,
           letterSpacing: 1.1,
         ),
       ),

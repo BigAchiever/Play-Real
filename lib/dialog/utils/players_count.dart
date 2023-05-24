@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:play_real/colors/theme/themedata.dart';
+import 'package:play_real/screens/home.dart';
 
 class PlayerCountButton extends StatelessWidget {
   final int count;
@@ -21,16 +22,24 @@ class PlayerCountButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () => onChanged(count),
         style: ElevatedButton.styleFrom(
-          backgroundColor: isSelected ? selectedColor : unselectedButtonColor,
+          backgroundColor: StartingScreenState.lightmodedarkmode
+              ? isSelected
+                  ? lightSelectedColor
+                  : lightUnselectedButtonColor
+              : isSelected
+                  ? selectedColor
+                  : unselectedButtonColor,
           shape: const CircleBorder(),
         ),
         child: Text(
           count.toString().split('.').last,
-          style:  TextStyle(
+          style: TextStyle(
             fontSize: 18,
             fontFamily: "GameFont",
             fontWeight: FontWeight.w500,
-            color: textColor,
+            color: StartingScreenState.lightmodedarkmode
+                ? lightbuttonForegroundColor
+                : textColor,
           ),
         ),
       ),

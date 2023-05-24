@@ -204,7 +204,9 @@ class _GameScreenState extends State<GameScreen> {
               ),
             ),
           ),
-          backgroundColor: Colors.transparent.withOpacity(0.8),
+          backgroundColor: StartingScreenState.lightmodedarkmode
+              ? lightGradientColor1
+              : gradientColor1,
           title: _isAnimationComplete
               ? _isDiceRolled
                   ? Text(
@@ -212,14 +214,14 @@ class _GameScreenState extends State<GameScreen> {
                       style: TextStyle(
                           color: buttonForegroundColor,
                           fontFamily: "GameFont",
-                          fontSize: 28),
+                          fontSize: 30),
                     )
                   : Text(
                       '${currentPlayer.name}\'s Turn',
                       style: TextStyle(
                         color: buttonForegroundColor,
                         fontFamily: "GameFont",
-                        fontSize: 28,
+                        fontSize: 30,
                       ),
                     )
               : Text(
@@ -227,7 +229,7 @@ class _GameScreenState extends State<GameScreen> {
                   style: TextStyle(
                       color: buttonForegroundColor,
                       fontFamily: "GameFont",
-                      fontSize: 28),
+                      fontSize: 30),
                 ),
           centerTitle: true,
         ),
@@ -256,8 +258,12 @@ class _GameScreenState extends State<GameScreen> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    gradientColor1,
-                    gradientColor2,
+                    StartingScreenState.lightmodedarkmode
+                        ? lightGradientColor1
+                        : gradientColor1,
+                    StartingScreenState.lightmodedarkmode
+                        ? lightGradientColor2
+                        : gradientColor2,
                   ],
                 ),
               ),
@@ -311,9 +317,14 @@ class _GameScreenState extends State<GameScreen> {
                                     return Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
-                                        color: index % 2 == 0
-                                            ? gridColorOdd
-                                            : gridColorEven,
+                                        color: StartingScreenState
+                                                .lightmodedarkmode
+                                            ? index % 2 == 0
+                                                ? lightGridColorOdd
+                                                : gridColorEven
+                                            : index % 2 == 0
+                                                ? gridColorOdd
+                                                : gridColorEven,
                                         boxShadow: [
                                           BoxShadow(
                                             color:
@@ -398,7 +409,7 @@ class _GameScreenState extends State<GameScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: size.height / 4.8,
+                        height: size.height / 4.5,
                         child: ElevatedContainer(
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -412,7 +423,10 @@ class _GameScreenState extends State<GameScreen> {
                                           style: GoogleFonts.actor(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
-                                            color: messageColor,
+                                            color: StartingScreenState
+                                                    .lightmodedarkmode
+                                                ? Colors.amber
+                                                : messageColor,
                                           ),
                                         )
                                       : Text(
@@ -422,7 +436,10 @@ class _GameScreenState extends State<GameScreen> {
                                           style: GoogleFonts.actor(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
-                                            color: messageColor,
+                                            color: StartingScreenState
+                                                    .lightmodedarkmode
+                                                ? lightMessageColor
+                                                : messageColor,
                                           ),
                                         )
                                   : Text(
@@ -431,7 +448,10 @@ class _GameScreenState extends State<GameScreen> {
                                       style: GoogleFonts.actor(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
-                                        color: messageColor,
+                                        color: StartingScreenState
+                                                .lightmodedarkmode
+                                            ? lightMessageColor
+                                            : messageColor,
                                       ),
                                     ),
                             ),
@@ -467,7 +487,10 @@ class _GameScreenState extends State<GameScreen> {
                                   });
                                 } else {}
                               },
-                              backgroundColor: failedColor,
+                              backgroundColor:
+                                  StartingScreenState.lightmodedarkmode
+                                      ? lightFailedColor
+                                      : failedColor,
                               foregroundColor: buttonForegroundColor,
                               focusColor: commonGreyColor,
                               shape: RoundedRectangleBorder(
@@ -484,14 +507,20 @@ class _GameScreenState extends State<GameScreen> {
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontFamily: "GameFont",
-                                            color: buttonForegroundColor,
+                                            color: StartingScreenState
+                                                    .lightmodedarkmode
+                                                ? lightbuttonForegroundColor
+                                                : buttonForegroundColor,
                                             fontWeight: FontWeight.w500),
                                       ),
                                       Text(
                                         '(-5 Steps)',
                                         style: TextStyle(
                                             fontSize: 12,
-                                            color: buttonForegroundColor,
+                                            color: StartingScreenState
+                                                    .lightmodedarkmode
+                                                ? lightbuttonForegroundColor
+                                                : buttonForegroundColor,
                                             fontFamily: "GameFont"),
                                       ),
                                     ],
@@ -524,7 +553,10 @@ class _GameScreenState extends State<GameScreen> {
                                   });
                                 } else {}
                               },
-                              backgroundColor: successColor,
+                              backgroundColor:
+                                  StartingScreenState.lightmodedarkmode
+                                      ? lightSuccessColor
+                                      : successColor,
                               foregroundColor: buttonForegroundColor,
                               focusColor: Colors.grey,
                               shape: RoundedRectangleBorder(
@@ -538,7 +570,10 @@ class _GameScreenState extends State<GameScreen> {
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontFamily: "GameFont",
-                                      color: buttonForegroundColor,
+                                      color:
+                                          StartingScreenState.lightmodedarkmode
+                                              ? lightbuttonForegroundColor
+                                              : buttonForegroundColor,
                                     ),
                                   ),
                                 ],
