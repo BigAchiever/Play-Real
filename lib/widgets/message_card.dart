@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:play_real/colors/theme/themedata.dart';
 
 class ElevatedContainer extends StatelessWidget {
   final Widget child;
   final double elevation;
   final double borderRadius;
 
-  final Color shadowColor;
-  final Color borderColor;
   final double borderWidth;
 
   const ElevatedContainer({
@@ -14,8 +13,6 @@ class ElevatedContainer extends StatelessWidget {
     required this.child,
     this.elevation = 8.0,
     this.borderRadius = 8.0,
-    this.shadowColor = const Color.fromARGB(255, 31, 27, 55),
-    this.borderColor = const Color.fromARGB(255, 255, 145, 0),
     this.borderWidth = 2.0,
   }) : super(key: key);
 
@@ -26,10 +23,10 @@ class ElevatedContainer extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius),
-          color: shadowColor.withOpacity(0.4),
+          color: messageBoxColor.withOpacity(0.4),
           boxShadow: [
             BoxShadow(
-              color: shadowColor.withOpacity(0.8),
+              color: messageBoxColor.withOpacity(0.8),
             ),
           ],
           border: Border.all(

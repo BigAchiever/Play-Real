@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:play_real/colors/theme/themedata.dart';
 import 'package:play_real/screens/home.dart';
 import 'package:play_real/dialog/utils/players_count.dart';
 
@@ -81,7 +82,7 @@ class _GameDialogState extends State<GameDialog> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: Colors.orange,
+            color: borderColor,
             width: 1,
           ),
         ),
@@ -89,25 +90,25 @@ class _GameDialogState extends State<GameDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Center(
+            Center(
               child: Text(
                 'New Game',
                 style: TextStyle(
                     fontSize: 28,
                     fontFamily: "GameFont",
                     fontWeight: FontWeight.w500,
-                    color: Colors.white,
+                    color: textColor,
                     letterSpacing: 1.2),
               ),
             ),
             const SizedBox(height: 28),
-            const Text(
+            Text(
               'Number of Players:',
               style: TextStyle(
                   fontSize: 18,
                   fontFamily: "GameFont",
                   fontWeight: FontWeight.w500,
-                  color: Colors.white,
+                  color: textColor,
                   letterSpacing: 1.1),
             ),
             const SizedBox(height: 8),
@@ -152,13 +153,13 @@ class _GameDialogState extends State<GameDialog> {
               ],
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'Difficulty Level:',
               style: TextStyle(
                 fontSize: 16,
                 fontFamily: "GameFont",
                 fontWeight: FontWeight.w500,
-                color: Colors.white,
+                color: textColor,
               ),
             ),
             const SizedBox(height: 8),
@@ -176,13 +177,13 @@ class _GameDialogState extends State<GameDialog> {
               }).toList(),
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'Gird Size:',
               style: TextStyle(
                 fontSize: 16,
                 fontFamily: "GameFont",
                 fontWeight: FontWeight.w500,
-                color: Colors.white,
+                color: textColor,
               ),
             ),
             const SizedBox(height: 8),
@@ -210,20 +211,20 @@ class _GameDialogState extends State<GameDialog> {
                 child: ElevatedButton(
                   onPressed: _startGame,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green.shade600,
+                    backgroundColor: CommonButton2,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Lets Go!',
                     style: TextStyle(
                       fontSize: 22,
                       fontFamily: "GameFont",
                       fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                      color: textColor,
                     ),
                   ),
                 ),

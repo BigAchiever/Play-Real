@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:play_real/colors/theme/themedata.dart';
 
 class GridSizeButton extends StatelessWidget {
   final int size;
@@ -21,16 +22,16 @@ class GridSizeButton extends StatelessWidget {
         onPressed: () => onChanged(size),
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.all(8),
-          backgroundColor: isSelected ? Colors.red : Colors.white30,
+          backgroundColor: isSelected ? selectedColor : unselectedButtonColor,
           shape: const StadiumBorder(),
         ),
         child: Text(
           '${size}x$size',
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 18,
             fontFamily: "GameFont",
             fontWeight: FontWeight.w500,
-            color: Colors.white,
+            color: textColor,
             letterSpacing: 1.1,
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:play_real/colors/theme/themedata.dart';
 
 class SettingsScreen extends StatelessWidget {
   final String avatarImageUrl;
@@ -18,13 +19,13 @@ class SettingsScreen extends StatelessWidget {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 8,
-      backgroundColor: Colors.black87,
+      backgroundColor: DialogBackgroundColor,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: Colors.orange,
+            color: borderColor,
             width: 1,
           ),
         ),
@@ -32,14 +33,14 @@ class SettingsScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Center(
+            Center(
               child: Text(
                 'Settings',
                 style: TextStyle(
                   fontSize: 34,
                   fontFamily: "GameFont",
                   fontWeight: FontWeight.w500,
-                  color: Colors.white,
+                  color: textColor,
                 ),
               ),
             ),
@@ -56,7 +57,7 @@ class SettingsScreen extends StatelessWidget {
                 fontSize: 24,
                 fontFamily: "GameFont",
                 fontWeight: FontWeight.w500,
-                color: Colors.white,
+                color: textColor,
               ),
             ),
 
@@ -66,7 +67,7 @@ class SettingsScreen extends StatelessWidget {
                 fontSize: 20,
                 fontFamily: "GameFont",
                 fontWeight: FontWeight.w500,
-                color: Colors.grey.shade400,
+                color: commonGreyColor,
               ),
             ),
 
@@ -77,7 +78,7 @@ class SettingsScreen extends StatelessWidget {
                 fontSize: 24,
                 fontFamily: "GameFont",
                 fontWeight: FontWeight.w500,
-                color: Colors.white,
+                color: textColor,
               ),
             ),
 
@@ -87,7 +88,7 @@ class SettingsScreen extends StatelessWidget {
                 fontSize: 20,
                 fontFamily: "GameFont",
                 fontWeight: FontWeight.w500,
-                color: Colors.grey.shade400,
+                color: commonGreyColor,
               ),
             ),
             const SizedBox(height: 60),
@@ -100,7 +101,7 @@ class SettingsScreen extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green.shade600,
+                    backgroundColor: CommonButton2,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 12),
                     shape: RoundedRectangleBorder(

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
+import 'package:play_real/colors/theme/themedata.dart';
 import 'package:play_real/dialog/game_detail_dialogue.dart';
 import 'package:play_real/dialog/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,7 +62,7 @@ class StartingScreenState extends State<StartingScreen>
     final prefs = await SharedPreferences.getInstance();
     final isPreviouslyLoggedIn = prefs.getBool('isFacebookLoggedIn') ?? false;
     if (isFacebookLoggedIn || isPreviouslyLoggedIn) {
-      // User is already authenticated, sign out
+      // User is authenticated, ontap sign out
       await supabase.auth.signOut();
       setState(() {
         isFacebookLoggedIn = false;
@@ -72,7 +73,7 @@ class StartingScreenState extends State<StartingScreen>
           content: const Text(
             'Signed out successful',
           ),
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.red.shade600.withOpacity(0.8),
         ),
       );
     } else {
@@ -131,13 +132,13 @@ class StartingScreenState extends State<StartingScreen>
                     child: child,
                   );
                 },
-                child: const Text(
+                child: Text(
                   "PLAY REAL",
                   style: TextStyle(
                     fontSize: 80,
                     fontFamily: "GameFont",
                     fontWeight: FontWeight.w500,
-                    color: Colors.white,
+                    color: buttonForegroundColor,
                     shadows: [
                       Shadow(
                         color: Colors.black,
@@ -162,8 +163,7 @@ class StartingScreenState extends State<StartingScreen>
                       SizedBox(
                         width: size.width / 8,
                         child: FloatingActionButton(
-                          backgroundColor:
-                              const Color.fromARGB(255, 185, 64, 61),
+                          backgroundColor: CommonButton2,
                           heroTag: "btn1",
                           shape: const CircleBorder(
                               side: BorderSide(color: Colors.black, width: 3)),
@@ -177,14 +177,14 @@ class StartingScreenState extends State<StartingScreen>
                           },
                           child: Icon(
                             musicbutton ? Icons.music_note : Icons.music_off,
-                            color: Colors.white,
+                            color: buttonForegroundColor,
                           ),
                         ),
                       ),
                       SizedBox(
                         width: size.width / 8,
                         child: FloatingActionButton(
-                          backgroundColor: Color.fromARGB(255, 185, 64, 61),
+                          backgroundColor: CommonButton2,
                           heroTag: "btn2",
                           shape: const CircleBorder(
                               side: BorderSide(color: Colors.black, width: 3)),
@@ -195,14 +195,14 @@ class StartingScreenState extends State<StartingScreen>
                           },
                           child: Icon(
                             Icons.leaderboard,
-                            color: Colors.white,
+                            color: buttonForegroundColor,
                           ),
                         ),
                       ),
                       SizedBox(
                         width: size.width / 8,
                         child: FloatingActionButton(
-                          backgroundColor: Color.fromARGB(255, 185, 64, 61),
+                          backgroundColor: CommonButton2,
                           heroTag: "btn3",
                           shape: const CircleBorder(
                               side: BorderSide(color: Colors.black, width: 3)),
@@ -218,14 +218,14 @@ class StartingScreenState extends State<StartingScreen>
                             lightmodedarkmode
                                 ? Icons.light_mode
                                 : Icons.dark_mode,
-                            color: Colors.white,
+                            color: buttonForegroundColor,
                           ),
                         ),
                       ),
                       SizedBox(
                         width: size.width / 8,
                         child: FloatingActionButton(
-                          backgroundColor: Color.fromARGB(255, 185, 64, 61),
+                          backgroundColor: CommonButton2,
                           heroTag: "btn4",
                           shape: const CircleBorder(
                               side: BorderSide(color: Colors.black, width: 3)),
@@ -239,7 +239,7 @@ class StartingScreenState extends State<StartingScreen>
                             isFacebookLoggedIn
                                 ? "assets/images/facebook.png"
                                 : "assets/images/not_facebook.png",
-                            color: Colors.white,
+                            color: buttonForegroundColor,
                             height: isFacebookLoggedIn ? 24 : 48,
                           ),
                         ),
@@ -280,8 +280,8 @@ class StartingScreenState extends State<StartingScreen>
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red.shade600,
-                  foregroundColor: Colors.white,
+                  backgroundColor: CommonButton,
+                  foregroundColor: buttonForegroundColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                     side: const BorderSide(
@@ -318,8 +318,8 @@ class StartingScreenState extends State<StartingScreen>
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red.shade600,
-                  foregroundColor: Colors.white,
+                  backgroundColor: CommonButton,
+                  foregroundColor: buttonForegroundColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                     side: const BorderSide(
@@ -358,8 +358,8 @@ class StartingScreenState extends State<StartingScreen>
                   });
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red.shade600,
-                  foregroundColor: Colors.white,
+                  backgroundColor: CommonButton,
+                  foregroundColor: buttonForegroundColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                     side: const BorderSide(
@@ -436,8 +436,8 @@ class StartingScreenState extends State<StartingScreen>
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red.shade600,
-                  foregroundColor: Colors.white,
+                  backgroundColor: CommonButton,
+                  foregroundColor: buttonForegroundColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                     side: const BorderSide(

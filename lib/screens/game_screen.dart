@@ -2,6 +2,7 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:play_real/colors/theme/themedata.dart';
 import 'package:play_real/widgets/audio_player.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/widgets/dice.dart';
@@ -196,9 +197,9 @@ class _GameScreenState extends State<GameScreen> {
                   context,
                 );
               },
-              icon: const Icon(
+              icon: Icon(
                 Icons.arrow_back_ios,
-                color: Colors.white,
+                color: buttonForegroundColor,
                 size: 18,
               ),
             ),
@@ -206,25 +207,25 @@ class _GameScreenState extends State<GameScreen> {
           backgroundColor: Colors.transparent.withOpacity(0.8),
           title: _isAnimationComplete
               ? _isDiceRolled
-                  ? const Text(
+                  ? Text(
                       'Complete your task!',
                       style: TextStyle(
-                          color: Colors.white,
+                          color: buttonForegroundColor,
                           fontFamily: "GameFont",
                           fontSize: 28),
                     )
                   : Text(
                       '${currentPlayer.name}\'s Turn',
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: buttonForegroundColor,
                         fontFamily: "GameFont",
                         fontSize: 28,
                       ),
                     )
-              : const Text(
+              : Text(
                   'Play Real',
                   style: TextStyle(
-                      color: Colors.white,
+                      color: buttonForegroundColor,
                       fontFamily: "GameFont",
                       fontSize: 28),
                 ),
@@ -255,8 +256,8 @@ class _GameScreenState extends State<GameScreen> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.black.withOpacity(0.8),
-                    Colors.red.shade600.withOpacity(0.8),
+                    gradientColor1,
+                    gradientColor2,
                   ],
                 ),
               ),
@@ -311,8 +312,8 @@ class _GameScreenState extends State<GameScreen> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
                                         color: index % 2 == 0
-                                            ? Colors.grey[400]
-                                            : Colors.grey[200],
+                                            ? gridColorOdd
+                                            : gridColorEven,
                                         boxShadow: [
                                           BoxShadow(
                                             color:
@@ -331,18 +332,19 @@ class _GameScreenState extends State<GameScreen> {
                                               child: CircleAvatar(
                                                 radius: 20,
                                                 backgroundColor:
-                                                    Colors.green[700],
+                                                    currentPlayerColor,
                                                 child: Align(
                                                   alignment: Alignment.center,
                                                   child: Text(
                                                     // Displaying the player token number
                                                     'P${currentPlayer.number.toString()}',
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
                                                       fontSize: 18,
                                                       fontFamily: "GameFont",
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      color: Colors.white,
+                                                      color:
+                                                          currentPlayerTextColor,
                                                     ),
                                                   ),
                                                 ),
@@ -356,7 +358,7 @@ class _GameScreenState extends State<GameScreen> {
                                                   fontSize: 18,
                                                   letterSpacing: 1.2,
                                                   fontWeight: FontWeight.w600,
-                                                  color: Colors.black,
+                                                  color: gridTextColor,
                                                 ),
                                               ),
                                             ),
@@ -367,18 +369,19 @@ class _GameScreenState extends State<GameScreen> {
                                               child: CircleAvatar(
                                                 radius: 20,
                                                 backgroundColor:
-                                                    Colors.lightBlue[200],
+                                                    commonPlayerColor,
                                                 child: Align(
                                                   alignment: Alignment.center,
                                                   child: Text(
                                                     // Displaying the player token number like P1, P2, P3, P4
                                                     'P${player.number.toString()}',
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
                                                       fontSize: 18,
                                                       fontFamily: "GameFont",
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      color: Colors.red,
+                                                      color:
+                                                          commonPlayerTextColor,
                                                     ),
                                                   ),
                                                 ),
@@ -409,7 +412,7 @@ class _GameScreenState extends State<GameScreen> {
                                           style: GoogleFonts.actor(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.greenAccent,
+                                            color: messageColor,
                                           ),
                                         )
                                       : Text(
@@ -419,7 +422,7 @@ class _GameScreenState extends State<GameScreen> {
                                           style: GoogleFonts.actor(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.greenAccent,
+                                            color: messageColor,
                                           ),
                                         )
                                   : Text(
@@ -428,7 +431,7 @@ class _GameScreenState extends State<GameScreen> {
                                       style: GoogleFonts.actor(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.greenAccent,
+                                        color: messageColor,
                                       ),
                                     ),
                             ),
@@ -464,10 +467,9 @@ class _GameScreenState extends State<GameScreen> {
                                   });
                                 } else {}
                               },
-                              backgroundColor:
-                                  const Color.fromARGB(255, 105, 33, 28),
-                              foregroundColor: Colors.white,
-                              focusColor: Colors.grey,
+                              backgroundColor: failedColor,
+                              foregroundColor: buttonForegroundColor,
+                              focusColor: commonGreyColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
@@ -477,19 +479,19 @@ class _GameScreenState extends State<GameScreen> {
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Text(
+                                      Text(
                                         'Failed 💀',
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontFamily: "GameFont",
-                                            color: Colors.white,
+                                            color: buttonForegroundColor,
                                             fontWeight: FontWeight.w500),
                                       ),
                                       Text(
                                         '(-5 Steps)',
                                         style: TextStyle(
                                             fontSize: 12,
-                                            color: Colors.grey[100],
+                                            color: buttonForegroundColor,
                                             fontFamily: "GameFont"),
                                       ),
                                     ],
@@ -522,10 +524,8 @@ class _GameScreenState extends State<GameScreen> {
                                   });
                                 } else {}
                               },
-                              backgroundColor: _isPlayerTurnComplete
-                                  ? Colors.grey
-                                  : Color.fromARGB(255, 30, 135, 33),
-                              foregroundColor: Colors.white,
+                              backgroundColor: successColor,
+                              foregroundColor: buttonForegroundColor,
                               focusColor: Colors.grey,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0),
@@ -538,7 +538,7 @@ class _GameScreenState extends State<GameScreen> {
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontFamily: "GameFont",
-                                      color: Colors.white,
+                                      color: buttonForegroundColor,
                                     ),
                                   ),
                                 ],
