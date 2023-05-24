@@ -31,7 +31,7 @@ To get started with Play Real, follow these steps:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/play-real.git
+git clone https://github.com/BigAchiever/play-real.git
 ```
 1. Install the dependencies
 ```bash
