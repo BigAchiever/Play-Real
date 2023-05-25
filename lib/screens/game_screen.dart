@@ -6,16 +6,16 @@ import 'package:play_real/colors/theme/themedata.dart';
 import 'package:play_real/widgets/audio_player.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/widgets/dice.dart';
-import 'package:play_real/dialog/utils/difficulty_level.dart';
+import 'package:play_real/dialog/widgets/difficulty_level.dart';
 import 'package:play_real/widgets/loader.dart';
-import 'package:play_real/dialog_utils/winning_dialogue.dart';
+import 'package:play_real/dialog/dialog_utils/winning_dialogue.dart';
 import '../colors/player_colors.dart';
-import '../tasks/board_sentences.dart';
+import '../widgets/tasks/board_sentences.dart';
 import 'home.dart';
 import '../widgets/message_card.dart';
 import '../models/player.dart';
-import '../dialog_utils/quitgame_dialogue.dart';
-import '../dialog_utils/turnover_dialogue.dart';
+import '../dialog/dialog_utils/quitgame_dialogue.dart';
+import '../dialog/dialog_utils/turnover_dialogue.dart';
 
 class GameScreen extends StatefulWidget {
   final int numberOfPlayers;

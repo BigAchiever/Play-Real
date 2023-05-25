@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:play_real/colors/theme/themedata.dart';
 
-import '../screens/home.dart';
+import '../../screens/home.dart';
 
 class QuitDialog {
   static void showGameOverDialog(

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:play_real/colors/theme/themedata.dart';
 import 'package:play_real/screens/home.dart';
-import 'package:play_real/dialog/utils/players_count.dart';
+import 'package:play_real/dialog/widgets/players_count.dart';
 
 import '../widgets/audio_player.dart';
-import 'utils/difficulty_level.dart';
+import 'widgets/difficulty_level.dart';
 import '../screens/game_screen.dart';
-import 'utils/grid_button.dart';
+import 'widgets/grid_button.dart';
 
 class GameDialog extends StatefulWidget {
   const GameDialog({Key? key}) : super(key: key);
