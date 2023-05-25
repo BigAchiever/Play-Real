@@ -4,6 +4,7 @@ import 'package:play_real/background.dart';
 import 'package:play_real/colors/theme/themedata.dart';
 import 'package:play_real/dialog/game_detail_dialogue.dart';
 import 'package:play_real/dialog/settings.dart';
+import 'package:play_real/widgets/home_icon_button.dart';
 import 'package:play_real/widgets/home_screen_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -168,122 +169,70 @@ class StartingScreenState extends State<StartingScreen>
                   children: [
                     Column(
                       children: [
-                        SizedBox(
-                          width: size.width / 8,
-                          child: FloatingActionButton(
-                            backgroundColor: lightmodedarkmode
-                                ? lightCommonButton2
-                                : CommonButton2,
-                            heroTag: "btn1",
-                            shape: CircleBorder(
-                                side: BorderSide(
-                                    color: lightmodedarkmode
-                                        ? lightButtonBorderColor
-                                        : buttonBorderColor,
-                                    width: 3)),
-                            onPressed: () {
-                              setState(() {
-                                musicbutton = !musicbutton;
-                              });
-                              if (musicbutton) {
-                                playAudio();
-                              }
-                            },
-                            child: Icon(
-                              musicbutton ? Icons.music_note : Icons.music_off,
-                              color: lightmodedarkmode
-                                  ? lightbuttonForegroundColor
-                                  : buttonForegroundColor,
-                            ),
+                        CustomIconButton(
+                          onPressed: () {
+                            setState(() {
+                              musicbutton = !musicbutton;
+                            });
+                            if (musicbutton) {
+                              playAudio();
+                            }
+                          },
+                          child: Icon(
+                            musicbutton ? Icons.music_note : Icons.music_off,
+                            color: lightmodedarkmode
+                                ? lightbuttonForegroundColor
+                                : buttonForegroundColor,
                           ),
                         ),
-                        SizedBox(
-                          width: size.width / 8,
-                          child: FloatingActionButton(
-                            backgroundColor: lightmodedarkmode
-                                ? lightCommonButton2
-                                : CommonButton2,
-                            heroTag: "btn2",
-                            shape: CircleBorder(
-                                side: BorderSide(
-                                    color: lightmodedarkmode
-                                        ? lightButtonBorderColor
-                                        : buttonBorderColor,
-                                    width: 3)),
-                            onPressed: () {
-                              if (musicbutton) {
-                                playAudio();
-                              }
-                            },
-                            child: Icon(
-                              Icons.leaderboard,
-                              color: lightmodedarkmode
-                                  ? lightbuttonForegroundColor
-                                  : buttonForegroundColor,
-                            ),
+                        CustomIconButton(
+                          onPressed: () {
+                            if (musicbutton) {
+                              playAudio();
+                            }
+                          },
+                          child: Icon(
+                            Icons.leaderboard,
+                            color: lightmodedarkmode
+                                ? lightbuttonForegroundColor
+                                : buttonForegroundColor,
                           ),
                         ),
-                        SizedBox(
-                          width: size.width / 8,
-                          child: FloatingActionButton(
-                            backgroundColor: lightmodedarkmode
-                                ? lightCommonButton2
-                                : CommonButton2,
-                            heroTag: "btn3",
-                            shape: CircleBorder(
-                                side: BorderSide(
-                                    color: lightmodedarkmode
-                                        ? lightButtonBorderColor
-                                        : buttonBorderColor,
-                                    width: 3)),
-                            onPressed: () {
-                              if (musicbutton) {
-                                playAudio();
-                              }
-                              setState(() {
-                                lightmodedarkmode = !lightmodedarkmode;
-                              });
-                            },
-                            child: Icon(
-                              lightmodedarkmode
-                                  ? Icons.light_mode
-                                  : Icons.dark_mode,
-                              color: lightmodedarkmode
-                                  ? lightbuttonForegroundColor
-                                  : buttonForegroundColor,
-                            ),
+                        CustomIconButton(
+                          onPressed: () {
+                            if (musicbutton) {
+                              playAudio();
+                            }
+                            setState(() {
+                              lightmodedarkmode = !lightmodedarkmode;
+                            });
+                          },
+                          child: Icon(
+                            lightmodedarkmode
+                                ? Icons.light_mode
+                                : Icons.dark_mode,
+                            color: lightmodedarkmode
+                                ? lightbuttonForegroundColor
+                                : buttonForegroundColor,
                           ),
                         ),
-                        SizedBox(
-                          width: size.width / 8,
-                          child: FloatingActionButton(
-                            backgroundColor: lightmodedarkmode
-                                ? lightCommonButton2
-                                : CommonButton2,
-                            heroTag: "btn4",
-                            shape: CircleBorder(
-                                side: BorderSide(
-                                    color: lightmodedarkmode
-                                        ? lightButtonBorderColor
-                                        : buttonBorderColor,
-                                    width: 3)),
-                            onPressed: () {
-                              if (musicbutton) {
-                                playAudio();
-                              }
-                              _facebookLogin();
-                            },
-                            child: Image.asset(
-                              isFacebookLoggedIn
-                                  ? "assets/images/facebook.png"
-                                  : "assets/images/not_facebook.png",
-                              color: lightmodedarkmode
-                                  ? lightbuttonForegroundColor
-                                  : buttonForegroundColor,
-                              height: isFacebookLoggedIn ? 24 : 48,
-                            ),
+                        CustomIconButton(
+                          onPressed: () {
+                            if (musicbutton) {
+                              playAudio();
+                            }
+                            _facebookLogin();
+                          },
+                          child: Image.asset(
+                            isFacebookLoggedIn
+                                ? "assets/images/facebook.png"
+                                : "assets/images/not_facebook.png",
+                            color: lightmodedarkmode
+                                ? lightbuttonForegroundColor
+                                : buttonForegroundColor,
+                            height: isFacebookLoggedIn ? 24 : 48,
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ],
