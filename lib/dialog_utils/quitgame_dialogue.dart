@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:play_real/colors/theme/themedata.dart';
+
+import '../screens/home.dart';
 
 class QuitDialog {
   static void showGameOverDialog(
@@ -7,33 +10,46 @@ class QuitDialog {
     showDialog(
       context: context,
       builder: (context) => Dialog(
-        backgroundColor: Colors.black87,
+        backgroundColor: StartingScreenState.lightmodedarkmode
+            ? lightStartGameDialogColor
+            : DialogBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(
-            color: Colors.orange,
+          side: BorderSide(
+            color: StartingScreenState.lightmodedarkmode
+                ? lightBorderColor
+                : borderColor,
             width: 2,
           ),
         ),
         child: Container(
-          width: 180,
+          width: 160,
           padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
+              Text(
                 'Game Over',
                 style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
+                  fontSize: 22,
+                  color: StartingScreenState.lightmodedarkmode
+                      ? lightbuttonForegroundColor
+                      : textColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'Are you sure you want to quit the game?',
-                style: TextStyle(fontSize: 18, color: Colors.white),
-                textAlign: TextAlign.center,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Are you sure you want to quit the game?',
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: StartingScreenState.lightmodedarkmode
+                          ? lightbuttonForegroundColor
+                          : textColor),
+                  textAlign: TextAlign.center,
+                ),
               ),
               const SizedBox(height: 24),
               Row(
@@ -48,8 +64,12 @@ class QuitDialog {
                       });
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.red,
+                      foregroundColor: StartingScreenState.lightmodedarkmode
+                          ? lightbuttonForegroundColor
+                          : textColor,
+                      backgroundColor: StartingScreenState.lightmodedarkmode
+                          ? lightCommonButton1
+                          : CommonButton2,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
@@ -63,8 +83,12 @@ class QuitDialog {
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.white30,
+                      foregroundColor: StartingScreenState.lightmodedarkmode
+                          ? lightbuttonForegroundColor
+                          : textColor,
+                      backgroundColor: StartingScreenState.lightmodedarkmode
+                          ? lightUnselectedButtonColor
+                          : unselectedButtonColor,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(

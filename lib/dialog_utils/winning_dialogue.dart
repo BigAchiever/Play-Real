@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:play_real/colors/theme/themedata.dart';
+import 'package:play_real/screens/home.dart';
 
 class GameWonDialog {
   static void showGameWonDialog(
@@ -8,17 +10,20 @@ class GameWonDialog {
     showDialog(
       context: context,
       builder: (context) => Dialog(
-        backgroundColor: Colors.black87,
+        backgroundColor: StartingScreenState.lightmodedarkmode
+            ? lightStartGameDialogColor
+            : DialogBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(
-            color: Colors.orange,
+          side: BorderSide(
+            color: StartingScreenState.lightmodedarkmode
+                ? lightBorderColor
+                : borderColor,
             width: 2,
           ),
         ),
         child: Container(
           width: 140,
-          height: 260,
           padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -27,16 +32,22 @@ class GameWonDialog {
                 //showing current player's number
                 'Conguratulations Player $number has Won the Game!',
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
-                  color: Colors.white,
+                  color: StartingScreenState.lightmodedarkmode
+                      ? lightbuttonForegroundColor
+                      : textColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 16),
-              const Text(
+              Text(
                 'Hope you enjoyed the game!🥳 Do you want to continue the Game?',
-                style: TextStyle(fontSize: 16, color: Colors.white),
+                style: TextStyle(
+                    fontSize: 16,
+                    color: StartingScreenState.lightmodedarkmode
+                        ? lightbuttonForegroundColor
+                        : textColor),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 34),
@@ -52,15 +63,19 @@ class GameWonDialog {
                       });
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.grey,
+                      foregroundColor: StartingScreenState.lightmodedarkmode
+                          ? lightbuttonForegroundColor
+                          : textColor,
+                      backgroundColor: StartingScreenState.lightmodedarkmode
+                          ? lightUnselectedButtonColor
+                          : unselectedButtonColor,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text("Game Over 🙄"),
+                    child: const Text("Quit!"),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -69,15 +84,19 @@ class GameWonDialog {
                       });
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.grey,
+                      foregroundColor: StartingScreenState.lightmodedarkmode
+                          ? lightbuttonForegroundColor
+                          : textColor,
+                      backgroundColor: StartingScreenState.lightmodedarkmode
+                          ? selectedColor
+                          : lightSelectedColor,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text("Yes 😄"),
+                    child: const Text("Play Again!"),
                   ),
                 ],
               ),

@@ -35,7 +35,7 @@ class LoadingScreen extends StatelessWidget {
           Center(
             child: SpinKitFoldingCube(
               color: StartingScreenState.lightmodedarkmode
-                  ? Colors.lightBlue.shade500
+                  ? Colors.white
                   : borderColor,
               size: 50.0,
             ),

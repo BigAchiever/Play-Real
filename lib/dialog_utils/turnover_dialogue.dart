@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:play_real/colors/theme/themedata.dart';
+import 'package:play_real/screens/home.dart';
 
 class DialogUtils {
   static void showTurnOverDialog(
@@ -6,11 +8,15 @@ class DialogUtils {
     showDialog(
       context: context,
       builder: (context) => Dialog(
-        backgroundColor: Colors.black87,
+        backgroundColor: StartingScreenState.lightmodedarkmode
+            ? lightStartGameDialogColor
+            : DialogBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(
-            color: Colors.orange,
+          side: BorderSide(
+            color: StartingScreenState.lightmodedarkmode
+                ? lightBorderColor
+                : borderColor,
             width: 2,
           ),
         ),
@@ -20,23 +26,27 @@ class DialogUtils {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
+              Text(
                 'Turn Over!',
                 style: TextStyle(
                   fontSize: 24,
-                  color: Colors.white,
+                  color: StartingScreenState.lightmodedarkmode
+                      ? lightbuttonForegroundColor
+                      : textColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: const Text(
+                child: Text(
                   'Your turn is over!\nComplete your task for the game to continue.',
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w400,
-                      color: Colors.white),
+                      color: StartingScreenState.lightmodedarkmode
+                          ? lightbuttonForegroundColor
+                          : textColor),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -46,8 +56,12 @@ class DialogUtils {
                   Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.red,
+                  foregroundColor: StartingScreenState.lightmodedarkmode
+                      ? lightbuttonForegroundColor
+                      : textColor,
+                  backgroundColor: StartingScreenState.lightmodedarkmode
+                      ? lightCommonButton1
+                      : CommonButton2,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   shape: RoundedRectangleBorder(
