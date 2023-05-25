@@ -529,6 +529,8 @@ class _GameScreenState extends State<GameScreen> {
                               ),
                             ),
                           ),
+
+                          //Dice widget called here
                           Dice(
                             onDiceRolled: (int diceNumber) {
                               if (StartingScreenState.musicbutton) {

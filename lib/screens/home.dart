@@ -4,6 +4,7 @@ import 'package:play_real/background.dart';
 import 'package:play_real/colors/theme/themedata.dart';
 import 'package:play_real/dialog/game_detail_dialogue.dart';
 import 'package:play_real/dialog/settings.dart';
+import 'package:play_real/widgets/home_screen_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 // import 'package:supabase_flutter/supabase_flutter.dart';
@@ -289,226 +290,134 @@ class StartingScreenState extends State<StartingScreen>
                 ),
               ),
               SizedBox(height: size.height / 18),
-              SizedBox(
-                height: 65,
-                width: size.width / 1.5,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (musicbutton) {
-                      playAudio();
-                    }
+              HomeScreenButton(
+                onPressed: () {
+                  if (musicbutton) {
+                    playAudio();
+                  }
 
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return FutureBuilder(
-                          future:
-                              Future.delayed(const Duration(milliseconds: 200)),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              return const GameDialog();
-                            } else {
-                              return const LoadingScreen(
-                                text: 'Loading...',
-                              );
-                            }
-                          },
-                        );
-                      },
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        lightmodedarkmode ? lightCommonButton1 : CommonButton,
-                    foregroundColor: lightmodedarkmode
-                        ? lightbuttonForegroundColor
-                        : buttonForegroundColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      side: BorderSide(
-                        color: lightmodedarkmode
-                            ? lightButtonBorderColor
-                            : buttonBorderColor,
-                        width: 3,
-                      ),
-                    ),
-                    elevation: 0,
-                    visualDensity: VisualDensity.standard,
-                  ),
-                  child: const Text(
-                    'Start Game 🎭',
-                    style: TextStyle(
-                        fontFamily: 'GameFont',
-                        fontSize: 30,
-                        letterSpacing: 1.1),
-                  ),
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return FutureBuilder(
+                        future:
+                            Future.delayed(const Duration(milliseconds: 200)),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return const GameDialog();
+                          } else {
+                            return const LoadingScreen(
+                              text: 'Loading...',
+                            );
+                          }
+                        },
+                      );
+                    },
+                  );
+                },
+                child: const Text(
+                  'Start Game 🎭',
+                  style: TextStyle(
+                      fontFamily: 'GameFont', fontSize: 30, letterSpacing: 1.1),
                 ),
               ),
-              SizedBox(
-                height: 60,
-                width: size.width / 1.8,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (musicbutton) {
-                      playAudio();
-                    }
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HowToPlay(),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        lightmodedarkmode ? lightCommonButton1 : CommonButton,
-                    foregroundColor: lightmodedarkmode
-                        ? lightbuttonForegroundColor
-                        : buttonForegroundColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      side: BorderSide(
-                        color: lightmodedarkmode
-                            ? lightButtonBorderColor
-                            : buttonBorderColor,
-                        width: 3,
-                      ),
+              HomeScreenButton(
+                onPressed: () {
+                  if (musicbutton) {
+                    playAudio();
+                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HowToPlay(),
                     ),
-                    elevation: 0,
-                    visualDensity: VisualDensity.standard,
-                  ),
-                  child: const Text(
-                    'How to Play?',
-                    style: TextStyle(
-                        fontFamily: "GameFont",
-                        fontSize: 28,
-                        letterSpacing: 1.1),
-                  ),
+                  );
+                },
+                child: const Text(
+                  'How to Play?',
+                  style: TextStyle(
+                      fontFamily: "GameFont", fontSize: 28, letterSpacing: 1.1),
                 ),
               ),
-              SizedBox(
-                height: 60,
-                width: MediaQuery.of(context).size.width / 1.4,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (musicbutton) {
-                      playAudio();
-                    }
-                    setState(() {
-                      showComingSoon = true;
-                      Future.delayed(const Duration(seconds: 3), () {
-                        setState(() {
-                          showComingSoon = false;
-                        });
+              HomeScreenButton(
+                onPressed: () {
+                  if (musicbutton) {
+                    playAudio();
+                  }
+                  setState(() {
+                    showComingSoon = true;
+                    Future.delayed(const Duration(seconds: 3), () {
+                      setState(() {
+                        showComingSoon = false;
                       });
                     });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        lightmodedarkmode ? lightCommonButton1 : CommonButton,
-                    foregroundColor: lightmodedarkmode
-                        ? lightbuttonForegroundColor
-                        : buttonForegroundColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      side: BorderSide(
-                        color: lightmodedarkmode
-                            ? lightButtonBorderColor
-                            : buttonBorderColor,
-                        width: 3,
+                  });
+                },
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    AnimatedOpacity(
+                      opacity: showComingSoon ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 500),
+                      child: const Text(
+                        'Coming Soon!',
+                        style: TextStyle(
+                            fontFamily: "GameFont",
+                            fontSize: 28,
+                            letterSpacing: 1.1),
                       ),
                     ),
-                    elevation: 0,
-                    visualDensity: VisualDensity.standard,
-                  ),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      AnimatedOpacity(
-                        opacity: showComingSoon ? 1.0 : 0.0,
-                        duration: const Duration(milliseconds: 500),
-                        child: const Text(
-                          'Coming Soon!',
-                          style: TextStyle(
-                              fontFamily: "GameFont",
-                              fontSize: 28,
-                              letterSpacing: 1.1),
-                        ),
+                    AnimatedOpacity(
+                      opacity: showComingSoon ? 0.0 : 1.0,
+                      duration: const Duration(milliseconds: 500),
+                      child: const Text(
+                        'Online Multiplayer',
+                        style: TextStyle(
+                            fontFamily: "GameFont",
+                            fontSize: 28,
+                            letterSpacing: 1.1),
                       ),
-                      AnimatedOpacity(
-                        opacity: showComingSoon ? 0.0 : 1.0,
-                        duration: const Duration(milliseconds: 500),
-                        child: const Text(
-                          'Online Multiplayer',
-                          style: TextStyle(
-                              fontFamily: "GameFont",
-                              fontSize: 28,
-                              letterSpacing: 1.1),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(
-                height: 60,
-                width: size.width / 2.3,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (musicbutton) {
-                      playAudio();
-                    }
+              HomeScreenButton(
+                onPressed: () {
+                  if (musicbutton) {
+                    playAudio();
+                  }
 
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return FutureBuilder(
-                          future:
-                              Future.delayed(const Duration(milliseconds: 200)),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              return const SettingsScreen(
-                                avatarImageUrl: '',
-                                gameDetails: 'Beginner',
-                                playerName: 'Player 1',
-                              );
-                            } else {
-                              return const LoadingScreen(
-                                text: 'Loading...',
-                              );
-                            }
-                          },
-                        );
-                      },
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        lightmodedarkmode ? lightCommonButton1 : CommonButton,
-                    foregroundColor: lightmodedarkmode
-                        ? lightbuttonForegroundColor
-                        : buttonForegroundColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      side: BorderSide(
-                        color: lightmodedarkmode
-                            ? lightButtonBorderColor
-                            : buttonBorderColor,
-                        width: 3,
-                      ),
-                    ),
-                    elevation: 0,
-                    visualDensity: VisualDensity.standard,
-                  ),
-                  child: const Text(
-                    'Settings',
-                    style: TextStyle(
-                      fontFamily: "GameFont",
-                      fontSize: 28,
-                      letterSpacing: 1.1,
-                    ),
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return FutureBuilder(
+                        future:
+                            Future.delayed(const Duration(milliseconds: 200)),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return const SettingsScreen(
+                              avatarImageUrl: '',
+                              gameDetails: 'Beginner',
+                              playerName: 'Player 1',
+                            );
+                          } else {
+                            return const LoadingScreen(
+                              text: 'Loading...',
+                            );
+                          }
+                        },
+                      );
+                    },
+                  );
+                },
+                child: const Text(
+                  'Settings',
+                  style: TextStyle(
+                    fontFamily: "GameFont",
+                    fontSize: 28,
+                    letterSpacing: 1.1,
                   ),
                 ),
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:play_real/colors/theme/themedata.dart';
+import 'package:play_real/screens/home.dart';
 
 class SettingsScreen extends StatelessWidget {
   final String avatarImageUrl;
@@ -19,13 +20,17 @@ class SettingsScreen extends StatelessWidget {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 8,
-      backgroundColor: DialogBackgroundColor,
+      backgroundColor: StartingScreenState.lightmodedarkmode
+          ? lightStartGameDialogColor
+          : DialogBackgroundColor,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: borderColor,
+            color: StartingScreenState.lightmodedarkmode
+                ? lightBorderColor
+                : borderColor,
             width: 1,
           ),
         ),
@@ -40,7 +45,9 @@ class SettingsScreen extends StatelessWidget {
                   fontSize: 34,
                   fontFamily: "GameFont",
                   fontWeight: FontWeight.w500,
-                  color: textColor,
+                  color: StartingScreenState.lightmodedarkmode
+                      ? lightbuttonForegroundColor
+                      : textColor,
                 ),
               ),
             ),
@@ -57,7 +64,9 @@ class SettingsScreen extends StatelessWidget {
                 fontSize: 24,
                 fontFamily: "GameFont",
                 fontWeight: FontWeight.w500,
-                color: textColor,
+                color: StartingScreenState.lightmodedarkmode
+                    ? lightbuttonForegroundColor
+                    : textColor,
               ),
             ),
 
@@ -78,7 +87,9 @@ class SettingsScreen extends StatelessWidget {
                 fontSize: 24,
                 fontFamily: "GameFont",
                 fontWeight: FontWeight.w500,
-                color: textColor,
+                color: StartingScreenState.lightmodedarkmode
+                    ? lightbuttonForegroundColor
+                    : textColor,
               ),
             ),
 
@@ -101,20 +112,24 @@ class SettingsScreen extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: CommonButton2,
+                    backgroundColor: StartingScreenState.lightmodedarkmode
+                        ? lightCommonButton1
+                        : CommonButton2,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Close',
                     style: TextStyle(
                       fontSize: 22,
                       fontFamily: "GameFont",
                       fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                      color: StartingScreenState.lightmodedarkmode
+                          ? lightbuttonForegroundColor
+                          : buttonForegroundColor,
                     ),
                   ),
                 ),

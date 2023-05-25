@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:play_real/colors/theme/themedata.dart';
+import 'package:play_real/screens/home.dart';
 
 class HomeScreenButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Widget child;
-  final double width;
 
   const HomeScreenButton({
     required this.onPressed,
     required this.child,
-    required this.width,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 60,
-      width: width,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red.shade600,
-          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          backgroundColor: StartingScreenState.lightmodedarkmode
+              ? lightCommonButton1
+              : CommonButton,
+          foregroundColor: StartingScreenState.lightmodedarkmode
+              ? lightbuttonForegroundColor
+              : buttonForegroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
             side: const BorderSide(
