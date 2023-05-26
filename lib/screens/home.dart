@@ -42,10 +42,16 @@ class StartingScreenState extends State<StartingScreen>
 
   final AudioPlayerHelper audioPlayerHelper = AudioPlayerHelper();
   final supabase = Supabase.instance.client;
+
+  static const String kMusicButtonKey = 'musicButton';
+  static const String kLightModeDarkModeKey = 'lightModeDarkMode';
+  static const String kfacebookLoginKey = 'facebookLogin';
+
   @override
   void initState() {
     super.initState();
     audioPlayerHelper.preloadAudio();
+    _loadSavedState();
   }
 
   void playAudio() {
@@ -58,23 +64,36 @@ class StartingScreenState extends State<StartingScreen>
     super.dispose();
   }
 
+  Future<void> _saveState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(kMusicButtonKey, musicbutton);
+    await prefs.setBool(kLightModeDarkModeKey, lightmodedarkmode);
+    await prefs.setBool(kfacebookLoginKey, isFacebookLoggedIn);
+  }
+
+  // Loading saved states
+  Future<void> _loadSavedState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      musicbutton = prefs.getBool(kMusicButtonKey) ?? true;
+      lightmodedarkmode = prefs.getBool(kLightModeDarkModeKey) ?? false;
+      isFacebookLoggedIn = prefs.getBool(kfacebookLoginKey) ?? false;
+    });
+  }
+
   // Facebbok login using supabase here
-  Future<void> _facebookLogin() async {
-    final prefs = await SharedPreferences.getInstance();
-    final isPreviouslyLoggedIn = prefs.getBool('isFacebookLoggedIn') ?? false;
-    if (isFacebookLoggedIn || isPreviouslyLoggedIn) {
-      // User is authenticated, ontap sign out
+  Future<void> facebookLogin() async {
+    if (isFacebookLoggedIn) {
       await supabase.auth.signOut();
       setState(() {
         isFacebookLoggedIn = false;
       });
     } else {
-      supabase.auth.signInWithOAuth(
+      await supabase.auth.signInWithOAuth(
         Provider.facebook,
       );
       setState(() {
         isFacebookLoggedIn = true;
-        prefs.setBool('isFacebookLoggedIn', true);
       });
     }
   }
@@ -162,6 +181,7 @@ class StartingScreenState extends State<StartingScreen>
                           onPressed: () {
                             setState(() {
                               musicbutton = !musicbutton;
+                              _saveState();
                             });
                             if (musicbutton) {
                               playAudio();
@@ -194,6 +214,7 @@ class StartingScreenState extends State<StartingScreen>
                             }
                             setState(() {
                               lightmodedarkmode = !lightmodedarkmode;
+                              _saveState();
                             });
                           },
                           child: Icon(
@@ -206,11 +227,12 @@ class StartingScreenState extends State<StartingScreen>
                           ),
                         ),
                         CustomIconButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (musicbutton) {
                               playAudio();
                             }
-                            _facebookLogin();
+                            await facebookLogin();
+                            _saveState();
                           },
                           child: Image.asset(
                             isFacebookLoggedIn
