@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
-import 'package:play_real/colors/theme/themedata.dart';
+import 'package:play_real/config/theme/themedata.dart';
 import 'package:play_real/dialog/game_detail_dialogue.dart';
 import 'package:play_real/dialog/settings.dart';
 import 'package:play_real/widgets/home_icon_button.dart';
 import 'package:play_real/widgets/home_screen_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-// import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../widgets/audio_player.dart';
 import 'how_to_play.dart';
@@ -69,24 +68,14 @@ class StartingScreenState extends State<StartingScreen>
       setState(() {
         isFacebookLoggedIn = false;
       });
-      await prefs.setBool('isFacebookLoggedIn', false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(
-            'Signed out successful',
-          ),
-          backgroundColor: Colors.red.shade600.withOpacity(0.8),
-        ),
-      );
     } else {
       supabase.auth.signInWithOAuth(
         Provider.facebook,
-        redirectTo: 'https://amjxawskarnqmksbgmme.supabase.co/auth/v1/callback',
       );
       setState(() {
         isFacebookLoggedIn = true;
+        prefs.setBool('isFacebookLoggedIn', true);
       });
-      await prefs.setBool('isFacebookLoggedIn', true);
     }
   }
 

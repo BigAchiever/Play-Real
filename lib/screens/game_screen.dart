@@ -2,14 +2,14 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:play_real/colors/theme/themedata.dart';
+import 'package:play_real/config/theme/themedata.dart';
 import 'package:play_real/widgets/audio_player.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/widgets/dice.dart';
 import 'package:play_real/dialog/widgets/difficulty_level.dart';
 import 'package:play_real/widgets/loader.dart';
 import 'package:play_real/dialog/dialog_utils/winning_dialogue.dart';
-import '../colors/player_colors.dart';
+import '../config/player_colors.dart';
 import '../widgets/tasks/board_sentences.dart';
 import 'home.dart';
 import '../widgets/message_card.dart';
@@ -414,10 +414,12 @@ class _GameScreenState extends State<GameScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Center(
-                              child: _isDiceRolled
+                                // Displaying the message
+                              child: _isDiceRolled 
                                   ? currentPlayer.position >=
                                           _boardNumbers.length
                                       ? Text(
+                                        // Displaying the message when the player wins
                                           'Congratulations! Player ${currentPlayer.number} wins! Press Done to continue.',
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.actor(
@@ -430,6 +432,7 @@ class _GameScreenState extends State<GameScreen> {
                                           ),
                                         )
                                       : Text(
+                                        // Displaying the board sentences when the player moves on a particular tile
                                           boardSentences[
                                               currentPlayer.position - 1],
                                           textAlign: TextAlign.center,
@@ -443,6 +446,7 @@ class _GameScreenState extends State<GameScreen> {
                                           ),
                                         )
                                   : Text(
+                                      // Current player's turn message
                                       'It\'s Player ${currentPlayer.number}\'s turn. Roll the dice!',
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.actor(
@@ -464,6 +468,7 @@ class _GameScreenState extends State<GameScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
+                          // ---------------------------Failed Button ---------------------------
                           SizedBox(
                             width: 90,
                             height: 50,
@@ -530,7 +535,7 @@ class _GameScreenState extends State<GameScreen> {
                             ),
                           ),
 
-                          //Dice widget called here
+                          // ----------------------------Dice widget called here--------------------------------
                           Dice(
                             onDiceRolled: (int diceNumber) {
                               if (StartingScreenState.musicbutton) {
@@ -540,6 +545,8 @@ class _GameScreenState extends State<GameScreen> {
                             },
                             isEnabled: _isDiceEnabled,
                           ),
+
+                          //-------------------------------- Done button here--------------------------------
                           SizedBox(
                             width: 90,
                             height: 50,

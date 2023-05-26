@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:play_real/colors/theme/themedata.dart';
+import 'package:play_real/config/theme/themedata.dart';
 import 'package:play_real/screens/home.dart';
 import 'package:play_real/widgets/loader.dart';
 

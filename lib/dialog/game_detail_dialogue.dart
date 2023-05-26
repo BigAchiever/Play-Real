@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:play_real/colors/theme/themedata.dart';
+import 'package:play_real/config/theme/themedata.dart';
 import 'package:play_real/screens/home.dart';
 import 'package:play_real/dialog/widgets/players_count.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:play_real/screens/home.dart';
 
-import '../colors/theme/themedata.dart';
+import '../config/theme/themedata.dart';
 
 class CustomIconButton extends StatelessWidget {
   final VoidCallback onPressed;
