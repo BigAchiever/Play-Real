@@ -123,6 +123,7 @@ class StartingScreenState extends State<StartingScreen>
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
       body: Stack(children: [
         Container(
@@ -239,8 +240,8 @@ class StartingScreenState extends State<StartingScreen>
                           },
                           child: Icon(
                             lightmodedarkmode
-                                ? Icons.light_mode
-                                : Icons.dark_mode,
+                                ? Icons.dark_mode
+                                : Icons.light_mode,
                             color: lightmodedarkmode
                                 ? lightbuttonForegroundColor
                                 : buttonForegroundColor,
@@ -367,24 +368,25 @@ class StartingScreenState extends State<StartingScreen>
                   if (musicbutton) {
                     playAudio();
                   }
-
+                  // use future builer
                   showDialog(
-                    context: context,
-                    builder: (context) {
-                      return FutureBuilder(
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            return SettingsScreen();
-                          } else {
-                            return const LoadingScreen(
-                              text: 'Loading...',
-                            );
-                          }
-                        },
-                      );
-                    },
-                  );
+                      context: context,
+                      builder: (context) {
+                        return FutureBuilder(
+                          future:
+                              Future.delayed(const Duration(milliseconds: 200)),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return SettingsScreen();
+                            } else {
+                              return LoadingScreen(
+                                text: 'Loading...',
+                              );
+                            }
+                          },
+                        );
+                      });
                 },
                 child: const Text(
                   'Settings',

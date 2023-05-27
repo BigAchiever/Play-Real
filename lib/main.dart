@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:play_real/screens/home.dart';
+import 'package:provider/provider.dart';
+
+import 'appwrite/auth.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AuthAPI(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
