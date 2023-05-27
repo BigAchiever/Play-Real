@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:appwrite/appwrite.dart';
+
 import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/config/theme/themedata.dart';
@@ -7,9 +7,10 @@ import 'package:play_real/dialog/game_detail_dialogue.dart';
 import 'package:play_real/dialog/settings.dart';
 import 'package:play_real/widgets/home_icon_button.dart';
 import 'package:play_real/widgets/home_screen_button.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../constants/constants.dart';
+import '../appwrite/auth.dart';
 import '../widgets/audio_player.dart';
 import 'how_to_play.dart';
 import '../widgets/loader.dart';
@@ -42,7 +43,7 @@ class StartingScreenState extends State<StartingScreen>
   bool showComingSoon = false;
 
   final AudioPlayerHelper audioPlayerHelper = AudioPlayerHelper();
-  final account = Account(client);
+  // final account = Account(client);
 
   static const String kMusicButtonKey = 'musicButton';
   static const String kLightModeDarkModeKey = 'lightModeDarkMode';
@@ -82,39 +83,38 @@ class StartingScreenState extends State<StartingScreen>
     });
   }
 
-  // Facebbok login using supabase here
-  // Future<void> facebookLogin() async {
-  //   if (isFacebookLoggedIn) {
-  //     await supabase.auth.signOut();
-  //     setState(() {
-  //       isFacebookLoggedIn = false;
-  //     });
-  //   } else {
-  //     await supabase.auth.signInWithOAuth(
-  //       Provider.facebook,
-  //     );
-  //     setState(() {
-  //       isFacebookLoggedIn = true;
-  //     });
-  //   }
-  // }
-
-  // facebook login using appwrite here
-  Future<void> facebookLogin() async {
+  signInWithFacebook(String provider) {
     if (isFacebookLoggedIn) {
-      //Already logged in, log them out
-      account.deleteSession(sessionId: ' [SESSION_ID]');
-      setState(() {
-        isFacebookLoggedIn = false;
-      });
+      // already logged in, sign out
+      try {
+        context.read<AuthAPI>().signOut();
+        setState(() {
+          isFacebookLoggedIn = false;
+        });
+      } catch (e) {
+        print('Error signing out: $e');
+      }
     } else {
-      // Not logged in, login!
-      await account.createOAuth2Session(
-        provider: 'facebook',
-      );
-      setState(() {
-        isFacebookLoggedIn = true;
-      });
+      //  not logged in, sign in
+      try {
+        context.read<AuthAPI>().signInWithFacebook(provider: provider);
+        setState(() {
+          isFacebookLoggedIn = true;
+        });
+      } catch (e) {
+        AlertDialog(
+          title: const Text('Error'),
+          content: Text('Something went wrong!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      }
     }
   }
 
@@ -251,7 +251,7 @@ class StartingScreenState extends State<StartingScreen>
                             if (musicbutton) {
                               playAudio();
                             }
-                            facebookLogin();
+                            signInWithFacebook('facebook');
                             _saveState();
                           },
                           child: Image.asset(
@@ -372,16 +372,10 @@ class StartingScreenState extends State<StartingScreen>
                     context: context,
                     builder: (context) {
                       return FutureBuilder(
-                        future:
-                            Future.delayed(const Duration(milliseconds: 200)),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.done) {
-                            return const SettingsScreen(
-                              avatarImageUrl: '',
-                              gameDetails: 'Beginner',
-                              playerName: 'Player 1',
-                            );
+                            return SettingsScreen();
                           } else {
                             return const LoadingScreen(
                               text: 'Loading...',

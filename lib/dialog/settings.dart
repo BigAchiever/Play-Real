@@ -1,18 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:play_real/config/theme/themedata.dart';
 import 'package:play_real/screens/home.dart';
+import 'package:provider/provider.dart';
 
-class SettingsScreen extends StatelessWidget {
-  final String avatarImageUrl;
-  final String playerName;
-  final String gameDetails;
+import '../appwrite/auth.dart';
 
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({
     super.key,
-    required this.avatarImageUrl,
-    required this.playerName,
-    required this.gameDetails,
   });
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  String? uid, username;
+
+  @override
+  void initState() {
+    super.initState();
+    final AuthAPI appwrite = context.read<AuthAPI>();
+    uid = appwrite.userid;
+    username = appwrite.currentUser.name;
+  }
+
+  signOut() {
+    final AuthAPI appwrite = context.read<AuthAPI>();
+    appwrite.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +70,9 @@ class SettingsScreen extends StatelessWidget {
             const SizedBox(height: 40),
             // player avatar here
             CircleAvatar(
-              backgroundImage: NetworkImage(avatarImageUrl),
+              backgroundImage: NetworkImage(
+                'https://avatars.githubusercontent.com/u/8186664?v=4',
+              ),
               radius: 50.0,
             ),
             const SizedBox(height: 40),
@@ -71,7 +89,7 @@ class SettingsScreen extends StatelessWidget {
             ),
 
             Text(
-              playerName,
+              username!,
               style: TextStyle(
                 fontSize: 20,
                 fontFamily: "GameFont",
@@ -82,7 +100,7 @@ class SettingsScreen extends StatelessWidget {
 
             const SizedBox(height: 40),
             Text(
-              'Achievement:',
+              'UID:',
               style: TextStyle(
                 fontSize: 24,
                 fontFamily: "GameFont",
@@ -94,7 +112,7 @@ class SettingsScreen extends StatelessWidget {
             ),
 
             Text(
-              gameDetails,
+              uid!,
               style: TextStyle(
                 fontSize: 20,
                 fontFamily: "GameFont",
