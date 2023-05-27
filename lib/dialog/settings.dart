@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:play_real/config/theme/themedata.dart';
 import 'package:play_real/screens/home.dart';
+import 'package:play_real/widgets/profile_text_field.dart';
 import 'package:provider/provider.dart';
 
 import '../appwrite/auth.dart';
@@ -16,13 +17,20 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   String? uid, username;
-
+  static TextEditingController bioTextController = TextEditingController();
   @override
   void initState() {
     super.initState();
     final AuthAPI appwrite = context.read<AuthAPI>();
     uid = appwrite.userid;
-    username = appwrite.currentUser.name;
+    username = appwrite.username;
+    appwrite.getUserPreferences().then((value) {
+      if (value.data.isNotEmpty) {
+        setState(() {
+          bioTextController.text = value.data['bio'];
+        });
+      }
+    });
   }
 
   signOut() {
@@ -30,9 +38,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     appwrite.signOut();
   }
 
+  void savePreferences(String bio) {
+    final AuthAPI appwrite = context.read<AuthAPI>();
+    appwrite.updatePreferences(bio: bio);
+    const snackbar = SnackBar(content: Text('Preferences updated!'));
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 8,
@@ -56,7 +70,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             Center(
               child: Text(
-                'Settings',
+                'Profile',
                 style: TextStyle(
                   fontSize: 34,
                   fontFamily: "GameFont",
@@ -69,91 +83,52 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             const SizedBox(height: 40),
             // player avatar here
-            CircleAvatar(
-              backgroundImage: NetworkImage(
-                'https://avatars.githubusercontent.com/u/8186664?v=4',
-              ),
-              radius: 50.0,
-            ),
-            const SizedBox(height: 40),
-            Text(
-              'Player Name: ',
-              style: TextStyle(
-                fontSize: 24,
-                fontFamily: "GameFont",
-                fontWeight: FontWeight.w500,
-                color: StartingScreenState.lightmodedarkmode
-                    ? lightbuttonForegroundColor
-                    : textColor,
-              ),
-            ),
-
-            Text(
-              username!,
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: "GameFont",
-                fontWeight: FontWeight.w500,
-                color: commonGreyColor,
-              ),
-            ),
-
-            const SizedBox(height: 40),
-            Text(
-              'UID:',
-              style: TextStyle(
-                fontSize: 24,
-                fontFamily: "GameFont",
-                fontWeight: FontWeight.w500,
-                color: StartingScreenState.lightmodedarkmode
-                    ? lightbuttonForegroundColor
-                    : textColor,
-              ),
-            ),
-
-            Text(
-              uid!,
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: "GameFont",
-                fontWeight: FontWeight.w500,
-                color: commonGreyColor,
-              ),
-            ),
-            const SizedBox(height: 60),
-            Center(
-              child: SizedBox(
-                width: size.width / 2,
-                height: size.height / 15,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: StartingScreenState.lightmodedarkmode
-                        ? lightCommonButton1
-                        : CommonButton2,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    'https://avatars.githubusercontent.com/u/8186664?v=4',
                   ),
-                  child: Text(
-                    'Close',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontFamily: "GameFont",
-                      fontWeight: FontWeight.w500,
-                      color: StartingScreenState.lightmodedarkmode
-                          ? lightbuttonForegroundColor
-                          : buttonForegroundColor,
-                    ),
-                  ),
+                  radius: 40.0,
                 ),
-              ),
+                Column(
+                  children: [
+                    Text(
+                      username ?? 'Player1@',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: "GameFont",
+                        fontWeight: FontWeight.w500,
+                        color: StartingScreenState.lightmodedarkmode
+                            ? lightbuttonForegroundColor
+                            : textColor,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      uid ?? 'Reload',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: "GameFont",
+                        fontWeight: FontWeight.w500,
+                        color: StartingScreenState.lightmodedarkmode
+                            ? lightbuttonForegroundColor
+                            : textColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            const SizedBox(height: 16)
+            const SizedBox(height: 40),
+            SizedBox(
+                width: 250,
+                child: buildTextField3(
+                    context, savePreferences, bioTextController)),
+
+            const SizedBox(height: 10),
+            // save button
           ],
         ),
       ),
