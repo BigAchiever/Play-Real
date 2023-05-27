@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/config/theme/themedata.dart';
@@ -7,8 +8,8 @@ import 'package:play_real/dialog/settings.dart';
 import 'package:play_real/widgets/home_icon_button.dart';
 import 'package:play_real/widgets/home_screen_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../constants/constants.dart';
 import '../widgets/audio_player.dart';
 import 'how_to_play.dart';
 import '../widgets/loader.dart';
@@ -41,7 +42,7 @@ class StartingScreenState extends State<StartingScreen>
   bool showComingSoon = false;
 
   final AudioPlayerHelper audioPlayerHelper = AudioPlayerHelper();
-  final supabase = Supabase.instance.client;
+  final account = Account(client);
 
   static const String kMusicButtonKey = 'musicButton';
   static const String kLightModeDarkModeKey = 'lightModeDarkMode';
@@ -82,15 +83,34 @@ class StartingScreenState extends State<StartingScreen>
   }
 
   // Facebbok login using supabase here
+  // Future<void> facebookLogin() async {
+  //   if (isFacebookLoggedIn) {
+  //     await supabase.auth.signOut();
+  //     setState(() {
+  //       isFacebookLoggedIn = false;
+  //     });
+  //   } else {
+  //     await supabase.auth.signInWithOAuth(
+  //       Provider.facebook,
+  //     );
+  //     setState(() {
+  //       isFacebookLoggedIn = true;
+  //     });
+  //   }
+  // }
+
+  // facebook login using appwrite here
   Future<void> facebookLogin() async {
     if (isFacebookLoggedIn) {
-      await supabase.auth.signOut();
+      //Already logged in, log them out
+      account.deleteSession(sessionId: ' [SESSION_ID]');
       setState(() {
         isFacebookLoggedIn = false;
       });
     } else {
-      await supabase.auth.signInWithOAuth(
-        Provider.facebook,
+      // Not logged in, login!
+      await account.createOAuth2Session(
+        provider: 'facebook',
       );
       setState(() {
         isFacebookLoggedIn = true;
@@ -231,7 +251,7 @@ class StartingScreenState extends State<StartingScreen>
                             if (musicbutton) {
                               playAudio();
                             }
-                            await facebookLogin();
+                            facebookLogin();
                             _saveState();
                           },
                           child: Image.asset(
