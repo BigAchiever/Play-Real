@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:play_real/provvider/player_age_provider.dart';
 import 'package:provider/provider.dart';
 import 'appwrite/auth.dart';
 import 'screens/home.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(
     const MyApp(),
   );
