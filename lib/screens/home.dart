@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/config/theme/themedata.dart';
-import 'package:play_real/dialog/game_detail_dialogue.dart';
+import 'package:play_real/constants/constants.dart';
+import 'package:play_real/dialog/start_game_dialog.dart';
 import 'package:play_real/dialog/settings.dart';
 import 'package:play_real/widgets/home_icon_button.dart';
 import 'package:play_real/widgets/home_screen_button.dart';
@@ -164,9 +165,9 @@ class StartingScreenState extends State<StartingScreen>
                     );
                   },
                   child: Text(
-                    "PLAY REAL",
+                    "PLAY\n    REAL",
                     style: TextStyle(
-                      fontSize: size.width / 5,
+                      fontSize: size.width > mobileScreenWidth ? 100 : 80,
                       fontFamily: "GameFont",
                       fontWeight: FontWeight.w500,
                       color: lightmodedarkmode
@@ -179,17 +180,14 @@ class StartingScreenState extends State<StartingScreen>
                           offset: Offset(0, 4),
                         ),
                         Shadow(
-                          color: Colors.blue,
+                          color: Colors.black,
                           blurRadius: 0,
-                          offset: Offset(0, -4),
+                          offset: Offset(0, -6),
                         ),
                       ],
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: size.height / 24,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -208,6 +206,7 @@ class StartingScreenState extends State<StartingScreen>
                               playAudio();
                             }
                           },
+                          heroTag: Text("music"),
                           child: Icon(
                             musicbutton ? Icons.music_note : Icons.music_off,
                             color: lightmodedarkmode
@@ -216,6 +215,7 @@ class StartingScreenState extends State<StartingScreen>
                           ),
                         ),
                         CustomIconButton(
+                          heroTag: Text("leaderboard"),
                           onPressed: () {
                             if (musicbutton) {
                               playAudio();
@@ -238,6 +238,7 @@ class StartingScreenState extends State<StartingScreen>
                               _saveState();
                             });
                           },
+                          heroTag: Text("lightmode"),
                           child: Icon(
                             lightmodedarkmode
                                 ? Icons.dark_mode
@@ -255,6 +256,7 @@ class StartingScreenState extends State<StartingScreen>
                             signInWithFacebook('facebook');
                             _saveState();
                           },
+                          heroTag: Text("facebook"),
                           child: Image.asset(
                             isFacebookLoggedIn
                                 ? "assets/images/facebook.png"

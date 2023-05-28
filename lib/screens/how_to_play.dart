@@ -99,6 +99,7 @@ class _HowToPlayState extends State<HowToPlay> {
                     child: Column(
                       children: [
                         Text(
+                          
                           "1. Choose the number of players and select the difficulty level. It will assign the number of tokens for each player. ",
                           style: GoogleFonts.actor(
                             fontSize: 18,

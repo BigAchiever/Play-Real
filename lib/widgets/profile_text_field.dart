@@ -38,8 +38,8 @@ Widget buildTextField3(BuildContext context,
         hintStyle: TextStyle(color: Colors.white70, fontSize: 16),
         filled: true,
         fillColor: StartingScreenState.lightmodedarkmode
-            ? lightCommonButton1
-            : CommonButton2,
+            ? lightMessageBoxColor
+            : Colors.grey[900],
       ),
     ),
   );

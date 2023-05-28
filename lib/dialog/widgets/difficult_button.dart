@@ -8,7 +8,7 @@ enum DifficultyLevel {
   Default,
   kids,
   medium,
-  sarcastic,
+  sarcastic, easy,
 }
 
 class DifficultyButton extends StatelessWidget {

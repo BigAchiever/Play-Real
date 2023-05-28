@@ -6,7 +6,7 @@ import 'package:play_real/config/theme/themedata.dart';
 import 'package:play_real/widgets/audio_player.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/widgets/dice.dart';
-import 'package:play_real/dialog/widgets/difficulty_level.dart';
+import 'package:play_real/dialog/widgets/difficult_button.dart';
 import 'package:play_real/widgets/loader.dart';
 import 'package:play_real/dialog/dialog_utils/winning_dialogue.dart';
 import '../config/player_colors.dart';

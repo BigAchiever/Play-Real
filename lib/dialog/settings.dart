@@ -95,7 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Column(
                   children: [
                     Text(
-                      username ?? 'Player1@',
+                      username ?? 'Player 1',
                       style: TextStyle(
                         fontSize: 24,
                         fontFamily: "GameFont",
@@ -107,7 +107,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      uid ?? 'Reload',
+                      uid ?? 'Not authenticated',
                       style: TextStyle(
                         fontSize: 16,
                         fontFamily: "GameFont",
