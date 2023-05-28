@@ -74,91 +74,88 @@ class _GameDialogState extends State<GameDialog> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Stack(
-      children: [
-        Dialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          elevation: 8,
-          backgroundColor: StartingScreenState.lightmodedarkmode
-              ? lightStartGameDialogColor
-              : startGameDialogColor,
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: borderColor,
-                width: 1,
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      elevation: 8,
+      backgroundColor: StartingScreenState.lightmodedarkmode
+          ? lightStartGameDialogColor
+          : startGameDialogColor,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: borderColor,
+            width: 1,
+          ),
+        ),
+        child: Stack(children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Text(
+                  'New Game',
+                  style: TextStyle(
+                      fontSize: 28,
+                      fontFamily: "GameFont",
+                      fontWeight: FontWeight.w500,
+                      color: textColor,
+                      letterSpacing: 1.2),
+                ),
               ),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Text(
-                    'New Game',
-                    style: TextStyle(
-                        fontSize: 28,
-                        fontFamily: "GameFont",
-                        fontWeight: FontWeight.w500,
-                        color: textColor,
-                        letterSpacing: 1.2),
-                  ),
-                ),
-                const SizedBox(height: 28),
-                PlayerCountSelectionWidget(
-                  // from PlayerCountSelectionWidget
-                  onPlayerCountChanged: onPlayerCountChanged,
-                ),
-                const SizedBox(height: 16),
-                DifficultySelectionWidget(
-                  // from DifficultySelectionWidget
-                  onDifficultyChanged: onDifficultyChanged,
-                ),
-                const SizedBox(height: 16),
-                GridSizeSelectionWidget(
-                  // from GridSizeSelectionWidget
-                  onGridSizeChanged: selectGridSize,
-                ),
-                const SizedBox(height: 50),
-                Center(
-                  child: SizedBox(
-                    width: size.width / 2,
-                    height: size.height / 15,
-                    child: ElevatedButton(
-                      onPressed: _startGame,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: StartingScreenState.lightmodedarkmode
-                            ? lightCommonButton1
-                            : CommonButton,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
+              const SizedBox(height: 28),
+              PlayerCountSelectionWidget(
+                // from PlayerCountSelectionWidget
+                onPlayerCountChanged: onPlayerCountChanged,
+              ),
+              const SizedBox(height: 16),
+              DifficultySelectionWidget(
+                // from DifficultySelectionWidget
+                onDifficultyChanged: onDifficultyChanged,
+              ),
+              const SizedBox(height: 16),
+              GridSizeSelectionWidget(
+                // from GridSizeSelectionWidget
+                onGridSizeChanged: selectGridSize,
+              ),
+              const SizedBox(height: 50),
+              Center(
+                child: SizedBox(
+                  width: size.width / 2,
+                  height: size.height / 15,
+                  child: ElevatedButton(
+                    onPressed: _startGame,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: StartingScreenState.lightmodedarkmode
+                          ? lightCommonButton1
+                          : CommonButton,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
                       ),
-                      child: Text(
-                        'Lets Go!',
-                        style: TextStyle(
-                            fontSize: 22,
-                            fontFamily: "GameFont",
-                            fontWeight: FontWeight.w500,
-                            color: StartingScreenState.lightmodedarkmode
-                                ? lightbuttonForegroundColor
-                                : buttonForegroundColor),
-                      ),
+                    ),
+                    child: Text(
+                      'Lets Go!',
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontFamily: "GameFont",
+                          fontWeight: FontWeight.w500,
+                          color: StartingScreenState.lightmodedarkmode
+                              ? lightbuttonForegroundColor
+                              : buttonForegroundColor),
                     ),
                   ),
                 ),
-                const SizedBox(height: 16)
-              ],
-            ),
+              ),
+              const SizedBox(height: 16)
+            ],
           ),
-        ),
-        crossWidget(context, 100.0, 30.0)
-      ],
+          crossWidget(context, 0.0, 0.0)
+        ]),
+      ),
     );
   }
 }

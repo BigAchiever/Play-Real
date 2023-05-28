@@ -9,11 +9,12 @@ Widget crossWidget(context, top, right) {
         Navigator.pop(context);
       },
       child: CircleAvatar(
-        radius: 18,
+        radius: 15,
         backgroundColor: Colors.white,
         child: Icon(
+          shadows: [BoxShadow(color: Colors.red, blurRadius: 4)],
           Icons.close,
-          size: 20,
+          size: 18,
           color: Colors.red,
         ),
       ),

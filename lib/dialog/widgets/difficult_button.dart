@@ -8,7 +8,8 @@ enum DifficultyLevel {
   Default,
   kids,
   medium,
-  sarcastic, easy,
+  sarcastic,
+  easy,
 }
 
 class DifficultyButton extends StatelessWidget {
@@ -36,7 +37,7 @@ class DifficultyButton extends StatelessWidget {
                 ? lightUnselectedButtonColor
                 : unselectedButtonColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
       ),
       child: Text(
         level.toString().split('.').last,
