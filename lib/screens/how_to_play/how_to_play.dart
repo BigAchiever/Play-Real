@@ -4,14 +4,18 @@ import 'package:play_real/config/theme/themedata.dart';
 import 'package:play_real/dialog/widgets/difficulty_widget.dart';
 import 'package:play_real/dialog/widgets/player_widget.dart';
 import 'package:play_real/screens/home.dart';
-import 'package:play_real/screens/how_top_play_online.dart';
+
+import 'package:play_real/widgets/blur_screen_widget.dart';
 import 'package:play_real/widgets/dice.dart';
 import 'package:play_real/widgets/failed_button.dart';
 import 'package:play_real/widgets/loader.dart';
 import 'package:play_real/widgets/message_card.dart';
 
-import '../background.dart';
-import '../widgets/done.dart';
+import '../../background.dart';
+import '../../widgets/done.dart';
+import 'how_top_play_online.dart';
+
+
 
 class HowToPlay extends StatefulWidget {
   const HowToPlay({super.key});
@@ -45,7 +49,6 @@ class _HowToPlayState extends State<HowToPlay> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -112,33 +115,7 @@ class _HowToPlayState extends State<HowToPlay> with TickerProviderStateMixin {
         body: Stack(
           children: [
             const AnimatedBubbles(),
-            Container(
-              height: size.height,
-              width: size.width,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    StartingScreenState.lightmodedarkmode
-                        ? lightGradientColor1
-                        : gradientColor1,
-
-                    // the whole screen will be of same gradient
-                    if (StartingScreenState.lightmodedarkmode == true)
-                      StartingScreenState.lightmodedarkmode
-                          ? lightGradientColor1
-                          : gradientColor1,
-
-                    // else the whole screen will have two gradient colors
-                    if (StartingScreenState.lightmodedarkmode == false)
-                      StartingScreenState.lightmodedarkmode
-                          ? lightGradientColor2
-                          : gradientColor2,
-                  ],
-                ),
-              ),
-            ),
+            blurScreenWidget(context),
             _isAnimationComplete
                 ? PageView(
                     controller: _pageController,

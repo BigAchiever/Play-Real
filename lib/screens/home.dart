@@ -14,8 +14,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../appwrite/auth.dart';
 import '../widgets/audio_player.dart';
-import 'how_to_play.dart';
+
 import '../widgets/loader.dart';
+import 'how_to_play/how_to_play.dart';
 
 class StartingScreen extends StatefulWidget {
   const StartingScreen({super.key});
