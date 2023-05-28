@@ -21,12 +21,12 @@ class AuthAPI extends ChangeNotifier {
   AuthStatus get status => _status;
   String? get username => _currentUser?.name;
   String? get userid => _currentUser?.$id;
+  ValueNotifier<bool> isFacebookAuthenticated = ValueNotifier<bool>(false);
 
   // Constructor
   AuthAPI() {
     loadUser();
   }
- 
 
   loadUser() async {
     try {
@@ -42,7 +42,7 @@ class AuthAPI extends ChangeNotifier {
     try {
       final session = await account.createOAuth2Session(provider: provider);
       _currentUser = await account.get();
-
+      isFacebookAuthenticated.value = true;
       _status = AuthStatus.authenticated;
       return session;
     } finally {
@@ -54,6 +54,7 @@ class AuthAPI extends ChangeNotifier {
     try {
       await account.deleteSession(sessionId: '[SESSION_ID]');
       _status = AuthStatus.unauthenticated;
+      isFacebookAuthenticated.value = false;
     } finally {
       notifyListeners();
     }

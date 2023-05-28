@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-
-import 'package:play_real/screens/home.dart';
+import 'package:play_real/provvider/player_age_provider.dart';
 import 'package:provider/provider.dart';
-
 import 'appwrite/auth.dart';
+import 'screens/home.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => AuthAPI(),
-      child: const MyApp(),
-    ),
+    const MyApp(),
   );
 }
 
@@ -19,10 +15,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Play Real',
-      home: const StartingScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AuthAPI>(
+          create: (context) => AuthAPI(),
+        ),
+        ChangeNotifierProvider<PlayerAgeProvider>(
+          create: (context) => PlayerAgeProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Play Real',
+        home: const StartingScreen(),
+      ),
     );
   }
 }
