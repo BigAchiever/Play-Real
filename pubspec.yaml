@@ -44,6 +44,7 @@ dependencies:
   confetti: ^0.7.0
   shared_preferences: 
   appwrite: ^9.0.0
+  carousel_slider: ^4.2.1
 
   
 
@@ -82,6 +83,7 @@ flutter:
   assets:
     - assets/images/
     - assets/media/
+    - assets/images/avatars/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

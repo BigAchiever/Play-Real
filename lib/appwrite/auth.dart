@@ -42,6 +42,7 @@ class AuthAPI extends ChangeNotifier {
     try {
       final session = await account.createOAuth2Session(provider: provider);
       _currentUser = await account.get();
+
       isFacebookAuthenticated.value = true;
       _status = AuthStatus.authenticated;
       return session;

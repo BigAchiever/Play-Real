@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../config/theme/themedata.dart';
-import '../../provvider/player_age_provider.dart';
+import '../../provider/player_age_provider.dart';
 
 class PlayerAgeWidget extends StatelessWidget {
   @override

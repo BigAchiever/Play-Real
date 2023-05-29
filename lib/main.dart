@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:play_real/provvider/player_age_provider.dart';
+import 'package:play_real/provider/player_age_provider.dart';
 import 'package:provider/provider.dart';
 import 'appwrite/auth.dart';
 import 'screens/home.dart';

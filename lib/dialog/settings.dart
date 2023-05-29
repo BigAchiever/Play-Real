@@ -8,6 +8,7 @@ import 'package:play_real/widgets/profile_text_field.dart';
 import 'package:provider/provider.dart';
 
 import '../appwrite/auth.dart';
+import 'circle_avatar_widget.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({
@@ -85,17 +86,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
               // player avatar here
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      'https://avatars.githubusercontent.com/u/8186664?v=4',
-                    ),
-                    radius: 40.0,
-                  ),
+                  Stack(children: [
+                    AvatarAnimationWidget(),
+                    Positioned(
+                      bottom: 10,
+                      right: 22,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey[600],
+                        radius: 8,
+                        child: Icon(
+                          Icons.add,
+                          size: 12,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                  ]),
                   Column(
                     children: [
                       Text(
