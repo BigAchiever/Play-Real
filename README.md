@@ -2,7 +2,7 @@
 
 Welcome to Play Real, an immersive gaming application developed using Flutter and Dart. This exciting game aims to engage people of all ages, promoting physical activity and creating memorable moments for players.
 
-![Play Real Demo](https://img.youtube.com/vi/u0VgTRwEl6Q/0.jpg)
+
 
 ## Table of Contents
 - [Overview](#overview)
