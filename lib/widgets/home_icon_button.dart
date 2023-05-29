@@ -6,10 +6,12 @@ import '../config/theme/themedata.dart';
 class CustomIconButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Widget child;
+  final Widget? heroTag;
 
   const CustomIconButton({
     required this.onPressed,
     required this.child,
+    required this.heroTag,
   });
 
   @override
@@ -18,6 +20,7 @@ class CustomIconButton extends StatelessWidget {
     return SizedBox(
       width: size.width / 8,
       child: FloatingActionButton(
+        heroTag: heroTag,
         onPressed: onPressed,
         elevation: 0,
         backgroundColor: StartingScreenState.lightmodedarkmode

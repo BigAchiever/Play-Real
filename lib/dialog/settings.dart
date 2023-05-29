@@ -1,22 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:play_real/config/theme/themedata.dart';
+import 'package:play_real/dialog/widgets/player_age.dart';
 import 'package:play_real/screens/home.dart';
+import 'package:play_real/widgets/cross_widget.dart';
+import 'package:play_real/widgets/error_widget.dart';
+import 'package:play_real/widgets/profile_text_field.dart';
+import 'package:provider/provider.dart';
 
-class SettingsScreen extends StatelessWidget {
-  final String avatarImageUrl;
-  final String playerName;
-  final String gameDetails;
+import '../appwrite/auth.dart';
+import 'circle_avatar_widget.dart';
 
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({
     super.key,
-    required this.avatarImageUrl,
-    required this.playerName,
-    required this.gameDetails,
   });
 
   @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  String? uid, username;
+  static TextEditingController bioTextController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    final AuthAPI appwrite = context.read<AuthAPI>();
+    uid = appwrite.userid;
+    username = appwrite.username;
+    appwrite.getUserPreferences().then((value) {
+      if (value.data.isNotEmpty) {
+        setState(() {
+          bioTextController.text = value.data['bio'];
+        });
+      }
+    });
+  }
+
+  signOut() {
+    final AuthAPI appwrite = context.read<AuthAPI>();
+    appwrite.signOut();
+  }
+
+  void savePreferences(String bio) {
+    final AuthAPI appwrite = context.read<AuthAPI>();
+    appwrite.updatePreferences(bio: bio);
+    showError(context, 'Updated your bio!');
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 8,
@@ -34,110 +68,152 @@ class SettingsScreen extends StatelessWidget {
             width: 1,
           ),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: Text(
-                'Settings',
-                style: TextStyle(
-                  fontSize: 34,
-                  fontFamily: "GameFont",
-                  fontWeight: FontWeight.w500,
-                  color: StartingScreenState.lightmodedarkmode
-                      ? lightbuttonForegroundColor
-                      : textColor,
-                ),
-              ),
-            ),
-            const SizedBox(height: 40),
-            // player avatar here
-            CircleAvatar(
-              backgroundImage: NetworkImage(avatarImageUrl),
-              radius: 50.0,
-            ),
-            const SizedBox(height: 40),
-            Text(
-              'Player Name: ',
-              style: TextStyle(
-                fontSize: 24,
-                fontFamily: "GameFont",
-                fontWeight: FontWeight.w500,
-                color: StartingScreenState.lightmodedarkmode
-                    ? lightbuttonForegroundColor
-                    : textColor,
-              ),
-            ),
-
-            Text(
-              playerName,
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: "GameFont",
-                fontWeight: FontWeight.w500,
-                color: commonGreyColor,
-              ),
-            ),
-
-            const SizedBox(height: 40),
-            Text(
-              'Achievement:',
-              style: TextStyle(
-                fontSize: 24,
-                fontFamily: "GameFont",
-                fontWeight: FontWeight.w500,
-                color: StartingScreenState.lightmodedarkmode
-                    ? lightbuttonForegroundColor
-                    : textColor,
-              ),
-            ),
-
-            Text(
-              gameDetails,
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: "GameFont",
-                fontWeight: FontWeight.w500,
-                color: commonGreyColor,
-              ),
-            ),
-            const SizedBox(height: 60),
-            Center(
-              child: SizedBox(
-                width: size.width / 2,
-                height: size.height / 15,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: StartingScreenState.lightmodedarkmode
-                        ? lightCommonButton1
-                        : CommonButton2,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: Text(
-                    'Close',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontFamily: "GameFont",
-                      fontWeight: FontWeight.w500,
-                      color: StartingScreenState.lightmodedarkmode
-                          ? lightbuttonForegroundColor
-                          : buttonForegroundColor,
-                    ),
+        child: Stack(children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child: Text(
+                  'Profile',
+                  style: TextStyle(
+                    fontSize: 34,
+                    fontFamily: "GameFont",
+                    fontWeight: FontWeight.w500,
+                    color: StartingScreenState.lightmodedarkmode
+                        ? lightbuttonForegroundColor
+                        : textColor,
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 16)
-          ],
-        ),
+              const SizedBox(height: 20),
+              // player avatar here
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Stack(children: [
+                    AvatarAnimationWidget(),
+                    Positioned(
+                      bottom: 10,
+                      right: 22,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey[600],
+                        radius: 8,
+                        child: Icon(
+                          Icons.add,
+                          size: 12,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                  ]),
+                  Column(
+                    children: [
+                      Text(
+                        username ?? 'Player 1',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontFamily: "GameFont",
+                          fontWeight: FontWeight.w500,
+                          color: StartingScreenState.lightmodedarkmode
+                              ? lightbuttonForegroundColor
+                              : textColor,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        uid ?? 'Not authenticated',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: "GameFont",
+                          fontWeight: FontWeight.w500,
+                          color: StartingScreenState.lightmodedarkmode
+                              ? lightbuttonForegroundColor
+                              : textColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 40),
+              SizedBox(
+                width: 260,
+                child: buildTextField3(
+                    context, savePreferences, bioTextController),
+              ),
+              const SizedBox(height: 20),
+              IntrinsicHeight(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: size.height * 0.07,
+                      width: size.width * 0.2,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              "FRIENDS",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: commonGreyColor,
+                                fontFamily: "Gamefont",
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              "0",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontFamily: "Gamefont",
+                              ),
+                            ),
+                          ]),
+                    ),
+                    VerticalDivider(
+                      color: Colors.yellow,
+                      thickness: 1,
+                    ),
+                    Container(
+                      height: size.height * 0.07,
+                      width: size.width * 0.15,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              "WINS",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: commonGreyColor,
+                                fontFamily: "Gamefont",
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              "0",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontFamily: "Gamefont",
+                              ),
+                            ),
+                          ]),
+                    ),
+                    VerticalDivider(
+                      color: Colors.yellow,
+                      thickness: 1,
+                    ),
+                    PlayerAgeWidget(),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+          crossWidget(context, 0.0, 0.0)
+        ]),
       ),
     );
   }

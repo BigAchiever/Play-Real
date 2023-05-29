@@ -6,10 +6,12 @@ import 'package:play_real/config/theme/themedata.dart';
 import 'package:play_real/widgets/audio_player.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/widgets/dice.dart';
-import 'package:play_real/dialog/widgets/difficulty_level.dart';
+import 'package:play_real/dialog/widgets/difficult_button.dart';
 import 'package:play_real/widgets/loader.dart';
 import 'package:play_real/dialog/dialog_utils/winning_dialogue.dart';
 import '../config/player_colors.dart';
+import '../widgets/done.dart';
+import '../widgets/failed_button.dart';
 import '../widgets/tasks/board_sentences.dart';
 import 'home.dart';
 import '../widgets/message_card.dart';
@@ -414,12 +416,12 @@ class _GameScreenState extends State<GameScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Center(
-                                // Displaying the message
-                              child: _isDiceRolled 
+                              // Displaying the message
+                              child: _isDiceRolled
                                   ? currentPlayer.position >=
                                           _boardNumbers.length
                                       ? Text(
-                                        // Displaying the message when the player wins
+                                          // Displaying the message when the player wins
                                           'Congratulations! Player ${currentPlayer.number} wins! Press Done to continue.',
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.actor(
@@ -432,7 +434,7 @@ class _GameScreenState extends State<GameScreen> {
                                           ),
                                         )
                                       : Text(
-                                        // Displaying the board sentences when the player moves on a particular tile
+                                          // Displaying the board sentences when the player moves on a particular tile
                                           boardSentences[
                                               currentPlayer.position - 1],
                                           textAlign: TextAlign.center,
@@ -469,70 +471,23 @@ class _GameScreenState extends State<GameScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           // ---------------------------Failed Button ---------------------------
-                          SizedBox(
-                            width: 90,
-                            height: 50,
-                            child: FloatingActionButton(
-                              onPressed: () {
-                                if (_isDiceRolled) {
-                                  setState(() {
-                                    final currentPlayer =
-                                        _players[_currentPlayerIndex];
-                                    currentPlayer.position -=
-                                        5; // 5 steps backward
-                                    if (currentPlayer.position < 1) {
-                                      currentPlayer.position = 1;
-                                    }
-
-                                    _isPlayerTurnComplete = true;
-                                    _changePlayer();
-                                    _isDiceEnabled = true;
-                                    _isDiceRolled =
-                                        false; // Reseting the dice rolled for the next player
-                                  });
-                                } else {}
-                              },
-                              backgroundColor:
-                                  StartingScreenState.lightmodedarkmode
-                                      ? lightFailedColor
-                                      : failedColor,
-                              foregroundColor: buttonForegroundColor,
-                              focusColor: commonGreyColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Failed 💀',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontFamily: "GameFont",
-                                            color: StartingScreenState
-                                                    .lightmodedarkmode
-                                                ? lightbuttonForegroundColor
-                                                : buttonForegroundColor,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      Text(
-                                        '(-5 Steps)',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: StartingScreenState
-                                                    .lightmodedarkmode
-                                                ? lightbuttonForegroundColor
-                                                : buttonForegroundColor,
-                                            fontFamily: "GameFont"),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
+                          FailedButton(
+                            isEnabled: _isDiceRolled,
+                            onPressed: () {
+                              setState(() {
+                                final currentPlayer =
+                                    _players[_currentPlayerIndex];
+                                currentPlayer.position -= 5; // 5 steps backward
+                                if (currentPlayer.position < 1) {
+                                  currentPlayer.position = 1;
+                                }
+                                _isPlayerTurnComplete = true;
+                                _changePlayer();
+                                _isDiceEnabled = true;
+                                _isDiceRolled =
+                                    false; // Resetting the dice rolled for the next player
+                              });
+                            },
                           ),
 
                           // ----------------------------Dice widget called here--------------------------------
@@ -547,47 +502,17 @@ class _GameScreenState extends State<GameScreen> {
                           ),
 
                           //-------------------------------- Done button here--------------------------------
-                          SizedBox(
-                            width: 90,
-                            height: 50,
-                            child: FloatingActionButton(
-                              onPressed: () {
-                                if (_isDiceRolled) {
-                                  setState(() {
-                                    _isPlayerTurnComplete = true;
-                                    _changePlayer();
-                                    _isDiceEnabled = true;
-                                    _isDiceRolled =
-                                        false; // the dice rolled flag will be reset for the next player
-                                  });
-                                } else {}
-                              },
-                              backgroundColor:
-                                  StartingScreenState.lightmodedarkmode
-                                      ? lightSuccessColor
-                                      : successColor,
-                              foregroundColor: buttonForegroundColor,
-                              focusColor: Colors.grey,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Done 😎',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: "GameFont",
-                                      color:
-                                          StartingScreenState.lightmodedarkmode
-                                              ? lightbuttonForegroundColor
-                                              : buttonForegroundColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                          DoneButton(
+                            isEnabled: _isDiceRolled,
+                            onPressed: () {
+                              setState(() {
+                                _isPlayerTurnComplete = true;
+                                _changePlayer();
+                                _isDiceEnabled = true;
+                                _isDiceRolled =
+                                    false; // The dice rolled flag will be reset for the next player
+                              });
+                            },
                           ),
                         ],
                       ),

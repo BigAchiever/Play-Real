@@ -1,30 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:play_real/provider/player_age_provider.dart';
+import 'package:provider/provider.dart';
+import 'appwrite/auth.dart';
+import 'screens/home.dart';
 
-import 'package:play_real/screens/home.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await Supabase.initialize(
-    url: 'https://amjxawskarnqmksbgmme.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFtanhhd3NrYXJucW1rc2JnbW1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ2NTI5NzIsImV4cCI6MjAwMDIyODk3Mn0.myKkC9DlAohatzZ3U9t75pBkGG051i2wR3jP66iLZwo',
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  runApp(
+    const MyApp(),
   );
-
-  runApp(const MyApp());
 }
-
-// final supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Play Real',
-      home: const StartingScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AuthAPI>(
+          create: (context) => AuthAPI(),
+        ),
+        ChangeNotifierProvider<PlayerAgeProvider>(
+          create: (context) => PlayerAgeProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Play Real',
+        home: const StartingScreen(),
+      ),
     );
   }
 }
