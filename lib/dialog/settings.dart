@@ -8,7 +8,7 @@ import 'package:play_real/widgets/profile_text_field.dart';
 import 'package:provider/provider.dart';
 
 import '../appwrite/auth.dart';
-import 'circle_avatar_widget.dart';
+import 'widgets/circle_avatar_widget.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({
