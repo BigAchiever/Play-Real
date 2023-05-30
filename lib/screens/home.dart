@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/config/theme/themedata.dart';
+import 'package:play_real/dialog/online_multiplayer/multiplayer_dialog.dart';
 import 'package:play_real/dialog/start_game_dialog.dart';
 import 'package:play_real/dialog/settings.dart';
 import 'package:play_real/widgets/error_widget.dart';
@@ -359,41 +360,19 @@ class StartingScreenState extends State<StartingScreen>
                       if (musicbutton) {
                         playAudio();
                       }
-                      setState(() {
-                        showComingSoon = true;
-                        Future.delayed(const Duration(seconds: 3), () {
-                          setState(() {
-                            showComingSoon = false;
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const MultiplayerDialog();
                           });
-                        });
-                      });
+                      setState(() {});
                     },
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        AnimatedOpacity(
-                          opacity: showComingSoon ? 1.0 : 0.0,
-                          duration: const Duration(milliseconds: 500),
-                          child: const Text(
-                            'Coming Soon!',
-                            style: TextStyle(
-                                fontFamily: "GameFont",
-                                fontSize: 28,
-                                letterSpacing: 1.1),
-                          ),
-                        ),
-                        AnimatedOpacity(
-                          opacity: showComingSoon ? 0.0 : 1.0,
-                          duration: const Duration(milliseconds: 500),
-                          child: const Text(
-                            'Online Multiplayer',
-                            style: TextStyle(
-                                fontFamily: "GameFont",
-                                fontSize: 28,
-                                letterSpacing: 1.1),
-                          ),
-                        ),
-                      ],
+                    child: const Text(
+                      'Online Multiplayer',
+                      style: TextStyle(
+                          fontFamily: "GameFont",
+                          fontSize: 28,
+                          letterSpacing: 1.1),
                     ),
                   ),
                   const SizedBox(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:play_real/dialog/widgets/difficult_button.dart';
 import 'package:play_real/provider/player_age_provider.dart';
+import 'package:play_real/screens/game_screen.dart';
 import 'package:provider/provider.dart';
 import 'appwrite/auth.dart';
 import 'screens/home.dart';
@@ -31,7 +33,14 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Play Real',
-        home: const StartingScreen(),
+        // home: GameScreen(
+        //   gridSize: 7 ,
+        //   count: 2,
+        //   difficulty: DifficultyLevel.Default,
+        //   numberOfPlayers: 2,
+        // ),
+
+        home: StartingScreen(),
       ),
     );
   }
