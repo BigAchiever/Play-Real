@@ -26,29 +26,33 @@ class DifficultyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => onChanged(level),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected
-            ? StartingScreenState.lightmodedarkmode
-                ? lightSelectedColor
-                : selectedColor
-            : StartingScreenState.lightmodedarkmode
-                ? lightUnselectedButtonColor
-                : unselectedButtonColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-      ),
-      child: Text(
-        level.toString().split('.').last,
-        style: TextStyle(
-          fontSize: 14,
-          fontFamily: "GameFont",
-          fontWeight: FontWeight.w500,
-          color: StartingScreenState.lightmodedarkmode
-              ? lightbuttonForegroundColor
-              : textColor,
-          letterSpacing: 1.1,
+    return SizedBox(
+      width: 80,
+      height: 40,
+      child: ElevatedButton(
+        onPressed: () => onChanged(level),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: isSelected
+              ? StartingScreenState.lightmodedarkmode
+                  ? lightSelectedColor
+                  : selectedColor
+              : StartingScreenState.lightmodedarkmode
+                  ? lightUnselectedButtonColor
+                  : unselectedButtonColor,
+          shape: StadiumBorder(),
+          padding: const EdgeInsets.all(2),
+        ),
+        child: Text(
+          level.toString().split('.').last,
+          style: TextStyle(
+            fontSize: 14,
+            fontFamily: "GameFont",
+            fontWeight: FontWeight.w500,
+            color: StartingScreenState.lightmodedarkmode
+                ? lightbuttonForegroundColor
+                : textColor,
+            letterSpacing: 1.1,
+          ),
         ),
       ),
     );
