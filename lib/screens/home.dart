@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/config/theme/themedata.dart';
-import 'package:play_real/constants/constants.dart';
 import 'package:play_real/dialog/start_game_dialog.dart';
 import 'package:play_real/dialog/settings.dart';
 import 'package:play_real/widgets/error_widget.dart';

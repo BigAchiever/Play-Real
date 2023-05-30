@@ -9,7 +9,6 @@ import 'package:play_real/widgets/dice.dart';
 import 'package:play_real/dialog/widgets/difficult_button.dart';
 import 'package:play_real/widgets/loader.dart';
 import 'package:play_real/dialog/dialog_utils/winning_dialogue.dart';
-import '../config/player_colors.dart';
 import '../widgets/done.dart';
 import '../widgets/failed_button.dart';
 import '../widgets/tasks/board_sentences.dart';
@@ -80,7 +79,7 @@ class _GameScreenState extends State<GameScreen> {
       (index) => Player(
         name: 'Player ${index + 1}',
         position: 1,
-        color: getPlayerColor(index),
+
         number: index + 1, // Assign player number
       ),
     );
@@ -312,7 +311,6 @@ class _GameScreenState extends State<GameScreen> {
                                       orElse: () => Player(
                                         name: '',
                                         position: -1,
-                                        color: Colors.transparent,
                                         number: index + 1,
                                       ),
                                     );
