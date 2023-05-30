@@ -141,12 +141,12 @@ class StartingScreenState extends State<StartingScreen>
             ),
           ),
           const AnimatedBubbles(),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(mainAxisAlignment: MainAxisAlignment.start, children: [
                 SizedBox(
-                  height: size.height / 24,
+                  height: 50,
                 ),
                 ShaderMask(
                   shaderCallback: (Rect bounds) {
@@ -166,7 +166,7 @@ class StartingScreenState extends State<StartingScreen>
                     child: Text(
                       "PLAY\n    REAL",
                       style: TextStyle(
-                        fontSize: size.width > mobileScreenWidth ? 100 : 80,
+                        fontSize: size.height / 10,
                         fontFamily: "GameFont",
                         fontWeight: FontWeight.w500,
                         color: lightmodedarkmode
@@ -188,200 +188,120 @@ class StartingScreenState extends State<StartingScreen>
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Column(
-                        children: [
-                          CustomIconButton(
-                            onPressed: () {
-                              setState(() {
-                                musicbutton = !musicbutton;
-                                _saveState();
-                              });
-                              if (musicbutton) {
-                                playAudio();
-                              }
-                            },
-                            heroTag: Text("music"),
-                            child: Icon(
-                              musicbutton ? Icons.music_note : Icons.music_off,
-                              color: lightmodedarkmode
-                                  ? lightbuttonForegroundColor
-                                  : buttonForegroundColor,
-                            ),
-                          ),
-                          CustomIconButton(
-                            heroTag: Text("leaderboard"),
-                            onPressed: () {
-                              if (musicbutton) {
-                                playAudio();
-                              }
-                            },
-                            child: Icon(
-                              Icons.leaderboard,
-                              color: lightmodedarkmode
-                                  ? lightbuttonForegroundColor
-                                  : buttonForegroundColor,
-                            ),
-                          ),
-                          CustomIconButton(
-                            onPressed: () {
-                              if (musicbutton) {
-                                playAudio();
-                              }
-                              setState(() {
-                                lightmodedarkmode = !lightmodedarkmode;
-                                _saveState();
-                              });
-                            },
-                            heroTag: Text("lightmode"),
-                            child: Icon(
-                              lightmodedarkmode
-                                  ? Icons.dark_mode
-                                  : Icons.light_mode,
-                              color: lightmodedarkmode
-                                  ? lightbuttonForegroundColor
-                                  : buttonForegroundColor,
-                            ),
-                          ),
-                          ValueListenableBuilder<bool>(
-                            valueListenable:
-                                context.read<AuthAPI>().isFacebookAuthenticated,
-                            builder: (BuildContext context,
-                                bool isFacebookAuthenticated, Widget? child) {
-                              return CustomIconButton(
-                                onPressed: () async {
-                                  if (musicbutton) {
-                                    playAudio();
-                                  }
-                                  signInWithFacebook('facebook');
-                                  _saveState();
-                                },
-                                heroTag: Text("facebook"),
-                                child: Image.asset(
-                                  isFacebookAuthenticated
-                                      ? "assets/images/facebook.png"
-                                      : "assets/images/not_facebook.png",
-                                  color: lightmodedarkmode
-                                      ? lightbuttonForegroundColor
-                                      : buttonForegroundColor,
-                                  height: isFacebookAuthenticated ? 24 : 48,
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: size.height / 18),
-                HomeScreenButton(
-                  onPressed: () {
-                    if (musicbutton) {
-                      playAudio();
-                    }
-
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return FutureBuilder(
-                          future:
-                              Future.delayed(const Duration(milliseconds: 200)),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              return const GameDialog();
-                            } else {
-                              return const LoadingScreen(
-                                text: 'Loading...',
-                              );
+              ]),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Column(
+                      children: [
+                        CustomIconButton(
+                          onPressed: () {
+                            setState(() {
+                              musicbutton = !musicbutton;
+                              _saveState();
+                            });
+                            if (musicbutton) {
+                              playAudio();
                             }
                           },
-                        );
-                      },
-                    );
-                  },
-                  child: const Text(
-                    'Start Game 🎭',
-                    style: TextStyle(
-                        fontFamily: 'GameFont',
-                        fontSize: 30,
-                        letterSpacing: 1.1),
-                  ),
-                ),
-                HomeScreenButton(
-                  onPressed: () {
-                    if (musicbutton) {
-                      playAudio();
-                    }
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HowToPlay(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'How to Play?',
-                    style: TextStyle(
-                        fontFamily: "GameFont",
-                        fontSize: 28,
-                        letterSpacing: 1.1),
-                  ),
-                ),
-                HomeScreenButton(
-                  onPressed: () {
-                    if (musicbutton) {
-                      playAudio();
-                    }
-                    setState(() {
-                      showComingSoon = true;
-                      Future.delayed(const Duration(seconds: 3), () {
-                        setState(() {
-                          showComingSoon = false;
-                        });
-                      });
-                    });
-                  },
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      AnimatedOpacity(
-                        opacity: showComingSoon ? 1.0 : 0.0,
-                        duration: const Duration(milliseconds: 500),
-                        child: const Text(
-                          'Coming Soon!',
-                          style: TextStyle(
-                              fontFamily: "GameFont",
-                              fontSize: 28,
-                              letterSpacing: 1.1),
+                          heroTag: Text("music"),
+                          child: Icon(
+                            musicbutton ? Icons.music_note : Icons.music_off,
+                            color: lightmodedarkmode
+                                ? lightbuttonForegroundColor
+                                : buttonForegroundColor,
+                          ),
                         ),
-                      ),
-                      AnimatedOpacity(
-                        opacity: showComingSoon ? 0.0 : 1.0,
-                        duration: const Duration(milliseconds: 500),
-                        child: const Text(
-                          'Online Multiplayer',
-                          style: TextStyle(
-                              fontFamily: "GameFont",
-                              fontSize: 28,
-                              letterSpacing: 1.1),
+                        CustomIconButton(
+                          heroTag: Text("leaderboard"),
+                          onPressed: () {
+                            if (musicbutton) {
+                              playAudio();
+                            }
+                          },
+                          child: Icon(
+                            Icons.leaderboard,
+                            color: lightmodedarkmode
+                                ? lightbuttonForegroundColor
+                                : buttonForegroundColor,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                        CustomIconButton(
+                          onPressed: () {
+                            if (musicbutton) {
+                              playAudio();
+                            }
+                            setState(() {
+                              lightmodedarkmode = !lightmodedarkmode;
+                              _saveState();
+                            });
+                          },
+                          heroTag: Text("lightmode"),
+                          child: Icon(
+                            lightmodedarkmode
+                                ? Icons.dark_mode
+                                : Icons.light_mode,
+                            color: lightmodedarkmode
+                                ? lightbuttonForegroundColor
+                                : buttonForegroundColor,
+                          ),
+                        ),
+                        ValueListenableBuilder<bool>(
+                          valueListenable:
+                              context.read<AuthAPI>().isFacebookAuthenticated,
+                          builder: (BuildContext context,
+                              bool isFacebookAuthenticated, Widget? child) {
+                            return CustomIconButton(
+                              onPressed: () async {
+                                if (musicbutton) {
+                                  playAudio();
+                                }
+                                signInWithFacebook('facebook');
+                                _saveState();
+                              },
+                              heroTag: Text("facebook"),
+                              child: Image.asset(
+                                isFacebookAuthenticated
+                                    ? "assets/images/facebook.png"
+                                    : "assets/images/not_facebook.png",
+                                color: lightmodedarkmode
+                                    ? lightbuttonForegroundColor
+                                    : buttonForegroundColor,
+                                height: isFacebookAuthenticated ? 24 : 48,
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(
+                          height: 80,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                HomeScreenButton(
-                  onPressed: () {
-                    if (musicbutton) {
-                      playAudio();
-                    }
-                    // use future builer
-                    showDialog(
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  HomeScreenButton(
+                    onPressed: () {
+                      if (musicbutton) {
+                        playAudio();
+                      }
+
+                      showDialog(
                         context: context,
                         builder: (context) {
                           return FutureBuilder(
@@ -390,32 +310,137 @@ class StartingScreenState extends State<StartingScreen>
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.done) {
-                                return SettingsScreen();
+                                return const GameDialog();
                               } else {
-                                return LoadingScreen(
+                                return const LoadingScreen(
                                   text: 'Loading...',
                                 );
                               }
                             },
                           );
-                        });
-                  },
-                  child: const Text(
-                    'Profile',
-                    style: TextStyle(
-                      fontFamily: "GameFont",
-                      fontSize: 28,
-                      letterSpacing: 1.1,
+                        },
+                      );
+                    },
+                    child: const Text(
+                      'Start Game 🎭',
+                      style: TextStyle(
+                          fontFamily: 'GameFont',
+                          fontSize: 30,
+                          letterSpacing: 1.1),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                )
-              ],
-            ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  HomeScreenButton(
+                    onPressed: () {
+                      if (musicbutton) {
+                        playAudio();
+                      }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HowToPlay(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'How to Play?',
+                      style: TextStyle(
+                          fontFamily: "GameFont",
+                          fontSize: 28,
+                          letterSpacing: 1.1),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  HomeScreenButton(
+                    onPressed: () {
+                      if (musicbutton) {
+                        playAudio();
+                      }
+                      setState(() {
+                        showComingSoon = true;
+                        Future.delayed(const Duration(seconds: 3), () {
+                          setState(() {
+                            showComingSoon = false;
+                          });
+                        });
+                      });
+                    },
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        AnimatedOpacity(
+                          opacity: showComingSoon ? 1.0 : 0.0,
+                          duration: const Duration(milliseconds: 500),
+                          child: const Text(
+                            'Coming Soon!',
+                            style: TextStyle(
+                                fontFamily: "GameFont",
+                                fontSize: 28,
+                                letterSpacing: 1.1),
+                          ),
+                        ),
+                        AnimatedOpacity(
+                          opacity: showComingSoon ? 0.0 : 1.0,
+                          duration: const Duration(milliseconds: 500),
+                          child: const Text(
+                            'Online Multiplayer',
+                            style: TextStyle(
+                                fontFamily: "GameFont",
+                                fontSize: 28,
+                                letterSpacing: 1.1),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  HomeScreenButton(
+                    onPressed: () {
+                      if (musicbutton) {
+                        playAudio();
+                      }
+                      // use future builer
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return FutureBuilder(
+                              future: Future.delayed(
+                                  const Duration(milliseconds: 200)),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return SettingsScreen();
+                                } else {
+                                  return LoadingScreen(
+                                    text: 'Loading...',
+                                  );
+                                }
+                              },
+                            );
+                          });
+                    },
+                    child: const Text(
+                      'Profile',
+                      style: TextStyle(
+                        fontFamily: "GameFont",
+                        fontSize: 28,
+                        letterSpacing: 1.1,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
+            ],
           ),
-          
         ],
       ),
     );
