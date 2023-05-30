@@ -150,7 +150,7 @@ class _GameDialogState extends State<GameDialog> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16)
+              // const SizedBox(height: 16)
             ],
           ),
           crossWidget(context, 0.0, 0.0)
