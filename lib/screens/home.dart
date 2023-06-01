@@ -12,7 +12,7 @@ import 'package:play_real/widgets/home_screen_button.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../appwrite/auth.dart';
+import '../network/auth.dart';
 import '../widgets/audio_player.dart';
 
 import '../widgets/loader.dart';

@@ -28,7 +28,7 @@ class _GridSizeSelectionWidgetState extends State<GridSizeSelectionWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Grid Size:',
+          'Grid Size :',
           style: TextStyle(
             fontSize: 16,
             fontFamily: "GameFont",
@@ -36,7 +36,7 @@ class _GridSizeSelectionWidgetState extends State<GridSizeSelectionWidget> {
             color: textColor,
           ),
         ),
-        SizedBox(height: 8),
+        SizedBox(height: 12),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

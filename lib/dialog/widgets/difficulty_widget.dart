@@ -29,7 +29,7 @@ class _DifficultySelectionWidgetState extends State<DifficultySelectionWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Difficulty Level:',
+          'Difficulty Level :',
           style: TextStyle(
             fontSize: 16,
             fontFamily: "GameFont",
@@ -37,7 +37,7 @@ class _DifficultySelectionWidgetState extends State<DifficultySelectionWidget> {
             color: textColor,
           ),
         ),
-        SizedBox(height: 8),
+        SizedBox(height: 12),
         Wrap(
           runSpacing: 8,
           children: DifficultyLevel.values.map((level) {

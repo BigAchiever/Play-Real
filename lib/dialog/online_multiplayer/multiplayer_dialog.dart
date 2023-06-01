@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:nanoid/nanoid.dart';
+
 import 'package:play_real/widgets/cross_widget.dart';
 
 import '../../config/theme/themedata.dart';
+import '../../network/game_server.dart';
 import '../../screens/home.dart';
 import 'online_game_setup.dart';
 
@@ -14,8 +17,8 @@ class MultiplayerDialog extends StatefulWidget {
 
 class _MultiplayerDialogState extends State<MultiplayerDialog> {
   bool showTextField = false;
-  String gameCode = '';
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _gameCodeController = TextEditingController();
 
   void openTextField() {
     setState(() {
@@ -26,19 +29,28 @@ class _MultiplayerDialogState extends State<MultiplayerDialog> {
   void closeTextField() {
     setState(() {
       showTextField = false;
-      gameCode = '';
+      _gameCodeController.clear();
       _formKey.currentState?.reset();
     });
   }
 
-  void onGameCodeEntered(String code) {
-    // Handle the entered game code here
+  void onGameCodeEntered(String code) async {
     print('Game code entered: $code');
+
+    await joinGameSessionWithCode();
+    Navigator.pop(context);
+  }
+
+  Future<void> joinGameSessionWithCode() async {
+   
+    final playerId = nanoid(8); 
+    final gameSessionId =
+        await createGameSession(playerId); 
+    await joinGameSession(gameSessionId, playerId);
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 8,
@@ -61,17 +73,6 @@ class _MultiplayerDialogState extends State<MultiplayerDialog> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  'Options',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontFamily: "GameFont",
-                    fontWeight: FontWeight.w500,
-                    color: textColor,
-                    letterSpacing: 1.2,
-                  ),
-                ),
-                SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () => openTextField(),
                   style: ElevatedButton.styleFrom(
@@ -99,13 +100,18 @@ class _MultiplayerDialogState extends State<MultiplayerDialog> {
                 SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: showTextField
-                      ? null
+                      ? () {
+                          if (_formKey.currentState!.validate()) {
+                            onGameCodeEntered(_gameCodeController.text);
+                          }
+                        }
                       : () {
                           // show start game Dialog
                           Navigator.pop(context);
                           showDialog(
-                              context: context,
-                              builder: (context) => onlineGameDialog());
+                            context: context,
+                            builder: (context) => onlineGameDialog(),
+                          );
                         },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: StartingScreenState.lightmodedarkmode
@@ -134,72 +140,47 @@ class _MultiplayerDialogState extends State<MultiplayerDialog> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(height: 20),
-                      TextFormField(
-                        style: TextStyle(color: Colors.white), // Text color
-                        cursorColor: Colors.white, // Cursor color
-                        decoration: InputDecoration(
-                          labelText: 'Enter Game Code',
-                          labelStyle: TextStyle(
-                            color: Colors.white.withOpacity(0.5),
-                          ), // Label text color
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.blue,
-                                width: 2), // Border color when focused
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.white.withOpacity(0.5),
-                                width: 1), // Border color when not focused
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey[800], // Background color
-                          suffixIcon: IconButton(
-                            onPressed: () => onGameCodeEntered(gameCode),
-                            icon: Icon(
-                              Icons.play_circle,
-                              size: 30,
-                              color: Colors.white,
+                      Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          controller: _gameCodeController,
+                          style: TextStyle(color: Colors.white),
+                          cursorColor: Colors.white,
+                          decoration: InputDecoration(
+                            labelText: 'Enter Game Code',
+                            labelStyle: TextStyle(
+                              color: Colors.white.withOpacity(0.5),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.5),
+                                  width: 1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey[800],
+                            suffixIcon: IconButton(
+                              onPressed: () =>
+                                  onGameCodeEntered(_gameCodeController.text),
+                              icon: Icon(
+                                Icons.play_circle,
+                                size: 30,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a game code';
+                            }
+                            return null;
+                          },
                         ),
-                        onChanged: (value) {
-                          setState(() {
-                            gameCode = value;
-                          });
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a game code';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                            onPressed: () => closeTextField(),
-                            style: TextButton.styleFrom(
-                              foregroundColor: Colors.red,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 6),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            child: Text(
-                              'Cancel',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: "GameFont",
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
                     ],
                   ),

@@ -21,6 +21,7 @@ class AuthAPI extends ChangeNotifier {
   AuthStatus get status => _status;
   String? get username => _currentUser?.name;
   String? get userid => _currentUser?.$id;
+
   ValueNotifier<bool> isFacebookAuthenticated = ValueNotifier<bool>(false);
 
   // Constructor
@@ -53,7 +54,7 @@ class AuthAPI extends ChangeNotifier {
 
   signOut() async {
     try {
-      await account.deleteSession(sessionId: '[SESSION_ID]');
+      await account.deleteSession(sessionId: 'current');
       _status = AuthStatus.unauthenticated;
       isFacebookAuthenticated.value = false;
     } finally {

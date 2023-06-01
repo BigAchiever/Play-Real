@@ -4,7 +4,7 @@ import 'package:play_real/dialog/widgets/difficult_button.dart';
 import 'package:play_real/provider/player_age_provider.dart';
 import 'package:play_real/screens/game_screen.dart';
 import 'package:provider/provider.dart';
-import 'appwrite/auth.dart';
+import 'network/auth.dart';
 import 'screens/home.dart';
 
 void main() {

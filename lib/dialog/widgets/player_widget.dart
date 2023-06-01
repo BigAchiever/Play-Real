@@ -30,7 +30,7 @@ class _PlayerCountSelectionWidgetState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Number of Players:',
+          'Number of Players :',
           style: TextStyle(
             fontSize: 18,
             fontFamily: "GameFont",
@@ -39,7 +39,7 @@ class _PlayerCountSelectionWidgetState
             letterSpacing: 1.1,
           ),
         ),
-        SizedBox(height: 8),
+        SizedBox(height: 12),
         Wrap(
           runSpacing: 8,
           children: [

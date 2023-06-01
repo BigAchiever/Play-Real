@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:nanoid/nanoid.dart';
 import 'package:play_real/config/theme/themedata.dart';
+import 'package:play_real/dialog/online_multiplayer/screens/game.dart';
+import 'package:play_real/dialog/online_multiplayer/widgets/button_widget.dart';
 import 'package:play_real/dialog/widgets/difficulty_widget.dart';
 import 'package:play_real/dialog/widgets/gird_widget.dart';
 import 'package:play_real/screens/home.dart';
 import 'package:play_real/dialog/widgets/player_widget.dart';
 import 'package:play_real/widgets/cross_widget.dart';
 
-import '../../screens/game_screen.dart';
+import '../../network/game_server.dart';
 import '../../widgets/audio_player.dart';
 import '../widgets/difficult_button.dart';
 
@@ -21,6 +24,7 @@ class _onlineGameDialogState extends State<onlineGameDialog> {
   int numberOfPlayers = 2;
   int count = 1;
   int selectedGridSize = 7;
+
   DifficultyLevel selectedDifficulty = DifficultyLevel.Default;
   final AudioPlayerHelper audioPlayerHelper = AudioPlayerHelper();
 
@@ -51,12 +55,14 @@ class _onlineGameDialogState extends State<onlineGameDialog> {
     if (StartingScreenState.musicbutton == true) {
       playAudio();
     }
+
     debugPrint(
         'Starting game with $numberOfPlayers players, $selectedDifficulty difficulty, $selectedGridSize grid size');
+
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => GameScreen(
+        builder: (context) => OnlineGameScreen(
           numberOfPlayers: numberOfPlayers,
           count: count,
           difficulty: selectedDifficulty,
@@ -120,6 +126,8 @@ class _onlineGameDialogState extends State<onlineGameDialog> {
                 // from GridSizeSelectionWidget
                 onGridSizeChanged: selectGridSize,
               ),
+              const SizedBox(height: 16),
+              TeamCodeWidget(),
               const SizedBox(height: 50),
               Center(
                 child: SizedBox(
