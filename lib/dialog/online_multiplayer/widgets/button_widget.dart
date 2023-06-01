@@ -6,7 +6,11 @@ import 'button.dart';
 import 'teamcode_button.dart';
 
 class TeamCodeWidget extends StatefulWidget {
-  const TeamCodeWidget({Key? key}) : super(key: key);
+  final void Function(String teamCode) onTeamCodeGenerated;
+  const TeamCodeWidget({
+    Key? key,
+    required this.onTeamCodeGenerated,
+  }) : super(key: key);
 
   @override
   _TeamCodeWidgetState createState() => _TeamCodeWidgetState();
@@ -19,6 +23,7 @@ class _TeamCodeWidgetState extends State<TeamCodeWidget> {
     setState(() {
       teamCode = generateTeamCode();
     });
+    widget.onTeamCodeGenerated(teamCode!);
   }
 
   @override

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nanoid/nanoid.dart';
 
 import 'package:play_real/widgets/cross_widget.dart';
 
 import '../../config/theme/themedata.dart';
-import '../../network/game_server.dart';
+
 import '../../screens/home.dart';
 import 'online_game_setup.dart';
 
@@ -34,19 +33,10 @@ class _MultiplayerDialogState extends State<MultiplayerDialog> {
     });
   }
 
+  
+
   void onGameCodeEntered(String code) async {
     print('Game code entered: $code');
-
-    await joinGameSessionWithCode();
-    Navigator.pop(context);
-  }
-
-  Future<void> joinGameSessionWithCode() async {
-   
-    final playerId = nanoid(8); 
-    final gameSessionId =
-        await createGameSession(playerId); 
-    await joinGameSession(gameSessionId, playerId);
   }
 
   @override

@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:nanoid/nanoid.dart';
+
 import 'package:play_real/config/theme/themedata.dart';
 import 'package:play_real/dialog/online_multiplayer/screens/game.dart';
 import 'package:play_real/dialog/online_multiplayer/widgets/button_widget.dart';
 import 'package:play_real/dialog/widgets/difficulty_widget.dart';
 import 'package:play_real/dialog/widgets/gird_widget.dart';
+import 'package:play_real/network/game_server.dart';
 import 'package:play_real/screens/home.dart';
 import 'package:play_real/dialog/widgets/player_widget.dart';
 import 'package:play_real/widgets/cross_widget.dart';
 
-import '../../network/game_server.dart';
 import '../../widgets/audio_player.dart';
 import '../widgets/difficult_button.dart';
 
+/*--------------------------------------------            
+THIS IS THE DIALOG 
+WHICH OPEN WHEN THE USER PRESS 
+"START NEW GAME" BUTTON
+--------------------------------------------*/
 class onlineGameDialog extends StatefulWidget {
   const onlineGameDialog({Key? key}) : super(key: key);
 
@@ -25,6 +31,7 @@ class _onlineGameDialogState extends State<onlineGameDialog> {
   int count = 1;
   int selectedGridSize = 7;
 
+  String teamcode = "1234";
   DifficultyLevel selectedDifficulty = DifficultyLevel.Default;
   final AudioPlayerHelper audioPlayerHelper = AudioPlayerHelper();
 
@@ -55,10 +62,11 @@ class _onlineGameDialogState extends State<onlineGameDialog> {
     if (StartingScreenState.musicbutton == true) {
       playAudio();
     }
-
+    String playerId = nanoid(6);
     debugPrint(
         'Starting game with $numberOfPlayers players, $selectedDifficulty difficulty, $selectedGridSize grid size');
-
+    createGameSession(playerId, teamcode, numberOfPlayers, selectedDifficulty,
+        selectedGridSize);
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -127,7 +135,9 @@ class _onlineGameDialogState extends State<onlineGameDialog> {
                 onGridSizeChanged: selectGridSize,
               ),
               const SizedBox(height: 16),
-              TeamCodeWidget(),
+              TeamCodeWidget(onTeamCodeGenerated: (code) {
+                teamcode = code;
+              }),
               const SizedBox(height: 50),
               Center(
                 child: SizedBox(

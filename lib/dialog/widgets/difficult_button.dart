@@ -12,6 +12,7 @@ enum DifficultyLevel {
   easy,
 }
 
+
 class DifficultyButton extends StatelessWidget {
   final DifficultyLevel level;
   final bool isSelected;

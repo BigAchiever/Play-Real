@@ -1,20 +1,33 @@
 // Function to join a game session
 import 'package:appwrite/appwrite.dart';
 import '../constants/constants.dart';
+import '../dialog/widgets/difficult_button.dart';
 
 final gameCollectionId = "647774e068f032e52a51";
 final databaseId = "64777457efa83eda9359";
 // Function to create a new game session
-Future<String> createGameSession(String playerId) async {
+Future<String> createGameSession(
+  String uid,
+  String teamcode,
+  int numberOfPlayers,
+  DifficultyLevel difficulty,
+  int gridSize,
+) async {
   final database = databases;
 
   final response = await database.createDocument(
     collectionId: gameCollectionId,
     // json data to be stored in the document
     data: {
-      "playerId": playerId,
+      "playerId1": uid,
       "status": "waiting",
+      "teamcode": teamcode,
+      "playerId2": "not joined",
+      "numberOfPlayers": numberOfPlayers,
+      "difficulty": difficulty.toString().split('.').last,
+      "gridSize": gridSize,
     },
+
     databaseId: databaseId,
     documentId: ID.unique(),
   );
@@ -22,12 +35,12 @@ Future<String> createGameSession(String playerId) async {
   return response.data['\$id'];
 }
 
-Future<void> joinGameSession(String gameSessionId, String playerId) async {
+Future<void> joinGameSession(String gameSessionId, String playerId2) async {
   final database = databases;
   await database.updateDocument(
     collectionId: gameCollectionId,
     documentId: gameSessionId,
-    data: {"playerId": playerId, "status": "active"},
+    data: {"playerId2": playerId2, "status": "active"},
     databaseId: databaseId,
   );
 }
