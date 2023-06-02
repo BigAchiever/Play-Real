@@ -65,16 +65,13 @@ class _onlineGameDialogState extends State<onlineGameDialog> {
     String playerId = nanoid(6);
     debugPrint(
         'Starting game with $numberOfPlayers players, $selectedDifficulty difficulty, $selectedGridSize grid size');
-    createGameSession(playerId, teamcode, numberOfPlayers, selectedDifficulty,
-        selectedGridSize);
+    final gameSessionId = await createGameSession(playerId, teamcode,
+        numberOfPlayers, selectedDifficulty, selectedGridSize);
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => OnlineGameScreen(
-          numberOfPlayers: numberOfPlayers,
-          count: count,
-          difficulty: selectedDifficulty,
-          gridSize: selectedGridSize,
+          gameSessionId: gameSessionId,
         ),
       ),
     );

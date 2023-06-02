@@ -6,10 +6,10 @@ import 'package:play_real/config/theme/themedata.dart';
 import 'package:play_real/widgets/audio_player.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/widgets/dice.dart';
-import 'package:play_real/dialog/widgets/difficult_button.dart';
 import 'package:play_real/widgets/loader.dart';
 import 'package:play_real/dialog/utils/winning_dialogue.dart';
 import '../../../models/player.dart';
+import '../../../network/game_server.dart';
 import '../../../screens/home.dart';
 import '../../../widgets/done.dart';
 import '../../../widgets/failed_button.dart';
@@ -19,19 +19,11 @@ import '../../utils/quitgame_dialogue.dart';
 import '../../utils/turnover_dialogue.dart';
 
 class OnlineGameScreen extends StatefulWidget {
-  final int numberOfPlayers;
-  final int count;
-  final int gridSize;
-  final DifficultyLevel difficulty;
-
+  final String gameSessionId;
 
   const OnlineGameScreen({
     Key? key,
-
-    required this.numberOfPlayers,
-    required this.count,
-    required this.gridSize,
-    required this.difficulty,
+    required this.gameSessionId,
   }) : super(key: key);
 
   @override
@@ -42,8 +34,9 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
   final double _boardPadding = 12;
   late List<int> _boardNumbers;
 
-  late List<Player> _players;
+  late List<Player> _players = [];
   late ConfettiController _confettiController;
+  int _gridSize = 7;
 
   int _currentPlayerIndex = 0;
   bool _isAnimationComplete = false;
@@ -75,22 +68,34 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
     audioPlayerHelper.playAudioDice();
   }
 
-  void _initializePlayers() {
-    _players = List.generate(
-      widget.numberOfPlayers,
-      (index) => Player(
-        name: 'Player ${index + 1}',
-        position: 1,
+  void _initializePlayers() async {
+    final gameSessionId = widget.gameSessionId;
+    final gameSessionData = await getGameSession(gameSessionId);
 
-        number: index + 1, // Assign player number
-      ),
-    );
+    setState(() {
+      _players = List.generate(
+        gameSessionData['numberOfPlayers'],
+        (index) => Player(
+          name: 'Player ${index + 1}',
+          position: 1,
+          number: index + 1,
+        ),
+      );
+    });
   }
 
-  void _generateBoardNumbers() {
-    _boardNumbers = List.generate(widget.gridSize * widget.gridSize, (index) {
-      int boardNumber = widget.gridSize * widget.gridSize - index;
-      return boardNumber;
+  void _generateBoardNumbers() async {
+    final gameSessionId = widget.gameSessionId;
+    final gameSessionData = await getGameSession(gameSessionId);
+
+    final gridSize = gameSessionData['gridSize'] as int;
+
+    setState(() {
+      _gridSize = gridSize;
+      _boardNumbers = List.generate(gridSize * gridSize, (index) {
+        int boardNumber = gridSize * gridSize - index;
+        return boardNumber;
+      });
     });
   }
 
@@ -181,7 +186,17 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final currentPlayer = _players[_currentPlayerIndex];
+    if (_players.isEmpty) {
+      // Show loading indicator while players are being initialized
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    final currentPlayer =
+        _players.isNotEmpty ? _players[_currentPlayerIndex] : null;
     return WillPopScope(
       onWillPop: () async {
         QuitDialog.showGameOverDialog(
@@ -220,7 +235,7 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
                           fontSize: 30),
                     )
                   : Text(
-                      '${currentPlayer.name}\'s Turn',
+                      '${currentPlayer?.name}\'s Turn',
                       style: TextStyle(
                         color: buttonForegroundColor,
                         fontFamily: "GameFont",
@@ -286,7 +301,8 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
                                   physics: const BouncingScrollPhysics(),
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: widget.gridSize,
+                                    crossAxisCount:
+                                        _gridSize, // Grid Size fetched from backedn!
                                     crossAxisSpacing: 4,
                                     mainAxisSpacing: 4,
                                   ),
@@ -298,10 +314,10 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
                                     String displayText;
                                     if (boardNumber == 1) {
                                       displayText = '💨';
-                                    } else if (widget.gridSize == 10 &&
+                                    } else if (_gridSize == 10 &&
                                         boardNumber == 100) {
                                       displayText = '🌟';
-                                    } else if (widget.gridSize == 7 &&
+                                    } else if (_gridSize == 7 &&
                                         boardNumber == 49) {
                                       displayText = "WIN";
                                     } else {
@@ -340,7 +356,7 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
                                         alignment: Alignment.center,
                                         children: [
                                           if (player.position ==
-                                              currentPlayer.position)
+                                              currentPlayer?.position)
                                             Center(
                                               child: CircleAvatar(
                                                 radius: 20,
@@ -350,7 +366,7 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
                                                   alignment: Alignment.center,
                                                   child: Text(
                                                     // Displaying the player token number
-                                                    'P${currentPlayer.number.toString()}',
+                                                    'P${currentPlayer?.number.toString()}',
                                                     style: TextStyle(
                                                       fontSize: 18,
                                                       fontFamily: "GameFont",
@@ -376,7 +392,7 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
                                               ),
                                             ),
                                           if (player.position !=
-                                                  currentPlayer.position &&
+                                                  currentPlayer?.position &&
                                               player.name.isNotEmpty)
                                             Center(
                                               child: CircleAvatar(
@@ -418,8 +434,9 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
                             child: Center(
                               // Displaying the message
                               child: _isDiceRolled
-                                  ? currentPlayer.position >=
-                                          _boardNumbers.length
+                                  ? currentPlayer != null &&
+                                          currentPlayer.position >=
+                                              _boardNumbers.length
                                       ? Text(
                                           // Displaying the message when the player wins
                                           'Congratulations! Player ${currentPlayer.number} wins! Press Done to continue.',
@@ -436,7 +453,7 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
                                       : Text(
                                           // Displaying the board sentences when the player moves on a particular tile
                                           boardSentences[
-                                              currentPlayer.position - 1],
+                                              currentPlayer!.position - 1],
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.actor(
                                             fontSize: 18,
@@ -449,7 +466,7 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
                                         )
                                   : Text(
                                       // Current player's turn message
-                                      'It\'s Player ${currentPlayer.number}\'s turn. Roll the dice!',
+                                      'It\'s Player ${currentPlayer?.number}\'s turn. Roll the dice!',
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.actor(
                                         fontSize: 18,
