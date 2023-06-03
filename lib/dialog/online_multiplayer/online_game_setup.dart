@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nanoid/nanoid.dart';
-
 import 'package:play_real/config/theme/themedata.dart';
 import 'package:play_real/dialog/online_multiplayer/screens/game.dart';
 import 'package:play_real/dialog/online_multiplayer/widgets/button_widget.dart';
@@ -10,7 +8,9 @@ import 'package:play_real/network/game_server.dart';
 import 'package:play_real/screens/home.dart';
 import 'package:play_real/dialog/widgets/player_widget.dart';
 import 'package:play_real/widgets/cross_widget.dart';
+import 'package:provider/provider.dart';
 
+import '../../network/auth.dart';
 import '../../widgets/audio_player.dart';
 import '../widgets/difficult_button.dart';
 
@@ -30,7 +30,7 @@ class _onlineGameDialogState extends State<onlineGameDialog> {
   int numberOfPlayers = 2;
   int count = 1;
   int selectedGridSize = 7;
-
+  String uid = "not joined";
   String teamcode = "1234";
   DifficultyLevel selectedDifficulty = DifficultyLevel.Default;
   final AudioPlayerHelper audioPlayerHelper = AudioPlayerHelper();
@@ -62,10 +62,10 @@ class _onlineGameDialogState extends State<onlineGameDialog> {
     if (StartingScreenState.musicbutton == true) {
       playAudio();
     }
-    String playerId = nanoid(6);
+    String hostStatus = "Host";
     debugPrint(
         'Starting game with $numberOfPlayers players, $selectedDifficulty difficulty, $selectedGridSize grid size');
-    final gameSessionId = await createGameSession(playerId, teamcode,
+    final gameSessionId = await createGameSession(hostStatus, teamcode,
         numberOfPlayers, selectedDifficulty, selectedGridSize);
     Navigator.push(
       context,

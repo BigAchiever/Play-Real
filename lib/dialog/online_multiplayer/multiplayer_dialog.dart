@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:play_real/dialog/online_multiplayer/screens/game.dart';
 
 import 'package:play_real/widgets/cross_widget.dart';
+import 'package:play_real/widgets/error_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../../config/theme/themedata.dart';
 
+import '../../network/auth.dart';
+import '../../network/game_server.dart';
 import '../../screens/home.dart';
 import 'online_game_setup.dart';
 
@@ -17,6 +22,7 @@ class MultiplayerDialog extends StatefulWidget {
 class _MultiplayerDialogState extends State<MultiplayerDialog> {
   bool showTextField = false;
   final _formKey = GlobalKey<FormState>();
+  String uid = "not joined";
   final TextEditingController _gameCodeController = TextEditingController();
 
   void openTextField() {
@@ -33,10 +39,31 @@ class _MultiplayerDialogState extends State<MultiplayerDialog> {
     });
   }
 
-  
+  void initState() {
+    super.initState();
+  }
 
-  void onGameCodeEntered(String code) async {
-    print('Game code entered: $code');
+  Future<void> onGameCodeEntered(String code) async {
+    String playerId2 = "joined";
+
+    final gameSessionId = await getGameSessionIdFromTeamCode(code);
+
+    if (gameSessionId != null) {
+      // Join the game session
+      await joinGameSession(gameSessionId, playerId2);
+      // Close the dialog
+      Navigator.pop(context);
+      // Show the online game screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OnlineGameScreen(gameSessionId: gameSessionId),
+        ),
+      );
+    } else {
+      showError(context, "Invalid team code");
+      print('Invalid team code');
+    }
   }
 
   @override

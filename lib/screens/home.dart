@@ -103,9 +103,11 @@ class StartingScreenState extends State<StartingScreen>
         _saveState();
       }
     } else {
-      // not logged in, sign in
+      // not logged in, log in
       try {
-        context.read<AuthAPI>().signInWithFacebook(provider: provider);
+        context.read<AuthAPI>().signInWithFacebook(
+              provider: provider,
+            );
       } catch (e) {
         print('Error signing in: $e');
         showError(context, 'There was an error signing in');
@@ -370,9 +372,10 @@ class StartingScreenState extends State<StartingScreen>
                     child: const Text(
                       'Online Multiplayer',
                       style: TextStyle(
-                          fontFamily: "GameFont",
-                          fontSize: 28,
-                          letterSpacing: 1.1),
+                        fontFamily: "GameFont",
+                        fontSize: 28,
+                        letterSpacing: 1.1,
+                      ),
                     ),
                   ),
                   const SizedBox(

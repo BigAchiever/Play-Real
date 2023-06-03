@@ -188,9 +188,9 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
     final Size size = MediaQuery.of(context).size;
     if (_players.isEmpty) {
       // Show loading indicator while players are being initialized
-      return Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
+      return Center(
+        child: LoadingScreen(
+          text: 'Connecting...',
         ),
       );
     }

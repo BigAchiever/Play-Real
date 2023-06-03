@@ -47,6 +47,7 @@ class AuthAPI extends ChangeNotifier {
       isFacebookAuthenticated.value = true;
       _status = AuthStatus.authenticated;
       return session;
+      
     } finally {
       notifyListeners();
     }
