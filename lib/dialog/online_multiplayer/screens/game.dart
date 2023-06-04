@@ -8,6 +8,7 @@ import 'package:play_real/background.dart';
 import 'package:play_real/widgets/dice.dart';
 import 'package:play_real/widgets/loader.dart';
 import 'package:play_real/dialog/utils/winning_dialogue.dart';
+import '../../../constants/constants.dart';
 import '../../../models/player.dart';
 import '../../../network/game_server.dart';
 import '../../../screens/home.dart';
@@ -20,10 +21,12 @@ import '../../utils/turnover_dialogue.dart';
 
 class OnlineGameScreen extends StatefulWidget {
   final String gameSessionId;
+  final String movesId;
 
   const OnlineGameScreen({
     Key? key,
     required this.gameSessionId,
+    required this.movesId,
   }) : super(key: key);
 
   @override
@@ -136,6 +139,39 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
       _isDiceEnabled = false; // Disable the dice after rolling
     });
     _changePlayer();
+
+    // Update player positions in the backend
+    _updatePlayerPositions(
+      _players[0].position,
+      _players[1].position,
+    );
+  }
+
+  void _updatePlayerPositions(int player1Position, int player2Position) async {
+    final gameSessionId = widget.gameSessionId;
+
+    // Update the player positions in the backend
+    await updatePlayerPositions(
+        gameSessionId, player1Position, player2Position);
+  }
+
+  Future<void> updatePlayerPositions(
+    String gameSessionId,
+    int player1Position,
+    int player2Position,
+  ) async {
+    final gameDatabase = databases;
+
+    // Update the document in the "Moves" collection for the game session
+    await gameDatabase.updateDocument(
+      collectionId: movesCollectionId,
+      documentId: gameSessionId,
+      data: {
+        "player1Position": player1Position,
+        "player2Position": player2Position,
+      },
+      databaseId: databaseId,
+    );
   }
 
   //turnover_dialogue.dart

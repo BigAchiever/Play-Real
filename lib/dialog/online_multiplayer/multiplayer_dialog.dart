@@ -3,11 +3,9 @@ import 'package:play_real/dialog/online_multiplayer/screens/game.dart';
 
 import 'package:play_real/widgets/cross_widget.dart';
 import 'package:play_real/widgets/error_widget.dart';
-import 'package:provider/provider.dart';
 
 import '../../config/theme/themedata.dart';
 
-import '../../network/auth.dart';
 import '../../network/game_server.dart';
 import '../../screens/home.dart';
 import 'online_game_setup.dart';
@@ -49,17 +47,35 @@ class _MultiplayerDialogState extends State<MultiplayerDialog> {
     final gameSessionId = await getGameSessionIdFromTeamCode(code);
 
     if (gameSessionId != null) {
-      // Join the game session
-      await joinGameSession(gameSessionId, playerId2);
-      // Close the dialog
-      Navigator.pop(context);
-      // Show the online game screen
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => OnlineGameScreen(gameSessionId: gameSessionId),
-        ),
-      );
+      final movesId = await getMovesDocumentId(gameSessionId);
+
+      if (movesId != null) {
+        // Join the game session
+        await joinGameSession(
+          gameSessionId,
+          playerId2,
+          1,
+          1,
+          movesId,
+        );
+
+        // Close the dialog
+        Navigator.pop(context);
+
+        // Show the online game screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OnlineGameScreen(
+              gameSessionId: gameSessionId,
+              movesId: movesId,
+            ),
+          ),
+        );
+      } else {
+        showError(context, "No moves document found");
+        print('No moves document found');
+      }
     } else {
       showError(context, "Invalid team code");
       print('Invalid team code');

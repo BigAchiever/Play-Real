@@ -1,5 +1,6 @@
 // Function to join a game session
 import 'package:appwrite/appwrite.dart';
+import 'package:play_real/models/player.dart';
 import '../constants/constants.dart';
 import '../dialog/widgets/difficult_button.dart';
 
@@ -8,7 +9,7 @@ final databaseId = "64777457efa83eda9359";
 final movesCollectionId = "647afc3f9d1db01bbf5f";
 final movesDatabase = '64777457efa83eda9359';
 // Function to create a new game session
-Future<String> createGameSession(
+Future<Map<String, String>> createGameSession(
   String uid,
   String teamcode,
   int numberOfPlayers,
@@ -36,23 +37,31 @@ Future<String> createGameSession(
   final gameId = gameResponse.data['\$id'];
 
   // Create a document in the "Moves" collection
-  await gameDatabase.createDocument(
+  final movesResponse = await gameDatabase.createDocument(
     collectionId: movesCollectionId,
     data: {
       "current_gameId": gameId,
-      "current-player-position":
-          1, // Set the initial position for the current player
+      "player1Position": 1,
+      "player2Position": 0,
+      "number_of_players": numberOfPlayers,
     },
     databaseId: databaseId,
     documentId: ID.unique(),
   );
+  final movesId = movesResponse.data['\$id'];
 
-  return gameId;
+  return {
+    "gameId": gameId,
+    "movesId": movesId,
+  };
 }
 
-Future<void> joinGameSession(
+Future<String> joinGameSession(
   String gameSessionId,
   String playerId2,
+  int player1Position,
+  int player2Position,
+  String movesId,
 ) async {
   final gameDatabase = databases;
 
@@ -67,49 +76,56 @@ Future<void> joinGameSession(
     databaseId: databaseId,
   );
 
-  // Create a document in the "Moves" collection for the joined game session
-  await gameDatabase.createDocument(
+  // Create or update the document in the "Moves" collection for the joined game session
+  final movesResponse = await gameDatabase.updateDocument(
     collectionId: movesCollectionId,
+    documentId: movesId,
     data: {
+      "player1Position": player1Position,
+      "player2Position": player2Position,
       "current_gameId": gameSessionId,
-      "current-player-position": 1,
+      "number_of_players": 2,
     },
     databaseId: databaseId,
-    documentId: ID.unique(),
   );
+  return movesResponse.data['\$id'];
 }
 
 // Function to get game session details
 Future<Map<String, dynamic>> getGameSession(String gameSessionId) async {
   final gameDatabase = databases;
 
-  final response = await gameDatabase.listDocuments(
+  // Fetch the game session details from the "Game" collection
+  final gameResponse = await gameDatabase.getDocument(
+    collectionId: gameCollectionId,
+    documentId: gameSessionId,
+    databaseId: databaseId,
+  );
+
+  // Fetch the game moves document from the "Moves" collection
+  final movesResponse = await gameDatabase.listDocuments(
     collectionId: movesCollectionId,
     queries: [
-      Query.equal('current_gameId', gameSessionId),
+      Query.equal("current_gameId", gameSessionId),
     ],
     databaseId: databaseId,
   );
 
-  if (response.documents.isNotEmpty) {
-    final movesData = response.documents.first.data;
+  final gameData = gameResponse.data;
+  final movesData = movesResponse.documents.isNotEmpty
+      ? movesResponse.documents.first.data
+      : null;
 
-    final gameResponse = await gameDatabase.getDocument(
-      collectionId: gameCollectionId,
-      documentId: gameSessionId,
-      databaseId: databaseId,
-    );
-
-    final gameData = gameResponse.data;
-    gameData["current_player_position"] = movesData["current_player_position"];
-    return gameData;
+  if (movesData != null) {
+    gameData['player1Position'] = movesData['player1Position'];
+    gameData['player2Position'] = movesData['player2Position'];
   }
 
-  throw Exception("Game session not found");
+  return gameData;
 }
 
 // check if the game session is active and compare the teamcode to join the game
-Future<String?> getGameSessionIdFromTeamCode(String teamCode) async {
+Future getGameSessionIdFromTeamCode(String teamCode) async {
   final database = databases;
   final response = await database.listDocuments(
     collectionId: gameCollectionId,
@@ -125,4 +141,20 @@ Future<String?> getGameSessionIdFromTeamCode(String teamCode) async {
 
   return response.documents.first.data['\$id'];
   // return id and document
+}
+
+Future<String> getMovesDocumentId(String movesDocId) async {
+  final database = databases;
+  final response = await database.listDocuments(
+    collectionId: movesCollectionId,
+    queries: [
+      Query.equal("current_gameId", movesDocId),
+    ],
+    databaseId: databaseId,
+  );
+
+  if (response.documents.isNotEmpty) {
+    return response.documents.first.data['\$id'];
+  }
+  return response.documents.first.data['\$id'];
 }

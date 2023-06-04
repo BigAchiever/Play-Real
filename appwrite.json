@@ -1,0 +1,21 @@
+{
+    "projectId": "6471b5261763b0d1f3d1",
+    "projectName": "Play Real",
+    "functions": [
+        {
+            "$id": "647b56a2b5a0ceecc679",
+            "name": "Kam karja bhai",
+            "runtime": "dart-2.17",
+            "path": "functions/Kam karja bhai",
+            "entrypoint": "lib/main.dart",
+            "ignore": [
+                ".packages",
+                ".dart_tool"
+            ],
+            "execute": [],
+            "events": [],
+            "schedule": "",
+            "timeout": 15
+        }
+    ]
+}

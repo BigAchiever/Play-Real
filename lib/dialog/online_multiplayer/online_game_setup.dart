@@ -8,9 +8,7 @@ import 'package:play_real/network/game_server.dart';
 import 'package:play_real/screens/home.dart';
 import 'package:play_real/dialog/widgets/player_widget.dart';
 import 'package:play_real/widgets/cross_widget.dart';
-import 'package:provider/provider.dart';
 
-import '../../network/auth.dart';
 import '../../widgets/audio_player.dart';
 import '../widgets/difficult_button.dart';
 
@@ -65,13 +63,24 @@ class _onlineGameDialogState extends State<onlineGameDialog> {
     String hostStatus = "Host";
     debugPrint(
         'Starting game with $numberOfPlayers players, $selectedDifficulty difficulty, $selectedGridSize grid size');
-    final gameSessionId = await createGameSession(hostStatus, teamcode,
-        numberOfPlayers, selectedDifficulty, selectedGridSize);
+
+    final gameData = await createGameSession(
+      hostStatus,
+      teamcode,
+      numberOfPlayers,
+      selectedDifficulty,
+      selectedGridSize,
+    );
+
+    final gameId = gameData['gameId']!;
+    final movesId = gameData['movesId']!;
+
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => OnlineGameScreen(
-          gameSessionId: gameSessionId,
+          gameSessionId: gameId,
+          movesId: movesId,
         ),
       ),
     );
