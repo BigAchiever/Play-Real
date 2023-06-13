@@ -49,7 +49,7 @@ class _MultiplayerDialogState extends State<MultiplayerDialog> {
     if (gameSessionId != null) {
       final movesId = await getMovesDocumentId(gameSessionId);
 
-      if (movesId != null) {
+      if (movesId != true) {
         // Join the game session
         await joinGameSession(
           gameSessionId,

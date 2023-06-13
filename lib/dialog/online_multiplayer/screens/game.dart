@@ -1,3 +1,4 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,7 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
   bool _isDiceEnabled = true;
   bool _isDiceRolled = false;
   final AudioPlayerHelper audioPlayerHelper = AudioPlayerHelper();
+  RealtimeSubscription? subscription;
 
   @override
   void initState() {
@@ -58,11 +60,13 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
     audioPlayerHelper.preloadAudio();
     _confettiController =
         ConfettiController(duration: const Duration(seconds: 10));
+    _subscribeToRealtimeEvents();
   }
 
   @override
   void dispose() {
     _confettiController.dispose();
+    subscription?.close();
     super.dispose();
   }
 
@@ -72,18 +76,22 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
   }
 
   void _initializePlayers() async {
-    final gameSessionId = widget.gameSessionId;
-    final gameSessionData = await getGameSession(gameSessionId);
+    final movesId = widget.movesId;
+
+    final currentMovesData = await databases.getDocument(
+      collectionId: movesCollectionId,
+      documentId: movesId,
+      databaseId: databaseId,
+    );
+
+    final player1Position = currentMovesData.data['player1Position'];
+    final player2Position = currentMovesData.data['player2Position'];
 
     setState(() {
-      _players = List.generate(
-        gameSessionData['numberOfPlayers'],
-        (index) => Player(
-          name: 'Player ${index + 1}',
-          position: 1,
-          number: index + 1,
-        ),
-      );
+      _players = [
+        Player(name: 'Player 1', position: player1Position, number: 1),
+        Player(name: 'Player 2', position: player2Position, number: 2),
+      ];
     });
   }
 
@@ -114,7 +122,6 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
   }
 
   void _movePlayer(int diceNumber) {
-    // Check if dice is enabled
     if (!_isDiceEnabled) {
       _showTurnOverDialog();
       return;
@@ -122,53 +129,77 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
     _isDiceRolled = true;
     final currentPlayer = _players[_currentPlayerIndex];
     final remainingSteps = _boardNumbers.length - currentPlayer.position;
-    setState(() {
-      if (remainingSteps < diceNumber) {
-        // currentPlayer.position += remainingSteps;
-        if (kDebugMode) {
-          print(
-              "noooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-        }
-      } else {
-        currentPlayer.position += diceNumber;
-      }
-      if (currentPlayer.position > _boardNumbers.length) {
-        currentPlayer.position = _boardNumbers.length;
-      }
 
+    int newPosition;
+    if (remainingSteps < diceNumber) {
+      newPosition = currentPlayer.position + remainingSteps;
+      if (kDebugMode) {
+        print(
+            "noooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+      }
+    } else {
+      newPosition = currentPlayer.position + diceNumber;
+    }
+    if (newPosition > _boardNumbers.length) {
+      newPosition = _boardNumbers.length;
+    }
+
+    setState(() {
+      currentPlayer.position = newPosition;
       _isDiceEnabled = false; // Disable the dice after rolling
     });
-    _changePlayer();
 
     // Update player positions in the backend
     _updatePlayerPositions(
+      widget.movesId,
       _players[0].position,
       _players[1].position,
     );
+
+    _changePlayer();
   }
 
-  void _updatePlayerPositions(int player1Position, int player2Position) async {
-    final gameSessionId = widget.gameSessionId;
+  void _subscribeToRealtimeEvents() {
+    final movesId = widget.movesId;
 
-    // Update the player positions in the backend
-    await updatePlayerPositions(
-        gameSessionId, player1Position, player2Position);
+    subscription = realtime.subscribe(
+      [
+        'database.${databaseId}.collection.${movesCollectionId}.document.${movesId}}'
+      ],
+    );
+    subscription!.stream.listen(
+      (data) {
+        if (data.events.contains(
+            'database${databaseId}.collection.${movesCollectionId}.document.${movesId}.update')) {
+          print(
+              '----------------------------${data}////////////////////////////////////////');
+
+          setState(() {
+            _players[0].position = data.payload['player1Position'];
+
+            _players[1].position = data.payload['player2Position'];
+          });
+        }
+      },
+      cancelOnError: true,
+      onDone: () {
+        print('Realtime subscription closed');
+      },
+    );
   }
 
-  Future<void> updatePlayerPositions(
-    String gameSessionId,
+  Future<void> _updatePlayerPositions(
+    String movesId,
     int player1Position,
     int player2Position,
   ) async {
-    final gameDatabase = databases;
-
-    // Update the document in the "Moves" collection for the game session
-    await gameDatabase.updateDocument(
+    // Update the player positions in the backend
+    await databases.updateDocument(
       collectionId: movesCollectionId,
-      documentId: gameSessionId,
+      documentId: movesId,
       data: {
-        "player1Position": player1Position,
-        "player2Position": player2Position,
+        "player1Position": _players[0].position,
+        "player2Position": _players[1].position,
       },
       databaseId: databaseId,
     );
@@ -216,6 +247,13 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
         _isPlayerTurnComplete = false;
         _isDiceRolled = false; // Reset the flag when the player changes
       });
+
+      // Update player positions in the backend
+      _updatePlayerPositions(
+        widget.movesId,
+        _players[0].position,
+        _players[1].position,
+      );
     }
   }
 

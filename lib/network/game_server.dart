@@ -1,6 +1,5 @@
 // Function to join a game session
 import 'package:appwrite/appwrite.dart';
-import 'package:play_real/models/player.dart';
 import '../constants/constants.dart';
 import '../dialog/widgets/difficult_button.dart';
 
