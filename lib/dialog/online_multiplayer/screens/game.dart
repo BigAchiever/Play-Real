@@ -149,7 +149,7 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
       _isDiceEnabled = false; // Disable the dice after rolling
     });
 
-    // Update player positions in the backend
+    // Updating player positions in the backend
     _updatePlayerPositions(
       widget.movesId,
       _players[0].position,
@@ -193,7 +193,7 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
     int player1Position,
     int player2Position,
   ) async {
-    // Update the player positions in the backend
+    //method is used to update the document in the backend
     await databases.updateDocument(
       collectionId: movesCollectionId,
       documentId: movesId,
