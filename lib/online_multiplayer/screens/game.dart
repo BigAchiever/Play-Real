@@ -9,16 +9,16 @@ import 'package:play_real/background.dart';
 import 'package:play_real/widgets/dice.dart';
 import 'package:play_real/widgets/loader.dart';
 import 'package:play_real/dialog/utils/winning_dialogue.dart';
-import '../../../constants/constants.dart';
-import '../../../models/player.dart';
-import '../../../network/game_server.dart';
-import '../../../screens/home.dart';
-import '../../../widgets/done.dart';
-import '../../../widgets/failed_button.dart';
-import '../../../widgets/message_card.dart';
-import '../../../widgets/tasks/board_sentences.dart';
-import '../../utils/quitgame_dialogue.dart';
-import '../../utils/turnover_dialogue.dart';
+import '../../constants/constants.dart';
+import '../../models/player.dart';
+import '../../network/game_server.dart';
+import '../../screens/home.dart';
+import '../../widgets/done.dart';
+import '../../widgets/failed_button.dart';
+import '../../widgets/message_card.dart';
+import '../../widgets/tasks/board_sentences.dart';
+import '../../dialog/utils/quitgame_dialogue.dart';
+import '../../dialog/utils/turnover_dialogue.dart';
 
 class OnlineGameScreen extends StatefulWidget {
   final String gameSessionId;

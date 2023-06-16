@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:play_real/config/theme/themedata.dart';
-import 'package:play_real/dialog/online_multiplayer/services/copy.dart';
 import 'package:play_real/screens/home.dart';
+
+import '../services/copy.dart';
 
 class GeneratedTeamCodeButton extends StatelessWidget {
   final String teamCode;

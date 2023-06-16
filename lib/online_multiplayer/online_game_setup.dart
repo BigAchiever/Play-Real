@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:play_real/config/theme/themedata.dart';
-import 'package:play_real/dialog/online_multiplayer/screens/game.dart';
-import 'package:play_real/dialog/online_multiplayer/widgets/button_widget.dart';
+import 'package:play_real/online_multiplayer/screens/game.dart';
+import 'package:play_real/online_multiplayer/widgets/button_widget.dart';
 import 'package:play_real/dialog/widgets/difficulty_widget.dart';
 import 'package:play_real/dialog/widgets/gird_widget.dart';
 import 'package:play_real/network/game_server.dart';
@@ -9,8 +9,8 @@ import 'package:play_real/screens/home.dart';
 import 'package:play_real/dialog/widgets/player_widget.dart';
 import 'package:play_real/widgets/cross_widget.dart';
 
-import '../../widgets/audio_player.dart';
-import '../widgets/difficult_button.dart';
+import '../widgets/audio_player.dart';
+import '../dialog/widgets/difficult_button.dart';
 
 /*--------------------------------------------            
 THIS IS THE DIALOG 

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:play_real/background.dart';
 import 'package:play_real/config/theme/themedata.dart';
-import 'package:play_real/dialog/online_multiplayer/multiplayer_dialog.dart';
+import 'package:play_real/online_multiplayer/multiplayer_dialog.dart';
 import 'package:play_real/dialog/start_game_dialog.dart';
 import 'package:play_real/dialog/settings.dart';
 import 'package:play_real/widgets/error_widget.dart';
@@ -324,11 +324,48 @@ class StartingScreenState extends State<StartingScreen>
                       );
                     },
                     child: const Text(
-                      'Start Game 🎭',
+                      'Play Locally 🎭',
                       style: TextStyle(
                           fontFamily: 'GameFont',
                           fontSize: 30,
                           letterSpacing: 1.1),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  HomeScreenButton(
+                    onPressed: () {
+                      if (musicbutton) {
+                        playAudio();
+                      }
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return FutureBuilder(
+                            future: Future.delayed(
+                                const Duration(milliseconds: 200)),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                return const MultiplayerDialog();
+                              } else {
+                                return const LoadingScreen(
+                                  text: 'Loading...',
+                                );
+                              }
+                            },
+                          );
+                        },
+                      );
+                    },
+                    child: const Text(
+                      'Connect and play 🎭',
+                      style: TextStyle(
+                        fontFamily: "GameFont",
+                        fontSize: 28,
+                        letterSpacing: 1.1,
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -352,30 +389,6 @@ class StartingScreenState extends State<StartingScreen>
                           fontFamily: "GameFont",
                           fontSize: 28,
                           letterSpacing: 1.1),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  HomeScreenButton(
-                    onPressed: () {
-                      if (musicbutton) {
-                        playAudio();
-                      }
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const MultiplayerDialog();
-                          });
-                      setState(() {});
-                    },
-                    child: const Text(
-                      'Online Multiplayer',
-                      style: TextStyle(
-                        fontFamily: "GameFont",
-                        fontSize: 28,
-                        letterSpacing: 1.1,
-                      ),
                     ),
                   ),
                   const SizedBox(
