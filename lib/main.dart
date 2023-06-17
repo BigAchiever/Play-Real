@@ -4,9 +4,11 @@ import 'package:play_real/provider/player_age_provider.dart';
 import 'package:provider/provider.dart';
 import 'network/auth.dart';
 import 'screens/home.dart';
+import 'widgets/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(
@@ -31,14 +33,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Play Real',
-        // home: GameScreen(
-        //   gridSize: 7 ,
-        //   count: 2,
-        //   difficulty: DifficultyLevel.Default,
-        //   numberOfPlayers: 2,
-        // ),
-
-        home: StartingScreen(),
+        home: SplashScreen(),
+        routes: {'/home': (context) => StartingScreen()},
       ),
     );
   }

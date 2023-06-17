@@ -15,8 +15,6 @@ import '../../background.dart';
 import '../../widgets/done.dart';
 import 'how_top_play_online.dart';
 
-
-
 class HowToPlay extends StatefulWidget {
   const HowToPlay({super.key});
 
@@ -289,7 +287,7 @@ class _HowToPlayState extends State<HowToPlay> with TickerProviderStateMixin {
                     ],
                   )
                 : const Center(
-                    child: LoadingScreen(text: ""),
+                    child: LoadingScreen(text: "Loading..."),
                   ),
           ],
         ),

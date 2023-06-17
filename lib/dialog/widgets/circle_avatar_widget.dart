@@ -55,8 +55,8 @@ class _AvatarAnimationWidgetState extends State<AvatarAnimationWidget> {
         );
       },
       child: Container(
-        width: 100.0,
-        height: 100.0,
+        width: 120.0,
+        height: 120.0,
         decoration: BoxDecoration(
           color: Colors.transparent,
           shape: BoxShape.circle,

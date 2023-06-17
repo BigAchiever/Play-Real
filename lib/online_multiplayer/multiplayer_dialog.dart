@@ -73,17 +73,11 @@ class _MultiplayerDialogState extends State<MultiplayerDialog> {
             ),
           ),
         );
-      } else {
-        showError(context, "No game found");
-        print('No Game document found');
       }
     } else {
       showError(context, "Invalid team code");
-      print('Invalid team code');
+      print('Invalid, No game session found');
     }
-    setState(() {
-      showNewGameButton = false;
-    });
   }
 
   @override
@@ -131,6 +125,7 @@ class _MultiplayerDialogState extends State<MultiplayerDialog> {
                         showNewGameButton = false;
                       },
                       style: ElevatedButton.styleFrom(
+                        splashFactory: NoSplash.splashFactory,
                         backgroundColor: StartingScreenState.lightmodedarkmode
                             ? lightCommonButton1
                             : CommonButton,
@@ -186,6 +181,7 @@ class _MultiplayerDialogState extends State<MultiplayerDialog> {
                                 );
                               },
                         style: ElevatedButton.styleFrom(
+                            splashFactory: NoSplash.splashFactory,
                             backgroundColor:
                                 StartingScreenState.lightmodedarkmode
                                     ? lightCommonButton1
@@ -233,7 +229,8 @@ class _MultiplayerDialogState extends State<MultiplayerDialog> {
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.blue, width: 2),
+                                        color: Colors.white.withOpacity(0.5),
+                                        width: 1),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   enabledBorder: OutlineInputBorder(
@@ -243,7 +240,7 @@ class _MultiplayerDialogState extends State<MultiplayerDialog> {
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   filled: true,
-                                  fillColor: Colors.grey[800],
+                                  fillColor: messageBoxColor,
                                   suffixIcon: IconButton(
                                     splashRadius: 25,
                                     splashColor: successColor,

@@ -152,6 +152,7 @@ class _onlineGameDialogState extends State<onlineGameDialog> {
                   child: ElevatedButton(
                     onPressed: _startGame,
                     style: ElevatedButton.styleFrom(
+                      splashFactory: NoSplash.splashFactory,
                       backgroundColor: StartingScreenState.lightmodedarkmode
                           ? lightCommonButton1
                           : CommonButton,

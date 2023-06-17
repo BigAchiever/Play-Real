@@ -34,7 +34,7 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  flutter_spinkit: ^5.2.0
+
   provider: ^6.0.5
   google_fonts: ^4.0.4
   audioplayers: ^4.0.1
@@ -43,6 +43,8 @@ dependencies:
   appwrite: ^9.0.0
   carousel_slider: ^4.2.1
   nanoid: ^1.0.0
+  flutter_animate: ^4.1.1+1
+  animated_text_kit: ^4.2.2
 
 
   
@@ -57,8 +59,9 @@ dev_dependencies:
   flutter_launcher_icons:
 flutter_icons:
   android: "launcher_icon"
+  size: 512
   ios: true
-  image_path: "assets/images/logo.png"
+  image_path: "assets/images/logo.jpg"
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

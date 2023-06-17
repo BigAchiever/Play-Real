@@ -14,11 +14,11 @@ class HomeScreenButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      
       height: 60,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
+          splashFactory: NoSplash.splashFactory,
           padding: const EdgeInsets.symmetric(horizontal: 30),
           backgroundColor: StartingScreenState.lightmodedarkmode
               ? lightCommonButton1
@@ -30,7 +30,7 @@ class HomeScreenButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
             side: const BorderSide(
               color: Colors.black,
-              width: 3,
+              width: 2,
             ),
           ),
           elevation: 0,

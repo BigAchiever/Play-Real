@@ -27,10 +27,9 @@ class CustomIconButton extends StatelessWidget {
             ? lightCommonButton2
             : CommonButton2,
         shape: CircleBorder(
-          
           side: BorderSide(
             color: Colors.black,
-            width: 3,
+            width: 2,
           ),
         ),
         child: child,
