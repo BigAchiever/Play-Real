@@ -22,7 +22,7 @@ Play Real leverages the power of Flutter and Dart to deliver an immersive gaming
 - Engaging and immersive gaming experience.
 - Have the actual fun with your family and friends.
 - Encourages physical activity and movement.
-- Easy login and authentication with Facebook using Supabase.
+- Easy login and authentication with Facebook using Appwrite.
 - Seamless integration with Flutter and Dart.
 
 ## Getting Started
