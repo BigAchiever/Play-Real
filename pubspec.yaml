@@ -61,7 +61,7 @@ flutter_icons:
   android: "launcher_icon"
   size: 512
   ios: true
-  image_path: "assets/images/logo.jpg"
+  image_path: "assets/images/logo.png"
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
